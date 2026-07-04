@@ -1,0 +1,116 @@
+#!/bin/bash
+
+#----------------------------------------
+# Usage:
+# export SSHPASS='your_password'
+# ./vcs_vxvm_health.sh hosts.txt username
+#----------------------------------------
+
+HOSTFILE=$1
+USER=$2
+
+if [[ -z "$HOSTFILE" || -z "$USER" ]]; then
+    echo "Usage: $0 <hostfile> <username>"
+    exit 1
+fi
+
+if [[ ! -f "$HOSTFILE" ]]; then
+    echo "Host file not found."
+    exit 1
+fi
+
+if [[ -z "$SSHPASS" ]]; then
+    echo "Please export SSHPASS environment variable."
+    exit 1
+fi
+
+SSH_OPTS="-o StrictHostKeyChecking=no \
+          -o UserKnownHostsFile=/dev/null \
+          -o ConnectTimeout=10"
+
+for HOST in $(grep -v '^#' "$HOSTFILE" | grep -v '^$'); do
+
+    echo "===================================================="
+    echo "Host: $HOST"
+    echo "===================================================="
+
+    sshpass -e ssh $SSH_OPTS ${USER}@${HOST} 'bash -s' <<'EOF'
+
+echo "Hostname : $(hostname)"
+echo "Date     : $(date)"
+
+echo
+echo "########## VCS STATUS ##########"
+
+if command -v hastatus >/dev/null 2>&1; then
+    hastatus -sum
+elif command -v hagrp >/dev/null 2>&1; then
+    hagrp -state
+else
+    echo "VCS commands not found."
+fi
+echo   "########## GAB OR LLT STATUS #######"
+if command -v gabconfig >/dev/null 2>&1; then
+    gabconfig -a
+elif command -v lltstat >/dev/null 2>&1; then
+    lltstat -nvv
+else
+    echo "gab command not found."
+fi
+
+echo -e "\n=== Checking for Recent VxVM/VCS Log Errors ==="
+LOG_PATHS=("/var/VRTSvcs/log/engine_A.log" "/var/adm/messages" "/var/log/messages")
+for log in "${LOG_PATHS[@]}"; do
+  if [ -f "$log" ]; then
+        echo -e "\n--- Checking $log ---"
+        egrep -i 'vx|vxd|vcs|fail|error|panic|crash' "$log" | tail -n25
+  fi
+done 
+echo
+echo "########## VxVM STATUS ##########"
+
+if command -v vxdisk >/dev/null 2>&1; then
+    echo "--- Disk Status ---"
+    vxdisk list -eo alldgs | egrep "DEVICE|STATE"
+
+    echo
+    echo "--- Disk Groups ---"
+    vxdg list
+
+    echo
+    echo "--- Volumes ---"
+    vxprint -ht
+else
+    echo "VxVM commands not found."
+fi
+echo
+echo "########## Multipath ##########"
+
+if command -v vxdmpadm >/dev/null 2>&1; then
+    vxdmpadm getsubpaths
+fi
+
+echo
+echo "########## Filesystem ##########"
+
+df -h
+
+echo
+echo "########## Memory ##########"
+
+free -m
+
+echo
+echo "########## Uptime ##########"
+
+uptime
+
+EOF
+
+    if [[ $? -ne 0 ]]; then
+        echo "Connection to $HOST failed."
+    fi
+
+    echo
+
+done
