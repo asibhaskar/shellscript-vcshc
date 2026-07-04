@@ -1,0 +1,3436 @@
+ <!DOCTYPE HTML PUBLIC -//W3C//DTD HTML 3.2//EN>
+<HTML> <HEAD>
+ <META NAME=GENERATOR CONTENT=Selfmade-cfg2html-linux version 1.45-2008/03/12 >
+ <META NAME=AUTHOR CONTENT=Ralph Roth, Michael Meifert>
+ <META NAME=CREATED CONTENT=Ralph Roth, Michael Meifert>
+ <META NAME=CHANGED CONTENT=uid=0(root) gid=0(root) groups=0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10(wheel) Fri Jul 11 06:53:26 EDT 2008 >
+ <META NAME=DESCRIPTION CONTENT=: /cygdrive/e/CVSROOT/cfg2html_linux/cfg2html-linux,v 1.45 2008/03/12 08:45:15 ralproth Exp >
+ <META NAME=subject CONTENT=cfg2html-linux version 1.45-2008/03/12 on mclwlqa02.us.primus by &#106;&#101;&#114;&#111;&#101;&#110;&#46;&#107;&#108;&#101;&#101;&#110;&#64;&#104;&#112;&#46;&#99;&#111;&#109; and cfg2html&#64;&#104;&#111;&#116;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;>
+<style type=text/css>
+/* (c) 2001-2008 by ROSE SWE, Ralph Roth - http://come.to/rose_swe
+ * CSS for cfg2html.sh, 12.04.2001, initial creation
+ */
+
+Pre		{Font-Family: Courier-New, Courier;Font-Size: 10pt}
+BODY		{FONT-FAMILY: Arial, Verdana, Helvetica, Sans-serif; FONT-SIZE: 12pt;}
+A		{FONT-FAMILY: Arial, Verdana, Helvetica, Sans-serif}
+A:link 		{text-decoration: none}
+A:visited 	{text-decoration: none}
+A:hover 	{text-decoration: underline}
+A:active 	{color: red; text-decoration: none}
+
+H1		{FONT-FAMILY: Arial, Verdana, Helvetica, Sans-serif;FONT-SIZE: 20pt}
+H2		{FONT-FAMILY: Arial, Verdana, Helvetica, Sans-serif;FONT-SIZE: 14pt}
+H3		{FONT-FAMILY: Arial, Verdana, Helvetica, Sans-serif;FONT-SIZE: 12pt}
+DIV, P, OL, UL, SPAN, TD
+		{FONT-FAMILY: Arial, Verdana, Helvetica, Sans-serif;FONT-SIZE: 11pt}
+
+</style>
+
+<TITLE>mclwlqa02.us.primus - Documentation - cfg2html-linux version 1.45-2008/03/12 </TITLE>
+</HEAD><BODY>
+<BODY LINK=#0000ff VLINK=#800080 BACKGROUND=cfg2html_back.jpg>
+<H1><CENTER><FONT COLOR=blue>
+<P><hr><B>mclwlqa02.us.primus - System Documentation</P></H1>
+<hr><FONT COLOR=blue><small>Created 2008-07-11 06:53:26 with  cfg2html-linux version 1.45-2008/03/12 </font></center></B><P>
+Linux mclwlqa02.us.primus 2.4.9-e.38smp #1 SMP Wed Feb 11 00:09:01 EST 2004 i686 unknown
+</small>
+
+<HR><H1>Contents
+</font></H1>
+
+<UL type='square'>
+
+<IMG SRC=profbull.gif WIDTH=14 HEIGHT=14>
+<A NAME="Inhalt-Linux System Red Hat Linux Advanced Server release 2.1AS (Pensacola)"></A><A HREF="#Linux System Red Hat Linux Advanced Server release 2.1AS (Pensacola)">Linux System Red Hat Linux Advanced Server release 2.1AS (Pensacola)</A>
+<UL type='square'>
+
+<LI><A NAME="Inhalt-CPU and Model info"></A><A HREF="#CPU and Model info" title="cat /proc/cpuinfo; echo">CPU and Model info</A>
+<LI><A NAME="Inhalt-uname & hostname"></A><A HREF="#uname & hostname" title="HostNames">uname & hostname</A>
+<LI><A NAME="Inhalt-Host alias"></A><A HREF="#Host alias" title="uname -n">Host alias</A>
+<LI><A NAME="Inhalt-OS, Kernel version"></A><A HREF="#OS, Kernel version" title="uname -sr">OS, Kernel version</A>
+<LI><A NAME="Inhalt-OS Specific Release Information (/etc/redhat-release)"></A><A HREF="#OS Specific Release Information (/etc/redhat-release)" title="cat /etc/redhat-release">OS Specific Release Information (/etc/redhat-release)</A>
+<LI><A NAME="Inhalt-POSIX Standards/Settings"></A><A HREF="#POSIX Standards/Settings" title="posixversion">POSIX Standards/Settings</A>
+<LI><A NAME="Inhalt-locale specific information"></A><A HREF="#locale specific information" title="locale">locale specific information</A>
+<LI><A NAME="Inhalt-System ulimit"></A><A HREF="#System ulimit" title="ulimit -a">System ulimit</A>
+<LI><A NAME="Inhalt-VM-Statistics 1 10"></A><A HREF="#VM-Statistics 1 10" title="vmstat 1 10">VM-Statistics 1 10</A>
+<LI><A NAME="Inhalt-VM-Statistics (Summary)"></A><A HREF="#VM-Statistics (Summary)" title="vmstat -dnS;vmstat -f">VM-Statistics (Summary)</A>
+<LI><A NAME="Inhalt-Uptime"></A><A HREF="#Uptime" title="uptime">Uptime</A>
+<LI><A NAME="Inhalt-Active Process Overview"></A><A HREF="#Active Process Overview" title="pstree -p -a ">Active Process Overview</A>
+<LI><A NAME="Inhalt-Top load processes"></A><A HREF="#Top load processes" title="ps -ef | cut -c39- | sort -nr | head -25 | awk '{ printf("%10s   %s
+", $1, $2); }'">Top load processes</A>
+<LI><A NAME="Inhalt-Top memory consuming processes"></A><A HREF="#Top memory consuming processes" title="ps -e -o 'vsz pid ruser cpu time args' |sort -nr|head -25">Top memory consuming processes</A>
+<LI><A NAME="Inhalt-reboots"></A><A HREF="#reboots" title="last| grep boot">reboots</A>
+<LI><A NAME="Inhalt-Alias"></A><A HREF="#Alias" title="alias">Alias</A>
+<LI><A NAME="Inhalt-inittab"></A><A HREF="#inittab" title="grep -vE '#|^ *$' /etc/inittab">inittab</A>
+<LI><A NAME="Inhalt-Services Startup"></A><A HREF="#Services Startup" title="/sbin/chkconfig">Services Startup</A>
+<LI><A NAME="Inhalt-Services Runlevel"></A><A HREF="#Services Runlevel" title="/sbin/chkconfig --list">Services Runlevel</A>
+<LI><A NAME="Inhalt-default runlevel"></A><A HREF="#default runlevel" title="awk '!/#|^ *$/ && /initdefault/' /etc/inittab">default runlevel</A>
+<LI><A NAME="Inhalt-current runlevel"></A><A HREF="#current runlevel" title="/sbin/runlevel">current runlevel</A>
+<LI><A NAME="Inhalt-IPC Status"></A><A HREF="#IPC Status" title="ipcs">IPC Status</A>
+<LI><A NAME="Inhalt-IPC Summary"></A><A HREF="#IPC Summary" title="ipcs -u">IPC Summary</A>
+<LI><A NAME="Inhalt-IPC Limits"></A><A HREF="#IPC Limits" title="ipcs -l">IPC Limits</A>
+<LI><A NAME="Inhalt-integrity of password files"></A><A HREF="#integrity of password files" title="/usr/sbin/pwck -r && echo Okay">integrity of password files</A>
+<LI><A NAME="Inhalt-integrity of group files"></A><A HREF="#integrity of group files" title="/usr/sbin/grpck -r && echo Okay">integrity of group files</A>
+</UL>
+<IMG SRC=profbull.gif WIDTH=14 HEIGHT=14>
+<A NAME="Inhalt-Cron and At"></A><A HREF="#Cron and At">Cron and At</A>
+<UL type='square'>
+
+<LI><A NAME="Inhalt-cron.allow not found!"></A><A HREF="#cron.allow not found!" title="echo /etc/cron.allow">cron.allow not found!</A>
+<LI><A NAME="Inhalt-cron.deny not found!"></A><A HREF="#cron.deny not found!" title="echo /etc/cron.deny">cron.deny not found!</A>
+<LI><A NAME="Inhalt-For user root"></A><A HREF="#For user root" title="cat /var/spool/cron/root | grep -v ^#">For user root</A>
+<LI><A NAME="Inhalt-/etc/crontab"></A><A HREF="#/etc/crontab" title="echo -e 'Crontab:
+';cat /etc/crontab | grep -vE '#|^ *$'">/etc/crontab</A>
+<LI><A NAME="Inhalt-No /etc/at.allow"></A><A HREF="#No /etc/at.allow" title="echo /etc/at.allow">No /etc/at.allow</A>
+<LI><A NAME="Inhalt-/etc/at.deny"></A><A HREF="#/etc/at.deny" title="cat /etc/at.deny ">/etc/at.deny</A>
+<LI><A NAME="Inhalt-AT Scheduler"></A><A HREF="#AT Scheduler" title="at -l">AT Scheduler</A>
+</UL>
+<IMG SRC=profbull.gif WIDTH=14 HEIGHT=14>
+<A NAME="Inhalt-Hardware"></A><A HREF="#Hardware">Hardware</A>
+<UL type='square'>
+
+<LI><A NAME="Inhalt-Physical Memory"></A><A HREF="#Physical Memory" title="echo 3863260 kB">Physical Memory</A>
+<LI><A NAME="Inhalt-PCI devices"></A><A HREF="#PCI devices" title="cat /proc/pci">PCI devices</A>
+<LI><A NAME="Inhalt-IoPorts"></A><A HREF="#IoPorts" title="cat /proc/ioports">IoPorts</A>
+<LI><A NAME="Inhalt-Interrupts"></A><A HREF="#Interrupts" title="cat /proc/interrupts">Interrupts</A>
+<LI><A NAME="Inhalt-SCSI Components"></A><A HREF="#SCSI Components" title="find /proc/scsi">SCSI Components</A>
+<LI><A NAME="Inhalt-SCSI Devices"></A><A HREF="#SCSI Devices" title="cat /proc/scsi/scsi">SCSI Devices</A>
+<LI><A NAME="Inhalt-DMA Devices"></A><A HREF="#DMA Devices" title="cat /proc/dma">DMA Devices</A>
+<LI><A NAME="Inhalt-Serial Devices"></A><A HREF="#Serial Devices" title="grep -v unknown /proc/tty/driver/serial">Serial Devices</A>
+<LI><A NAME="Inhalt-Serial ttyS0"></A><A HREF="#Serial ttyS0" title="/bin/setserial -a /dev/ttyS0">Serial ttyS0</A>
+<LI><A NAME="Inhalt-Serial ttyS1"></A><A HREF="#Serial ttyS1" title="/bin/setserial -a /dev/ttyS1">Serial ttyS1</A>
+<LI><A NAME="Inhalt-IDE Disks"></A><A HREF="#IDE Disks" title="    if [ -e /proc/ide/hda/model ] ; then echo -e -n "hda: ";cat /proc/ide/hda/model ;fi;    if [ -e /proc/ide/hdb/model ] ; then echo -e -n "hdb: ";cat /proc/ide/hdb/model ;fi;    if [ -e /proc/ide/hdc/model ] ; then echo -e -n "hdc: ";cat /proc/ide/hdc/model ;fi;    if [ -e /proc/ide/hdd/model ] ; then echo -e -n "hdd: ";cat /proc/ide/hdd/model ;fi;">IDE Disks</A>
+<LI><A NAME="Inhalt-CDROM Drive"></A><A HREF="#CDROM Drive" title="cat /proc/sys/dev/cdrom/info">CDROM Drive</A>
+</UL>
+<IMG SRC=profbull.gif WIDTH=14 HEIGHT=14>
+<A NAME="Inhalt-Software"></A><A HREF="#Software">Software</A>
+<UL type='square'>
+
+<LI><A NAME="Inhalt-Packages installed"></A><A HREF="#Packages installed" title="rpm -qia | grep -e Source -e Name">Packages installed</A>
+<LI><A NAME="Inhalt-Packages installed (Short List)"></A><A HREF="#Packages installed (Short List)" title="rpm -qa ">Packages installed (Short List)</A>
+<LI><A NAME="Inhalt-Software Development: Programs and Versions"></A><A HREF="#Software Development: Programs and Versions" title="ProgStuff">Software Development: Programs and Versions</A>
+</UL>
+<IMG SRC=profbull.gif WIDTH=14 HEIGHT=14>
+<A NAME="Inhalt-Filesystems, Dump- and Swapconfiguration"></A><A HREF="#Filesystems, Dump- and Swapconfiguration">Filesystems, Dump- and Swapconfiguration</A>
+<UL type='square'>
+
+<LI><A NAME="Inhalt-FileSystemTab"></A><A HREF="#FileSystemTab" title="grep -v '^#' /etc/fstab">FileSystemTab</A>
+<LI><A NAME="Inhalt-Filesystems and Usage"></A><A HREF="#Filesystems and Usage" title="df -k">Filesystems and Usage</A>
+<LI><A NAME="Inhalt-All Filesystems and Usage"></A><A HREF="#All Filesystems and Usage" title="my_bdf">All Filesystems and Usage</A>
+<LI><A NAME="Inhalt-Local Mountpoints"></A><A HREF="#Local Mountpoints" title="mount">Local Mountpoints</A>
+<LI><A NAME="Inhalt-Disk Partitions"></A><A HREF="#Disk Partitions" title="/sbin/fdisk -l">Disk Partitions</A>
+<LI><A NAME="Inhalt-Disk Partitions to restore from"></A><A HREF="#Disk Partitions to restore from" title="cat ./mclwlqa02.us.primus.partitions.save">Disk Partitions to restore from</A>
+<LI><A NAME="Inhalt-Disk Partitions"></A><A HREF="#Disk Partitions" title="/sbin/fdisk -l|sed 's/8e \ Unknown/8e \ LVM/g'">Disk Partitions</A>
+<LI><A NAME="Inhalt-NFS Filesystems"></A><A HREF="#NFS Filesystems" title="grep -vE '^#|^ *$' /etc/exports">NFS Filesystems</A>
+<LI><A NAME="Inhalt-used memory/swap"></A><A HREF="#used memory/swap" title="free -l">used memory/swap</A>
+<LI><A NAME="Inhalt-Detailed memory usage"></A><A HREF="#Detailed memory usage" title="cat /proc/meminfo">Detailed memory usage</A>
+</UL>
+<IMG SRC=profbull.gif WIDTH=14 HEIGHT=14>
+<A NAME="Inhalt-LVM"></A><A HREF="#LVM">LVM</A>
+<UL type='square'>
+
+</UL>
+<IMG SRC=profbull.gif WIDTH=14 HEIGHT=14>
+<A NAME="Inhalt-Network Settings"></A><A HREF="#Network Settings">Network Settings</A>
+<UL type='square'>
+
+<LI><A NAME="Inhalt-LAN Interfaces"></A><A HREF="#LAN Interfaces" title="/sbin/ifconfig">LAN Interfaces</A>
+<LI><A NAME="Inhalt-MII Status"></A><A HREF="#MII Status" title="/sbin/mii-tool -v">MII Status</A>
+<LI><A NAME="Inhalt-Routing Tables"></A><A HREF="#Routing Tables" title="netstat -r">Routing Tables</A>
+<LI><A NAME="Inhalt-Interfaces"></A><A HREF="#Interfaces" title="netstat -gi">Interfaces</A>
+<LI><A NAME="Inhalt-TCP Daemons acceppting connection"></A><A HREF="#TCP Daemons acceppting connection" title="netstat -tlpn">TCP Daemons acceppting connection</A>
+<LI><A NAME="Inhalt-UDP Daemons acceppting connection"></A><A HREF="#UDP Daemons acceppting connection" title="netstat -ulpn">UDP Daemons acceppting connection</A>
+<LI><A NAME="Inhalt-Summary statistics for each protocol"></A><A HREF="#Summary statistics for each protocol" title="netstat -s">Summary statistics for each protocol</A>
+<LI><A NAME="Inhalt-Kernel Interface table"></A><A HREF="#Kernel Interface table" title="netstat -i">Kernel Interface table</A>
+<LI><A NAME="Inhalt-list of all sockets"></A><A HREF="#list of all sockets" title="netstat -an">list of all sockets</A>
+<LI><A NAME="Inhalt-dig hostname"></A><A HREF="#dig hostname" title="dig mclwlqa02.us.primus">dig hostname</A>
+<LI><A NAME="Inhalt-/etc/hosts"></A><A HREF="#/etc/hosts" title="grep -vE '#|^ *$' /etc/hosts">/etc/hosts</A>
+<LI><A NAME="Inhalt-IP forward"></A><A HREF="#IP forward" title="echo "IP forward disabled"">IP forward</A>
+<LI><A NAME="Inhalt-hosts.allow"></A><A HREF="#hosts.allow" title="grep  -vE '#|^ *$' /etc/hosts.allow">hosts.allow</A>
+<LI><A NAME="Inhalt-hosts.deny"></A><A HREF="#hosts.deny" title="grep  -vE '#|^ *$' /etc/hosts.deny">hosts.deny</A>
+<LI><A NAME="Inhalt-/etc/xinetd.d/ section"></A><A HREF="#/etc/xinetd.d/ section" title="cat /etc/xinetd.d/*|grep -vE '#|^ *$'">/etc/xinetd.d/ section</A>
+<LI><A NAME="Inhalt-DNS & Names"></A><A HREF="#DNS & Names" title="grep -vE '#|^ *$' /etc/resolv.conf;echo; ( [ -f /etc/nsswitch.conf ] &&  grep -vE '#|^ *$' /etc/nsswitch.conf)">DNS & Names</A>
+<LI><A NAME="Inhalt-Sendmail Version"></A><A HREF="#Sendmail Version" title="/usr/sbin/sendmail -bv -d0.1 testuser@test.host">Sendmail Version</A>
+<LI><A NAME="Inhalt-Email Aliases"></A><A HREF="#Email Aliases" title="grep -vE '#|^ *$' /etc/aliases">Email Aliases</A>
+<LI><A NAME="Inhalt-NFSD and BIOD utilization"></A><A HREF="#NFSD and BIOD utilization" title="ps -ef|grep -E '[Nn]fsd|[Bb]iod'">NFSD and BIOD utilization</A>
+<LI><A NAME="Inhalt-RPC (Portmapper)"></A><A HREF="#RPC (Portmapper)" title="rpcinfo -p ">RPC (Portmapper)</A>
+<LI><A NAME="Inhalt-ntp.conf"></A><A HREF="#ntp.conf" title="grep  -vE '#|^ *$' /etc/ntp.conf">ntp.conf</A>
+<LI><A NAME="Inhalt-FTP Login Shells"></A><A HREF="#FTP Login Shells" title="grep  -vE '#|^ *$'  /etc/shells">FTP Login Shells</A>
+<LI><A NAME="Inhalt-syslog.conf"></A><A HREF="#syslog.conf" title="grep  -vE '#|^ *$' /etc/syslog.conf">syslog.conf</A>
+<LI><A NAME="Inhalt-host.conf"></A><A HREF="#host.conf" title="grep  -vE '#|^ *$' /etc/host.conf">host.conf</A>
+<LI><A NAME="Inhalt-Simple Network Management Protocol (SNMP)"></A><A HREF="#Simple Network Management Protocol (SNMP)" title="grep -vE '#|^ *$' /etc/snmp/snmpd.conf">Simple Network Management Protocol (SNMP)</A>
+<LI><A NAME="Inhalt-sshd config"></A><A HREF="#sshd config" title="grep -vE '#|^ *$' /etc/ssh/sshd_config">sshd config</A>
+<LI><A NAME="Inhalt-ssh config"></A><A HREF="#ssh config" title="grep -vE '#|^ *$' /etc/ssh/ssh_config">ssh config</A>
+</UL>
+<IMG SRC=profbull.gif WIDTH=14 HEIGHT=14>
+<A NAME="Inhalt-Kernel, Modules and Libraries"></A><A HREF="#Kernel, Modules and Libraries">Kernel, Modules and Libraries</A>
+<UL type='square'>
+
+<LI><A NAME="Inhalt-GRUB Boot Manager"></A><A HREF="#GRUB Boot Manager" title="grep -vE '#|^ *$' /boot/grub/menu.lst">GRUB Boot Manager</A>
+<LI><A NAME="Inhalt-Files in /boot"></A><A HREF="#Files in /boot" title="ls -l /boot">Files in /boot</A>
+<LI><A NAME="Inhalt-Loaded Kernel Modules"></A><A HREF="#Loaded Kernel Modules" title="/sbin/lsmod">Loaded Kernel Modules</A>
+<LI><A NAME="Inhalt-Available Modules Trees"></A><A HREF="#Available Modules Trees" title="ls -l /lib/modules">Available Modules Trees</A>
+<LI><A NAME="Inhalt-modules.conf"></A><A HREF="#modules.conf" title="grep -vE '#|^ *$' /etc/modules.conf">modules.conf</A>
+<LI><A NAME="Inhalt-Kernel commandline"></A><A HREF="#Kernel commandline" title="cat /proc/cmdline">Kernel commandline</A>
+<LI><A NAME="Inhalt-libc6 Version"></A><A HREF="#libc6 Version" title="/lib/libc.so.6">libc6 Version</A>
+<LI><A NAME="Inhalt-libc6 Version (RPM)"></A><A HREF="#libc6 Version (RPM)" title="rpm -qi glibc">libc6 Version (RPM)</A>
+<LI><A NAME="Inhalt-Run-time link bindings"></A><A HREF="#Run-time link bindings" title="/sbin/ldconfig -vN">Run-time link bindings</A>
+<LI><A NAME="Inhalt-configured kernel parameters at runtime"></A><A HREF="#configured kernel parameters at runtime" title="/sbin/sysctl -a">configured kernel parameters at runtime</A>
+</UL>
+<IMG SRC=profbull.gif WIDTH=14 HEIGHT=14>
+<A NAME="Inhalt-System Enhancements"></A><A HREF="#System Enhancements">System Enhancements</A>
+<UL type='square'>
+
+<LI><A NAME="Inhalt-XF86Config"></A><A HREF="#XF86Config" title="grep -vE '#|^ *$' /etc/X11/XF86Config">XF86Config</A>
+<LI><A NAME="Inhalt-XF86Config-4"></A><A HREF="#XF86Config-4" title="grep -vE '#|^ *$' /etc/X11/XF86Config-4">XF86Config-4</A>
+</UL>
+<IMG SRC=profbull.gif WIDTH=14 HEIGHT=14>
+<A NAME="Inhalt-Applications and Subsystems"></A><A HREF="#Applications and Subsystems">Applications and Subsystems</A>
+<UL type='square'>
+
+<LI><A NAME="Inhalt-Files in /usr/local/bin"></A><A HREF="#Files in /usr/local/bin" title="ls -lisa /usr/local/bin">Files in /usr/local/bin</A>
+<LI><A NAME="Inhalt-Files in /usr/local/sbin"></A><A HREF="#Files in /usr/local/sbin" title="ls -lisa /usr/local/sbin">Files in /usr/local/sbin</A>
+<LI><A NAME="Inhalt-Files in /opt"></A><A HREF="#Files in /opt" title="ls -lisa /opt">Files in /opt</A>
+<LI><A NAME="Inhalt-Samba: SWAT-Port"></A><A HREF="#Samba: SWAT-Port" title="echo /etc/services:swat		901/tcp				# Samba Web Administration Tool">Samba: SWAT-Port</A>
+<LI><A NAME="Inhalt-Printer Spooler and Printers"></A><A HREF="#Printer Spooler and Printers" title="/usr/sbin/lpc status">Printer Spooler and Printers</A>
+<LI><A NAME="Inhalt-Printcap"></A><A HREF="#Printcap" title="grep -vE '#|^ *$' /etc/printcap">Printcap</A>
+</UL>
+</UL>
+<hr>
+<HR>
+<A NAME="Linux System Red Hat Linux Advanced Server release 2.1AS (Pensacola)">
+<A HREF="#Inhalt-Linux System Red Hat Linux Advanced Server release 2.1AS (Pensacola)"><H1> Linux System Red Hat Linux Advanced Server release 2.1AS (Pensacola) </H1></A><P>
+<A NAME="CPU and Model info"></A> <A HREF="#Inhalt-CPU and Model info"><H2> CPU and Model info </H2></A>
+<h6>cat /proc/cpuinfo; echo</h6>
+<PRE>processor       : 0
+vendor_id       : GenuineIntel
+cpu family      : 15
+model           : 2
+model name      : Intel(R) Xeon(TM) CPU 3.06GHz
+stepping        : 5
+cpu MHz         : 3053.858
+cache size      : 512 KB
+fdiv_bug        : no
+hlt_bug         : no
+f00f_bug        : no
+coma_bug        : no
+fpu             : yes
+fpu_exception   : yes
+cpuid level     : 2
+wp              : yes
+flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm
+bogomips        : 6094.84
+
+processor       : 1
+vendor_id       : GenuineIntel
+cpu family      : 15
+model           : 2
+model name      : Intel(R) Xeon(TM) CPU 3.06GHz
+stepping        : 5
+cpu MHz         : 3053.858
+cache size      : 512 KB
+fdiv_bug        : no
+hlt_bug         : no
+f00f_bug        : no
+coma_bug        : no
+fpu             : yes
+fpu_exception   : yes
+cpuid level     : 2
+wp              : yes
+flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm
+bogomips        : 6094.84
+
+processor       : 2
+vendor_id       : GenuineIntel
+cpu family      : 15
+model           : 2
+model name      : Intel(R) Xeon(TM) CPU 3.06GHz
+stepping        : 5
+cpu MHz         : 3053.858
+cache size      : 512 KB
+fdiv_bug        : no
+hlt_bug         : no
+f00f_bug        : no
+coma_bug        : no
+fpu             : yes
+fpu_exception   : yes
+cpuid level     : 2
+wp              : yes
+flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm
+bogomips        : 6094.84
+
+processor       : 3
+vendor_id       : GenuineIntel
+cpu family      : 15
+model           : 2
+model name      : Intel(R) Xeon(TM) CPU 3.06GHz
+stepping        : 5
+cpu MHz         : 3053.858
+cache size      : 512 KB
+fdiv_bug        : no
+hlt_bug         : no
+f00f_bug        : no
+coma_bug        : no
+fpu             : yes
+fpu_exception   : yes
+cpuid level     : 2
+wp              : yes
+flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm
+bogomips        : 6094.84</PRE>
+<A NAME="uname & hostname"></A> <A HREF="#Inhalt-uname & hostname"><H2> uname & hostname </H2></A>
+<h6>HostNames</h6>
+<PRE>Linux mclwlqa02.us.primus 2.4.9-e.38smp #1 SMP Wed Feb 11 00:09:01 EST 2004 i686 unknown
+DNS Domainname  = us.primus
+NIS Domainname  = (none)
+Hostname (short)= mclwlqa02.us.primus
+Hostname (FQDN) = mclwlqa02.us.primus</PRE>
+<A NAME="Host alias"></A> <A HREF="#Inhalt-Host alias"><H2> Host alias </H2></A>
+<h6>uname -n</h6>
+<PRE>mclwlqa02.us.primus</PRE>
+<A NAME="OS, Kernel version"></A> <A HREF="#Inhalt-OS, Kernel version"><H2> OS, Kernel version </H2></A>
+<h6>uname -sr</h6>
+<PRE>Linux 2.4.9-e.38smp</PRE>
+<A NAME="OS Specific Release Information (/etc/redhat-release)"></A> <A HREF="#Inhalt-OS Specific Release Information (/etc/redhat-release)"><H2> OS Specific Release Information (/etc/redhat-release) </H2></A>
+<h6>cat /etc/redhat-release</h6>
+<PRE>Red Hat Linux Advanced Server release 2.1AS (Pensacola)</PRE>
+<A NAME="POSIX Standards/Settings"></A> <A HREF="#Inhalt-POSIX Standards/Settings"><H2> POSIX Standards/Settings </H2></A>
+<h6>posixversion</h6>
+<PRE>LANG setting:   en_US</PRE>
+<A NAME="locale specific information"></A> <A HREF="#Inhalt-locale specific information"><H2> locale specific information </H2></A>
+<h6>locale</h6>
+<PRE>LANG=en_US
+LC_CTYPE="en_US"
+LC_NUMERIC="en_US"
+LC_TIME="en_US"
+LC_COLLATE="en_US"
+LC_MONETARY="en_US"
+LC_MESSAGES="en_US"
+LC_PAPER="en_US"
+LC_NAME="en_US"
+LC_ADDRESS="en_US"
+LC_TELEPHONE="en_US"
+LC_MEASUREMENT="en_US"
+LC_IDENTIFICATION="en_US"
+LC_ALL=</PRE>
+<A NAME="System ulimit"></A> <A HREF="#Inhalt-System ulimit"><H2> System ulimit </H2></A>
+<h6>ulimit -a</h6>
+<PRE>core file size (blocks)     0
+data seg size (kbytes)      unlimited
+file size (blocks)          unlimited
+max locked memory (kbytes)  unlimited
+max memory size (kbytes)    unlimited
+open files                  1024
+pipe size (512 bytes)       8
+stack size (kbytes)         8192
+cpu time (seconds)          unlimited
+max user processes          15359
+virtual memory (kbytes)     unlimited</PRE>
+<A NAME="VM-Statistics 1 10"></A> <A HREF="#Inhalt-VM-Statistics 1 10"><H2> VM-Statistics 1 10 </H2></A>
+<h6>vmstat 1 10</h6>
+<PRE>   procs                      memory    swap          io     system         cpu
+ r  b  w   swpd   free   buff  cache  si  so    bi    bo   in    cs  us  sy  id
+ 1  0  0      0 1214124 233832 2172244   0   0     1     0    3     2   0   0   8
+ 0  0  0      0 1214104 233864 2172244   0   0     0   224  140    45   0   0 100
+ 0  0  0      0 1214104 233864 2172244   0   0     0     0  110    11   0   0 100
+ 0  0  0      0 1214104 233864 2172244   0   0     0     0  108    11   0   0 100
+ 0  0  0      0 1214104 233864 2172244   0   0     0     0  106    11   0   0 100
+ 0  0  0      0 1214104 233864 2172244   0   0     0     0  107    13   0   0 100
+ 0  0  0      0 1214104 233864 2172244   0   0     0     0  104    11   0   0 100
+ 0  0  0      0 1214104 233864 2172244   0   0     0     0  103    13   0   0 100
+ 0  0  0      0 1214104 233864 2172244   0   0     0     0  102     9   0   0 100
+ 0  0  0      0 1214104 233864 2172244   0   0     0     0  103    11   0   0 100</PRE>
+<A NAME="VM-Statistics (Summary)"></A> <A HREF="#Inhalt-VM-Statistics (Summary)"><H2> VM-Statistics (Summary) </H2></A>
+<h6>vmstat -dnS;vmstat -f</h6>
+<PRE>n/a or not configured</PRE>
+<A NAME="Uptime"></A> <A HREF="#Inhalt-Uptime"><H2> Uptime </H2></A>
+<h6>uptime</h6>
+<PRE>  6:53am  up 10 days, 19:42,  1 user,  load average: 0.00, 0.00, 0.00</PRE>
+<A NAME="Active Process Overview"></A> <A HREF="#Inhalt-Active Process Overview"><H2> Active Process Overview </H2></A>
+<h6>pstree -p -a </h6>
+<PRE>init,1) 
+  |-(aacraid,21)
+  |-atd,1113) 
+  |-crond,1029) 
+  |   `-crond,1159) 
+  |       `-sh,1160) -c /home/mpatel/rma/runrma  1>>/home/mpatel/rma/runrma.log  2>&1 
+  |           `-sh,1161) -c /home/mpatel/rma/runrma  1>>/home/mpatel/rma/runrma.log  2>&1 
+  |               `-rma,1168) -i -v -p 1055 /home/mpatel/rma/rma.ini 
+  |                   `-rma,1209) -i -v -p 1055 /home/mpatel/rma/rma.ini 
+  |-gpm,1011) -t ps/2 -m /dev/mouse 
+  |-irqbalance,665) 
+  |-(keventd,2)
+  |-(keventd,3)
+  |-(keventd,4)
+  |-(keventd,5)
+  |-(khubd,104)
+  |-(kjournald,25)
+  |-(kjournald,209)
+  |-(kjournald,210)
+  |-(kjournald,211)
+  |-(kjournald,212)
+  |-(kjournald,213)
+  |-(kjournald,214)
+  |-klogd,646) -2 
+  |-(mdrecoveryd,15)
+  |-mingetty,1151) tty1 
+  |-mingetty,1152) tty2 
+  |-mingetty,1153) tty3 
+  |-mingetty,1154) tty4 
+  |-mingetty,1155) tty5 
+  |-mingetty,1156) tty6 
+  |-ntpd,951) -U ntp -p /var/run/ntpd.pid -g 
+  |-portmap,684) 
+  |-rhnsd,1135) --interval 240 
+  |-rpc.statd,712) 
+  |-(scsi_eh_0,22)
+  |-sendmail,992)
+  |-sshd,898) 
+  |   `-sshd,14343) 
+  |       `-bash,14344) 
+  |           `-bash,14406) 
+  |               `-sh,14434) cfg2html-linux 
+  |                   `-sh,14557) cfg2html-linux 
+  |                       |-cut,14560) -c 1-250 
+  |                       |-expand,14559) 
+  |                       `-sh,14558) cfg2html-linux 
+  |                           `-pstree,14561) -p -a 
+  |-syslogd,641) -m 0 
+  |-xfs,1077) -droppriv -daemon 
+  `-xinetd,932) -stayalive -pidfile /var/run/xinetd.pid </PRE>
+<A NAME="Top load processes"></A> <A HREF="#Inhalt-Top load processes"><H2> Top load processes </H2></A>
+<h6>ps -ef | cut -c39- | sort -nr | head -25 | awk '{ printf("%10s   %s\n", $1, $2); }'</h6>
+<PRE>  00:00:04 init
+  00:00:01 [ksoftirqd_CPU3]
+  00:00:01 [kjournald]
+  00:00:00 xinetd
+  00:00:00 xfs
+  00:00:00 syslogd
+  00:00:00 sort
+  00:00:00 sh
+  00:00:00 sh
+  00:00:00 sh
+  00:00:00 sendmail:
+  00:00:00 rpc.statd
+  00:00:00 rhnsd
+  00:00:00 ps
+  00:00:00 portmap
+  00:00:00 ntpd
+  00:00:00 klogd
+  00:00:00 irqbalance
+  00:00:00 head
+  00:00:00 gpm
+  00:00:00 expand
+  00:00:00 cut
+  00:00:00 cut
+  00:00:00 crond
+  00:00:00 awk</PRE>
+<A NAME="Top memory consuming processes"></A> <A HREF="#Inhalt-Top memory consuming processes"><H2> Top memory consuming processes </H2></A>
+<h6>ps -e -o 'vsz pid ruser cpu time args' |sort -nr|head -25</h6>
+<PRE> 4704   992 root       - 00:00:00 sendmail: accepting connections
+ 4548  1077 xfs        - 00:00:00 xfs -droppriv -daemon
+ 3556 14343 root       - 00:00:00 /usr/sbin/sshd
+ 2868  1209 root       - 00:00:00 /home/mpatel/rma/rma -i -v -p 1055 /home/mpate
+ 2868  1168 root       - 00:00:00 /home/mpatel/rma/rma -i -v -p 1055 /home/mpate
+ 2740   898 root       - 00:00:00 /usr/sbin/sshd
+ 2684 14581 root       - 00:00:00 ps -e -o vsz pid ruser cpu time args
+ 2568 14344 murli      - 00:00:00 -bash
+ 2480   951 ntp        - 00:00:00 ntpd -U ntp -p /var/run/ntpd.pid -g
+ 2080 14578 root       - 00:00:00 sh cfg2html-linux
+ 2076 14577 root       - 00:00:00 sh cfg2html-linux
+ 2076 14434 root       - 00:00:00 sh cfg2html-linux
+ 2072 14406 root       - 00:00:00 /bin/bash
+ 2052   932 root       - 00:00:00 xinetd -stayalive -pidfile /var/run/xinetd.pid
+ 1996   646 root       - 00:00:00 klogd -2
+ 1900  1161 root       - 00:00:00 /bin/sh -c /home/mpatel/rma/runrma  1>>/home/m
+ 1892  1160 root       - 00:00:00 /bin/sh -c /home/mpatel/rma/runrma  1>>/home/m
+ 1636   712 rpcuser    - 00:00:00 rpc.statd
+ 1628  1159 root       - 00:00:00 CROND
+ 1600   684 rpc        - 00:00:00 portmap
+ 1508   641 root       - 00:00:00 syslogd -m 0
+ 1496  1011 root       - 00:00:00 gpm -t ps/2 -m /dev/mouse
+ 1492  1029 root       - 00:00:00 crond
+ 1484 14582 root       - 00:00:00 sort -nr
+ 1484  1113 root       - 00:00:00 /usr/sbin/atd</PRE>
+<A NAME="reboots"></A> <A HREF="#Inhalt-reboots"><H2> reboots </H2></A>
+<h6>last| grep boot</h6>
+<PRE>n/a or not configured</PRE>
+<A NAME="Alias"></A> <A HREF="#Inhalt-Alias"><H2> Alias </H2></A>
+<h6>alias</h6>
+<PRE>n/a or not configured</PRE>
+<A NAME="inittab"></A> <A HREF="#Inhalt-inittab"><H2> inittab </H2></A>
+<h6>grep -vE '#|^ *$' /etc/inittab</h6>
+<PRE>id:3:initdefault:
+si::sysinit:/etc/rc.d/rc.sysinit
+l0:0:wait:/etc/rc.d/rc 0
+l1:1:wait:/etc/rc.d/rc 1
+l2:2:wait:/etc/rc.d/rc 2
+l3:3:wait:/etc/rc.d/rc 3
+l4:4:wait:/etc/rc.d/rc 4
+l5:5:wait:/etc/rc.d/rc 5
+l6:6:wait:/etc/rc.d/rc 6
+ud::once:/sbin/update
+ca::ctrlaltdel:/sbin/shutdown -t3 -r now
+pf::powerfail:/sbin/shutdown -f -h +2 "Power Failure; System Shutting Down"
+pr:12345:powerokwait:/sbin/shutdown -c "Power Restored; Shutdown Cancelled"
+1:2345:respawn:/sbin/mingetty tty1
+2:2345:respawn:/sbin/mingetty tty2
+3:2345:respawn:/sbin/mingetty tty3
+4:2345:respawn:/sbin/mingetty tty4
+5:2345:respawn:/sbin/mingetty tty5
+6:2345:respawn:/sbin/mingetty tty6
+x:5:respawn:/etc/X11/prefdm -nodaemon</PRE>
+<A NAME="Services Startup"></A> <A HREF="#Inhalt-Services Startup"><H2> Services Startup </H2></A>
+<h6>/sbin/chkconfig</h6>
+<PRE>n/a or not configured</PRE>
+<A NAME="Services Runlevel"></A> <A HREF="#Inhalt-Services Runlevel"><H2> Services Runlevel </H2></A>
+<h6>/sbin/chkconfig --list</h6>
+<PRE>keytable        0:off   1:on    2:on    3:on    4:on    5:on    6:off
+atd             0:off   1:off   2:off   3:on    4:on    5:on    6:off
+syslog          0:off   1:off   2:on    3:on    4:on    5:on    6:off
+gpm             0:off   1:off   2:on    3:on    4:on    5:on    6:off
+sendmail        0:off   1:off   2:on    3:on    4:on    5:on    6:off
+kudzu           0:off   1:off   2:off   3:on    4:on    5:on    6:off
+microcode_ctl   0:off   1:off   2:off   3:off   4:off   5:off   6:off
+netfs           0:off   1:off   2:off   3:on    4:on    5:on    6:off
+network         0:off   1:off   2:on    3:on    4:on    5:on    6:off
+random          0:off   1:off   2:on    3:on    4:on    5:on    6:off
+rawdevices      0:off   1:off   2:off   3:on    4:on    5:on    6:off
+pcmcia          0:off   1:off   2:on    3:on    4:on    5:on    6:off
+apmd            0:off   1:off   2:on    3:on    4:on    5:on    6:off
+ipchains        0:off   1:off   2:on    3:on    4:on    5:on    6:off
+iptables        0:off   1:off   2:on    3:on    4:on    5:on    6:off
+crond           0:off   1:off   2:on    3:on    4:on    5:on    6:off
+anacron         0:off   1:off   2:on    3:on    4:on    5:on    6:off
+lpd             0:off   1:off   2:on    3:on    4:on    5:on    6:off
+xfs             0:off   1:off   2:on    3:on    4:on    5:on    6:off
+ntpd            0:off   1:off   2:on    3:on    4:on    5:on    6:off
+portmap         0:off   1:off   2:off   3:on    4:on    5:on    6:off
+xinetd          0:off   1:off   2:off   3:on    4:on    5:on    6:off
+autofs          0:off   1:off   2:off   3:on    4:on    5:on    6:off
+nfs             0:off   1:off   2:off   3:off   4:off   5:off   6:off
+nfslock         0:off   1:off   2:off   3:on    4:on    5:on    6:off
+nscd            0:off   1:off   2:off   3:off   4:off   5:off   6:off
+identd          0:off   1:off   2:off   3:off   4:off   5:off   6:off
+radvd           0:off   1:off   2:off   3:off   4:off   5:off   6:off
+rwhod           0:off   1:off   2:off   3:off   4:off   5:off   6:off
+snmpd           0:off   1:off   2:off   3:off   4:off   5:off   6:off
+snmptrapd       0:off   1:off   2:off   3:off   4:off   5:off   6:off
+vncserver       0:off   1:off   2:off   3:off   4:off   5:off   6:off
+smartd          0:off   1:off   2:off   3:off   4:off   5:off   6:off
+rhnsd           0:off   1:off   2:off   3:on    4:on    5:on    6:off
+ypbind          0:off   1:off   2:off   3:off   4:off   5:off   6:off
+aep1000         0:off   1:off   2:off   3:off   4:off   5:off   6:off
+yppasswdd       0:off   1:off   2:off   3:off   4:off   5:off   6:off
+ypserv          0:off   1:off   2:off   3:off   4:off   5:off   6:off
+ypxfrd          0:off   1:off   2:off   3:off   4:off   5:off   6:off
+httpd           0:off   1:off   2:off   3:off   4:off   5:off   6:off
+tux             0:off   1:off   2:off   3:off   4:off   5:off   6:off
+arpwatch        0:off   1:off   2:off   3:off   4:off   5:off   6:off
+cluster         0:off   1:off   2:on    3:on    4:on    5:on    6:off
+sshd            0:off   1:off   2:on    3:on    4:on    5:on    6:off
+irqbalance      0:off   1:off   2:off   3:on    4:on    5:on    6:off
+xinetd based services:
+        chargen-udp:    off
+        chargen:        off
+        daytime-udp:    off
+        daytime:        off
+        echo-udp:       off
+        echo:   off
+        services:       off
+        servers:        off
+        time-udp:       off
+        time:   off
+        finger: off</PRE>
+<A NAME="default runlevel"></A> <A HREF="#Inhalt-default runlevel"><H2> default runlevel </H2></A>
+<h6>awk '!/#|^ *$/ && /initdefault/' /etc/inittab</h6>
+<PRE>id:3:initdefault:</PRE>
+<A NAME="current runlevel"></A> <A HREF="#Inhalt-current runlevel"><H2> current runlevel </H2></A>
+<h6>/sbin/runlevel</h6>
+<PRE>N 3</PRE>
+<A NAME="IPC Status"></A> <A HREF="#Inhalt-IPC Status"><H2> IPC Status </H2></A>
+<h6>ipcs</h6>
+<PRE>
+------ Shared Memory Segments --------
+key        shmid      owner      perms      bytes      nattch     status      
+
+------ Semaphore Arrays --------
+key        semid      owner      perms      nsems      status      
+
+------ Message Queues --------
+key        msqid      owner      perms      used-bytes   messages    </PRE>
+<A NAME="IPC Summary"></A> <A HREF="#Inhalt-IPC Summary"><H2> IPC Summary </H2></A>
+<h6>ipcs -u</h6>
+<PRE>
+------ Shared Memory Status --------
+segments allocated 0
+pages allocated 0
+pages resident  0
+pages swapped   0
+Swap performance: 0 attempts     0 successes
+
+------ Semaphore Status --------
+used arrays = 0
+allocated semaphores = 0
+
+------ Messages: Status --------
+allocated queues = 0
+used headers = 0
+used space = 0 bytes</PRE>
+<A NAME="IPC Limits"></A> <A HREF="#Inhalt-IPC Limits"><H2> IPC Limits </H2></A>
+<h6>ipcs -l</h6>
+<PRE>
+------ Shared Memory Limits --------
+max number of segments = 4096
+max seg size (kbytes) = 32768
+max total shared memory (kbytes) = 8388608
+min seg size (bytes) = 1
+
+------ Semaphore Limits --------
+max number of arrays = 128
+max semaphores per array = 250
+max semaphores system wide = 32000
+max ops per semop call = 32
+semaphore max value = 32767
+
+------ Messages: Limits --------
+max queues system wide = 16
+max size of message (bytes) = 8192
+default max size of queue (bytes) = 16384</PRE>
+<A NAME="integrity of password files"></A> <A HREF="#Inhalt-integrity of password files"><H2> integrity of password files </H2></A>
+<h6>/usr/sbin/pwck -r && echo Okay</h6>
+<PRE>user adm: directory /var/adm does not exist
+user news: directory /var/spool/news does not exist
+user uucp: directory /var/spool/uucp does not exist
+user gopher: directory /var/gopher does not exist
+user ftp: directory /var/ftp does not exist
+pwck: no changes</PRE>
+<A NAME="integrity of group files"></A> <A HREF="#Inhalt-integrity of group files"><H2> integrity of group files </H2></A>
+<h6>/usr/sbin/grpck -r && echo Okay</h6>
+<PRE>Okay</PRE>
+<HR>
+<A NAME="Cron and At">
+<A HREF="#Inhalt-Cron and At"><H1> Cron and At </H1></A><P>
+<A NAME="cron.allow not found!"></A> <A HREF="#Inhalt-cron.allow not found!"><H2> cron.allow not found! </H2></A>
+<h6>echo /etc/cron.allow</h6>
+<PRE>/etc/cron.allow</PRE>
+<A NAME="cron.deny not found!"></A> <A HREF="#Inhalt-cron.deny not found!"><H2> cron.deny not found! </H2></A>
+<h6>echo /etc/cron.deny</h6>
+<PRE>/etc/cron.deny</PRE>
+
+
+<B>Crontab files:</B>
+<A NAME="For user root"></A> <A HREF="#Inhalt-For user root"><H2> For user root </H2></A>
+<h6>cat /var/spool/cron/root | grep -v ^#</h6>
+<PRE>54 * * * * /home/mpatel/rma/runrma  1>>/home/mpatel/rma/runrma.log  2>&1
+0 * * * *       /usr/local/bin/dfcheck 2>&1 | /usr/local/bin/mailif -t ahadji@primustel.com,jjernigan@primustel.com  `uname -n`: problem with dfcheck
+0 * * * /usr/local/bin/checkmem 2>&1 | /usr/local/bin/mailif -t ahadji@primustel.com,jjernigan@primustel.com "memory low on `uname -n`"
+45 01 * * 1 /home/mpatel/checkvirus   >> /home/mpatel/checkvirus.log</PRE>
+No /etc/cron.d files for utlities.
+<A NAME="/etc/crontab"></A> <A HREF="#Inhalt-/etc/crontab"><H2> /etc/crontab </H2></A>
+<h6>echo -e 'Crontab:\n';cat /etc/crontab | grep -vE '#|^ *$'</h6>
+<PRE>Crontab:
+
+SHELL=/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=root
+HOME=/
+01 * * * * root run-parts /etc/cron.hourly
+02 4 * * * root run-parts /etc/cron.daily
+22 4 * * 0 root run-parts /etc/cron.weekly
+42 4 1 * * root run-parts /etc/cron.monthly</PRE>
+<A NAME="No /etc/at.allow"></A> <A HREF="#Inhalt-No /etc/at.allow"><H2> No /etc/at.allow </H2></A>
+<h6>echo /etc/at.allow</h6>
+<PRE>/etc/at.allow</PRE>
+<A NAME="/etc/at.deny"></A> <A HREF="#Inhalt-/etc/at.deny"><H2> /etc/at.deny </H2></A>
+<h6>cat /etc/at.deny </h6>
+<PRE>n/a or not configured</PRE>
+<A NAME="AT Scheduler"></A> <A HREF="#Inhalt-AT Scheduler"><H2> AT Scheduler </H2></A>
+<h6>at -l</h6>
+<PRE>n/a or not configured</PRE>
+<HR>
+<A NAME="Hardware">
+<A HREF="#Inhalt-Hardware"><H1> Hardware </H1></A><P>
+<A NAME="Physical Memory"></A> <A HREF="#Inhalt-Physical Memory"><H2> Physical Memory </H2></A>
+<h6>echo 3863260 kB</h6>
+<PRE>3863260 kB</PRE>
+<A NAME="PCI devices"></A> <A HREF="#Inhalt-PCI devices"><H2> PCI devices </H2></A>
+<h6>cat /proc/pci</h6>
+<PRE>PCI devices found:
+  Bus  0, device   0, function  0:
+    Host bridge: PCI device 1166:0014 (ServerWorks) (rev 51).
+  Bus  0, device   0, function  1:
+    Host bridge: PCI device 1166:0014 (ServerWorks) (rev 0).
+  Bus  0, device   0, function  2:
+    Host bridge: PCI device 1166:0014 (ServerWorks) (rev 0).
+  Bus  0, device   4, function  0:
+    Class ff00: PCI device 1028:000c (Dell Computer Corporation) (rev 0).
+      IRQ 19.
+      Master Capable.  Latency=32.  
+      Prefetchable 32 bit memory at 0xfeb80000 [0xfeb80fff].
+      I/O at 0xecf8 [0xecff].
+      I/O at 0xece8 [0xecef].
+  Bus  0, device   4, function  1:
+    Class ff00: Dell Computer Corporation PowerEdge Expandable RAID Controller 3/Di (rev 0).
+      IRQ 23.
+      Master Capable.  Latency=32.  
+      Non-prefetchable 32 bit memory at 0xfe102000 [0xfe102fff].
+      I/O at 0xec80 [0xecbf].
+      Prefetchable 32 bit memory at 0xfeb00000 [0xfeb7ffff].
+  Bus  0, device   4, function  2:
+    Class ff00: PCI device 1028:000d (Dell Computer Corporation) (rev 0).
+      IRQ 27.
+      Master Capable.  Latency=32.  
+      I/O at 0xecf4 [0xecf7].
+  Bus  0, device  14, function  0:
+    VGA compatible controller: ATI Technologies Inc Rage XL (rev 39).
+      Master Capable.  Latency=32.  Min Gnt=8.
+      Non-prefetchable 32 bit memory at 0xfd000000 [0xfdffffff].
+      I/O at 0xe800 [0xe8ff].
+      Non-prefetchable 32 bit memory at 0xfe101000 [0xfe101fff].
+  Bus  0, device  15, function  0:
+    Host bridge: ServerWorks CSB5 South Bridge (rev 147).
+      Master Capable.  Latency=32.  
+  Bus  0, device  15, function  1:
+    IDE interface: ServerWorks CSB5 IDE Controller (rev 147).
+      Master Capable.  Latency=64.  
+      I/O at 0x8c0 [0x8c7].
+      I/O at 0x8c8 [0x8cb].
+      I/O at 0x8d0 [0x8d7].
+      I/O at 0x8d8 [0x8db].
+      I/O at 0x8b0 [0x8bf].
+  Bus  0, device  15, function  2:
+    USB Controller: ServerWorks OSB4/CSB5 OHCI USB Controller (rev 5).
+      IRQ 5.
+      Master Capable.  Latency=32.  Max Lat=80.
+      Non-prefetchable 32 bit memory at 0xfe100000 [0xfe100fff].
+  Bus  0, device  15, function  3:
+    ISA bridge: PCI device 1166:0225 (ServerWorks) (rev 0).
+  Bus  0, device  16, function  0:
+    Host bridge: PCI device 1166:0101 (ServerWorks) (rev 5).
+      Master Capable.  Latency=32.  
+  Bus  0, device  16, function  2:
+    Host bridge: PCI device 1166:0101 (ServerWorks) (rev 5).
+      Master Capable.  Latency=32.  
+  Bus  0, device  17, function  0:
+    Host bridge: PCI device 1166:0101 (ServerWorks) (rev 5).
+      Master Capable.  Latency=32.  
+  Bus  0, device  17, function  2:
+    Host bridge: PCI device 1166:0101 (ServerWorks) (rev 5).
+      Master Capable.  Latency=32.  
+  Bus  3, device   6, function  0:
+    Ethernet controller: PCI device 14e4:16a7 (BROADCOM Corporation) (rev 2).
+      IRQ 28.
+      Master Capable.  Latency=64.  Min Gnt=64.
+      Non-prefetchable 64 bit memory at 0xfcf10000 [0xfcf1ffff].
+  Bus  3, device   8, function  0:
+    Ethernet controller: PCI device 14e4:16a7 (BROADCOM Corporation) (rev 2).
+      IRQ 29.
+      Master Capable.  Latency=64.  Min Gnt=64.
+      Non-prefetchable 64 bit memory at 0xfcf00000 [0xfcf0ffff].
+  Bus  4, device   8, function  0:
+    PCI bridge: PCI device 8086:0309 (Intel Corporation) (rev 1).
+      Master Capable.  Latency=32.  Min Gnt=6.
+  Bus  4, device   8, function  1:
+    RAID bus controller: PCI device 1028:000a (Dell Computer Corporation) (rev 1).
+      IRQ 30.
+      Master Capable.  Latency=32.  
+      Prefetchable 32 bit memory at 0xf0000000 [0xf7ffffff].
+  Bus  5, device   6, function  0:
+    SCSI storage controller: PCI device 9005:00c5 (Adaptec) (rev 1).
+      IRQ 30.
+      Master Capable.  Latency=32.  Min Gnt=40.Max Lat=25.
+      I/O at 0xcc00 [0xccff].
+      Non-prefetchable 64 bit memory at 0xfccff000 [0xfccfffff].
+  Bus  5, device   6, function  1:
+    SCSI storage controller: PCI device 9005:00c5 (Adaptec) (rev 1).
+      IRQ 31.
+      Master Capable.  Latency=32.  Min Gnt=40.Max Lat=25.
+      I/O at 0xc800 [0xc8ff].
+      Non-prefetchable 64 bit memory at 0xfccfe000 [0xfccfefff].</PRE>
+<A NAME="IoPorts"></A> <A HREF="#Inhalt-IoPorts"><H2> IoPorts </H2></A>
+<h6>cat /proc/ioports</h6>
+<PRE>0000-001f : dma1
+0020-003f : pic1
+0040-005f : timer
+0060-006f : keyboard
+0070-007f : rtc
+0080-008f : dma page reg
+00a0-00bf : pic2
+00c0-00df : dma2
+00f0-00ff : fpu
+01f0-01f7 : ide0
+02f8-02ff : serial(auto)
+03c0-03df : vga+
+03f6-03f6 : ide0
+03f8-03ff : serial(auto)
+08b0-08bf : ServerWorks CSB5 IDE Controller
+08c0-08c7 : ServerWorks CSB5 IDE Controller
+08c8-08cb : ServerWorks CSB5 IDE Controller
+08d0-08d7 : ServerWorks CSB5 IDE Controller
+08d8-08db : ServerWorks CSB5 IDE Controller
+0cf8-0cff : PCI conf1
+c000-cfff : PCI Bus #05
+  c800-c8ff : PCI device 9005:00c5 (Adaptec)
+  cc00-ccff : PCI device 9005:00c5 (Adaptec)
+e800-e8ff : ATI Technologies Inc Rage XL
+ec80-ecbf : Dell Computer Corporation PowerEdge Expandable RAID Controller 3/Di
+ece8-ecef : PCI device 1028:000c (Dell Computer Corporation)
+ecf4-ecf7 : PCI device 1028:000d (Dell Computer Corporation)
+ecf8-ecff : PCI device 1028:000c (Dell Computer Corporation)</PRE>
+<A NAME="Interrupts"></A> <A HREF="#Inhalt-Interrupts"><H2> Interrupts </H2></A>
+<h6>cat /proc/interrupts</h6>
+<PRE>           CPU0       CPU1       CPU2       CPU3       
+  0:   23373048   23372426   23373379   23373382    IO-APIC-edge  timer
+  1:          2          0          0          2    IO-APIC-edge  keyboard
+  2:          0          0          0          0          XT-PIC  cascade
+  5:          0          0          0          0   IO-APIC-level  usb-ohci
+  8:          1          0          0          0    IO-APIC-edge  rtc
+ 12:          6          4          6          4    IO-APIC-edge  PS/2 Mouse
+ 14:          1         40          0          1    IO-APIC-edge  ide0
+ 28:    2882245          1          2          3   IO-APIC-level  eth0
+ 30:      10892     455121     193128      38960   IO-APIC-level  aacraid
+NMI:          0          0          0          0 
+LOC:   93486163   93486152   93486161   93486160 
+ERR:          0
+MIS:          0</PRE>
+<A NAME="SCSI Components"></A> <A HREF="#Inhalt-SCSI Components"><H2> SCSI Components </H2></A>
+<h6>find /proc/scsi</h6>
+<PRE>/proc/scsi
+/proc/scsi/aacraid
+/proc/scsi/aacraid/0
+/proc/scsi/scsi</PRE>
+<A NAME="SCSI Devices"></A> <A HREF="#Inhalt-SCSI Devices"><H2> SCSI Devices </H2></A>
+<h6>cat /proc/scsi/scsi</h6>
+<PRE>Attached devices: 
+Host: scsi0 Channel: 00 Id: 00 Lun: 00
+  Vendor: DELL     Model: PERCRAID Mirror  Rev: V1.0
+  Type:   Direct-Access                    ANSI SCSI revision: 02</PRE>
+<A NAME="DMA Devices"></A> <A HREF="#Inhalt-DMA Devices"><H2> DMA Devices </H2></A>
+<h6>cat /proc/dma</h6>
+<PRE> 4: cascade</PRE>
+<A NAME="Serial Devices"></A> <A HREF="#Inhalt-Serial Devices"><H2> Serial Devices </H2></A>
+<h6>grep -v unknown /proc/tty/driver/serial</h6>
+<PRE>serinfo:1.0 driver:5.05c revision:2001-07-08
+0: uart:16550A port:3F8 irq:4 baud:9600 tx:11 rx:0 RI
+1: uart:16550A port:2F8 irq:3 baud:9600 tx:11 rx:0 RI</PRE>
+<A NAME="Serial ttyS0"></A> <A HREF="#Inhalt-Serial ttyS0"><H2> Serial ttyS0 </H2></A>
+<h6>/bin/setserial -a /dev/ttyS0</h6>
+<PRE>/dev/ttyS0, Line 0, UART: 16550A, Port: 0x03f8, IRQ: 4
+        Baud_base: 115200, close_delay: 50, divisor: 0
+        closing_wait: 3000
+        Flags: spd_normal skip_test</PRE>
+<A NAME="Serial ttyS1"></A> <A HREF="#Inhalt-Serial ttyS1"><H2> Serial ttyS1 </H2></A>
+<h6>/bin/setserial -a /dev/ttyS1</h6>
+<PRE>/dev/ttyS1, Line 1, UART: 16550A, Port: 0x02f8, IRQ: 3
+        Baud_base: 115200, close_delay: 50, divisor: 0
+        closing_wait: 3000
+        Flags: spd_normal skip_test</PRE>
+<A NAME="IDE Disks"></A> <A HREF="#Inhalt-IDE Disks"><H2> IDE Disks </H2></A>
+<h6>    if [ -e /proc/ide/hda/model ] ; then echo -e -n "hda: ";cat /proc/ide/hda/model ;fi;    if [ -e /proc/ide/hdb/model ] ; then echo -e -n "hdb: ";cat /proc/ide/hdb/model ;fi;    if [ -e /proc/ide/hdc/model ] ; then echo -e -n "hdc: ";cat /proc/ide/hdc/model ;fi;    if [ -e /proc/ide/hdd/model ] ; then echo -e -n "hdd: ";cat /proc/ide/hdd/model ;fi;</h6>
+<PRE>hda: TEAC CD-ROM CD-224E</PRE>
+<A NAME="CDROM Drive"></A> <A HREF="#Inhalt-CDROM Drive"><H2> CDROM Drive </H2></A>
+<h6>cat /proc/sys/dev/cdrom/info</h6>
+<PRE>CD-ROM information, Id: cdrom.c 3.12 2000/10/18
+
+drive name:             hda
+drive speed:            24
+drive # of slots:       1
+Can close tray:         1
+Can open tray:          1
+Can lock tray:          1
+Can change speed:       1
+Can select disk:        0
+Can read multisession:  1
+Can read MCN:           1
+Reports media changed:  1
+Can play audio:         1
+Can write CD-R:         0
+Can write CD-RW:        0
+Can read DVD:           0
+Can write DVD-R:        0
+Can write DVD-RAM:      0</PRE>
+<HR>
+<A NAME="Software">
+<A HREF="#Inhalt-Software"><H1> Software </H1></A><P>
+<A NAME="Packages installed"></A> <A HREF="#Inhalt-Packages installed"><H2> Packages installed </H2></A>
+<h6>rpm -qia | grep -e Source -e Name</h6>
+<PRE>Name        : indexhtml                    Relocations: (not relocateable)
+Group       : Documentation                 Source RPM: indexhtml-7.2-1.src.rpm
+Name        : redhat-logos                 Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: redhat-logos-1.1.3-1.src.rpm
+Name        : filesystem                   Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: filesystem-2.1.6-2.src.rpm
+Name        : bzip2-libs                   Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: bzip2-1.0.1-4.src.rpm
+Name        : cracklib                     Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: cracklib-2.7-12.src.rpm
+Name        : db2                          Relocations: /usr 
+Group       : System Environment/Libraries   Source RPM: db2-2.4.14-9.src.rpm
+Name        : dosfstools                   Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: dosfstools-2.7-1.src.rpm
+Name        : eject                        Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: eject-2.0.9-2.src.rpm
+Name        : glib                         Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: glib-1.2.10-5.src.rpm
+Name        : iputils                      Relocations: /usr 
+Group       : System Environment/Daemons    Source RPM: iputils-20001110-6.AS21.2.src.rpm
+Name        : losetup                      Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: mount-2.11g-6.src.rpm
+Name        : mingetty                     Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: mingetty-0.9.4-18.src.rpm
+Name        : pcre                         Relocations: /usr 
+Group       : System Environment/Libraries   Source RPM: pcre-3.4-2.src.rpm
+Name        : popt                         Relocations: (not relocateable)
+Group       : Development/Libraries         Source RPM: rpm-4.0.4-7x.20.src.rpm
+Name        : reiserfs-utils               Relocations: /usr 
+Group       : System Environment/Base       Source RPM: reiserfs-utils-3.x.0j-3.src.rpm
+Name        : newt                         Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: newt-0.50.33-1.src.rpm
+Name        : ntsysv                       Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: chkconfig-1.3.5-3.src.rpm
+Name        : syslinux                     Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: syslinux-2.00-1EL.src.rpm
+Name        : db3x                         Relocations: /usr 
+Group       : System Environment/Libraries   Source RPM: db3x-3.2.9-3.src.rpm
+Name        : libtermcap                   Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: libtermcap-2.0.8-28.src.rpm
+Name        : bzip2                        Relocations: (not relocateable)
+Group       : Applications/File             Source RPM: bzip2-1.0.1-4.src.rpm
+Name        : hotplug                      Relocations: (not relocateable)
+Group       : System Environment/Kernel     Source RPM: hotplug-2001_04_24-11.src.rpm
+Name        : logrotate                    Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: logrotate-3.5.9-1.src.rpm
+Name        : ncurses                      Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: ncurses-5.2-12.src.rpm
+Name        : cpio                         Relocations: (not relocateable)
+Group       : Applications/Archiving        Source RPM: cpio-2.4.2-23.src.rpm
+Name        : ed                           Relocations: (not relocateable)
+Group       : Applications/Text             Source RPM: ed-0.2-21.src.rpm
+Name        : gawk                         Relocations: (not relocateable)
+Group       : Applications/Text             Source RPM: gawk-3.1.0-3.src.rpm
+Name        : ash                          Relocations: (not relocateable)
+Group       : System Environment/Shells     Source RPM: ash-0.3.7-2.src.rpm
+Name        : gzip                         Relocations: (not relocateable)
+Group       : Applications/File             Source RPM: gzip-1.3-15.src.rpm
+Name        : man                          Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: man-1.5i2-7.21as.0.src.rpm
+Name        : procmail                     Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: procmail-3.21-1.src.rpm
+Name        : psmisc                       Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: psmisc-20.1-2.src.rpm
+Name        : readline                     Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: readline-4.2-2.src.rpm
+Name        : rootfiles                    Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: rootfiles-7.2-1.src.rpm
+Name        : console-tools                Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: console-tools-19990829-36.src.rpm
+Name        : tar                          Relocations: (not relocateable)
+Group       : Applications/Archiving        Source RPM: tar-1.13.25-4.AS21.0.src.rpm
+Name        : textutils                    Relocations: (not relocateable)
+Group       : Applications/Text             Source RPM: textutils-2.0.14-2.src.rpm
+Name        : mount                        Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: mount-2.11g-6.src.rpm
+Name        : time                         Relocations: /usr 
+Group       : Applications/System           Source RPM: time-1.7-14.src.rpm
+Name        : utempter                     Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: utempter-0.5.2-6.src.rpm
+Name        : vim-minimal                  Relocations: (not relocateable)
+Group       : Applications/Editors          Source RPM: vim-6.0-7.15.src.rpm
+Name        : words                        Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: words-2-17.src.rpm
+Name        : pam                          Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: pam-0.75-46.7.3.src.rpm
+Name        : cyrus-sasl                   Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: cyrus-sasl-1.5.24-24.src.rpm
+Name        : cyrus-sasl-plain             Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: cyrus-sasl-1.5.24-24.src.rpm
+Name        : openldap                     Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: openldap-2.0.27-2.7.3.src.rpm
+similar to the way DNS (Domain Name System) information is propagated
+Name        : sh-utils                     Relocations: (not relocateable)
+Group       : System Environment/Shells     Source RPM: sh-utils-2.0.11-5.src.rpm
+Name        : modutils                     Relocations: (not relocateable)
+Group       : System Environment/Kernel     Source RPM: modutils-2.4.13-13.src.rpm
+Name        : mkbootdisk                   Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: mkbootdisk-1.4.2-3.src.rpm
+Name        : SysVinit                     Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: SysVinit-2.78-19.src.rpm
+Name        : file                         Relocations: (not relocateable)
+Group       : Applications/File             Source RPM: file-3.39-8.7x.src.rpm
+Name        : rpm                          Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: rpm-4.0.4-7x.20.src.rpm
+Name        : kernel-pcmcia-cs             Relocations: (not relocateable)
+Group       : System Environment/Kernel     Source RPM: kernel-pcmcia-cs-3.1.27-10.src.rpm
+Name        : ipchains                     Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: ipchains-1.3.10-10.src.rpm
+Name        : kernel                       Relocations: (not relocateable)
+Group       : System Environment/Kernel     Source RPM: kernel-2.4.9-e.24.src.rpm
+Name        : lokkit                       Relocations: (not relocateable)
+Group       : Applications/Internet         Source RPM: gnome-lokkit-0.50-6.src.rpm
+Name        : vixie-cron                   Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: vixie-cron-3.0.1-63.src.rpm
+Name        : expat                        Relocations: /usr 
+Group       : System Environment/Libraries   Source RPM: expat-1.95.1-7.src.rpm
+Name        : ghostscript-fonts            Relocations: (not relocateable)
+Group       : Applications/Publishing       Source RPM: ghostscript-fonts-5.50-3.src.rpm
+Name        : groff-perl                   Relocations: (not relocateable)
+Group       : Applications/Publishing       Source RPM: groff-1.17.2-7.0.2.src.rpm
+Name        : LPRng                        Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: LPRng-3.7.4-28.2.src.rpm
+Name        : mpage                        Relocations: (not relocateable)
+Group       : Applications/Publishing       Source RPM: mpage-2.5.1-9.src.rpm
+Name        : Omni                         Relocations: (not relocateable)
+Group       : Applications/Publishing       Source RPM: Omni-0.5.0-4.src.rpm
+Name        : perl-Digest-MD5              Relocations: (not relocateable)
+Group       : Applications/File             Source RPM: perl-Digest-MD5-2.13-1.src.rpm
+Name        : perl-HTML-Parser             Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: perl-HTML-Parser-3.25-2.src.rpm
+Name        : perl-MIME-Base64             Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: perl-MIME-Base64-2.12-6.src.rpm
+Name        : perl-Storable                Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: perl-Storable-0.6.11-6.src.rpm
+Name        : perl-libwww-perl             Relocations: /usr 
+Group       : System Environment/Libraries   Source RPM: perl-libwww-perl-5.53-3.src.rpm
+Name        : perl-XML-Grove               Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: perl-XML-Grove-0.46alpha-3.src.rpm
+Name        : perl-libxml-perl             Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: perl-libxml-perl-0.07-5.src.rpm
+Name        : perl-XML-Dumper              Relocations: /usr 
+Group       : System Environment/Libraries   Source RPM: perl-XML-Dumper-0.4-5.src.rpm
+Name        : foomatic                     Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: foomatic-1.1-0.20011218.3.src.rpm
+Name        : pnm2ppa                      Relocations: (not relocateable)
+Group       : Applications/Publishing       Source RPM: pnm2ppa-1.04-2.src.rpm
+Name        : a2ps                         Relocations: (not relocateable)
+Group       : Applications/Publishing       Source RPM: a2ps-4.13b-15.src.rpm
+Name        : alchemist                    Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: alchemist-1.0.18-1.src.rpm
+Name        : 4Suite                       Relocations: (not relocateable)
+Group       : Development/Libraries         Source RPM: 4Suite-0.11-2.src.rpm
+Name        : ttfonts-ja                   Relocations: (not relocateable)
+Group       : User Interface/X              Source RPM: ttfonts-ja-1.0-8.src.rpm
+Name        : fortune-mod                  Relocations: (not relocateable)
+Group       : Amusements/Games              Source RPM: fortune-mod-1.0-16.src.rpm
+Name        : lesstif                      Relocations: /usr/X11R6 
+Group       : Development/Libraries         Source RPM: lesstif-0.93.15-3.src.rpm
+Name        : libtiff                      Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: libtiff-3.5.5-13.src.rpm
+Name        : switchdesk                   Relocations: /usr 
+Group       : User Interface/Desktops       Source RPM: switchdesk-3.9.7-1.src.rpm
+Name        : Xaw3d                        Relocations: /usr 
+Group       : System Environment/Libraries   Source RPM: Xaw3d-1.5-10.src.rpm
+Name        : Mesa                         Relocations: /usr 
+Group       : System Environment/Libraries   Source RPM: Mesa-3.4.2-10.src.rpm
+Name        : audiofile                    Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: audiofile-0.2.1-2.src.rpm
+Name        : esound                       Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: esound-0.2.22-5.src.rpm
+Name        : libcap                       Relocations: /usr 
+Group       : System Environment/Libraries   Source RPM: libcap-1.10-6.src.rpm
+Name        : libungif                     Relocations: /usr 
+Group       : System Environment/Libraries   Source RPM: libungif-4.1.0-9.1.src.rpm
+Name        : libuser                      Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: libuser-0.32-1.src.rpm
+Name        : ORBit                        Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: ORBit-0.5.8-4.src.rpm
+Name        : libglade                     Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: libglade-0.16-4.src.rpm
+Name        : pygnome                      Relocations: (not relocateable)
+Group       : Development/Languages         Source RPM: gnome-python-1.4.1-3.src.rpm
+Name        : pygnome-libglade             Relocations: (not relocateable)
+Group       : Development/Languages         Source RPM: gnome-python-1.4.1-3.src.rpm
+Name        : tk                           Relocations: (not relocateable)
+Group       : Development/Languages         Source RPM: tcltk-8.3.3-65.src.rpm
+Name        : tkinter                      Relocations: (not relocateable)
+Group       : Development/Languages         Source RPM: python-1.5.2-43.72.src.rpm
+Name        : dateconfig                   Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: dateconfig-0.7.4-7.src.rpm
+Name        : ksconfig                     Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: ksconfig-1.9.8-4.src.rpm
+Name        : printconf-gui                Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: printconf-0.3.61-4.1.src.rpm
+Name        : serviceconf                  Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: serviceconf-0.6.6-1.src.rpm
+Name        : libtool-libs                 Relocations: /usr 
+Group       : System Environment/Libraries   Source RPM: libtool-1.4-8.src.rpm
+Name        : aspell                       Relocations: (not relocateable)
+Group       : Applications/Text             Source RPM: aspell-0.33.7-1.src.rpm
+Name        : xinetd                       Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: xinetd-2.3.11-2.AS2.1.src.rpm
+Name        : autofs                       Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: autofs-3.1.7-21.src.rpm
+Name        : cipe                         Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: cipe-1.4.5-6.src.rpm
+Name        : finger                       Relocations: (not relocateable)
+Group       : Applications/Internet         Source RPM: finger-0.17-9.src.rpm
+Name        : logwatch                     Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: logwatch-2.6-1.src.rpm
+Name        : ncftp                        Relocations: /usr 
+Group       : Applications/Internet         Source RPM: ncftp-3.0.3-6.src.rpm
+Name        : nmap                         Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: nmap-2.54BETA22-3.src.rpm
+Name        : openldap-clients             Relocations: (not relocateable)
+Group       : Applications/Internet         Source RPM: openldap-2.0.27-2.7.3.src.rpm
+similar to the way DNS (Domain Name System) information is propagated
+Name        : pam_krb5                     Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: pam_krb5-1.47-1.src.rpm
+Name        : python-popt                  Relocations: (not relocateable)
+Group       : Development/Libraries         Source RPM: python-popt-0.8.8-7.x.2.src.rpm
+Name        : radvd                        Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: radvd-0.6.2pl4-1.src.rpm
+Name        : rmt                          Relocations: (not relocateable)
+Group       : Applications/Archiving        Source RPM: dump-0.4b25-1.72.0.src.rpm
+Name        : rsh                          Relocations: (not relocateable)
+Group       : Applications/Internet         Source RPM: rsh-0.17-5.src.rpm
+Name        : rwho                         Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: rwho-0.17-11.src.rpm
+Name        : tcp_wrappers                 Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: tcp_wrappers-7.6-19.src.rpm
+Name        : traceroute                   Relocations: /usr 
+Group       : Applications/Internet         Source RPM: traceroute-1.4a12-1.src.rpm
+Name        : whois                        Relocations: (not relocateable)
+Group       : Applications/Internet         Source RPM: whois-1.0.9-1.src.rpm
+Name        : yp-tools                     Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: yp-tools-2.5-1.src.rpm
+Name        : minicom                      Relocations: (not relocateable)
+Group       : Applications/Communications   Source RPM: minicom-1.83.1-16.src.rpm
+Name        : statserial                   Relocations: /usr 
+Group       : Applications/System           Source RPM: statserial-1.1-23.src.rpm
+Name        : vnc                          Relocations: (not relocateable)
+Group       : User Interface/Desktops       Source RPM: vnc-3.3.3r2-18.6.src.rpm
+Name        : asp2php-gtk                  Relocations: (not relocateable)
+Group       : Development/Tools             Source RPM: asp2php-0.75.17-1.src.rpm
+Name        : curl                         Relocations: (not relocateable)
+Group       : Applications/Internet         Source RPM: curl-7.8-1.src.rpm
+Name        : apacheconf                   Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: apacheconf-0.8.1-1.src.rpm
+Name        : webalizer                    Relocations: (not relocateable)
+Group       : Applications/Internet         Source RPM: webalizer-2.01_09-1.72.src.rpm
+Name        : pyOpenSSL                    Relocations: /usr 
+Group       : Development/Libraries         Source RPM: pyOpenSSL-0.5.1-7.152.src.rpm
+Name        : rhn_register                 Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: rhn_register-2.9.3-1.2.1AS.src.rpm
+Name        : glibc-common                 Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: glibc-2.2.4-32.11.src.rpm
+Name        : sendmail-cf                  Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: sendmail-8.11.6-28.72.src.rpm
+Name        : glibc                        Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: glibc-2.2.4-32.11.src.rpm
+Name        : at                           Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: at-3.1.8-24.ent.src.rpm
+Name        : gdk-pixbuf                   Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: gdk-pixbuf-0.22.0-6.0.3.src.rpm
+Name        : kudzu                        Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: kudzu-0.99.42.3-12.src.rpm
+Name        : arts                         Relocations: /usr 
+Group       : System Environment/Libraries   Source RPM: kdelibs-2.2.2-10.src.rpm
+Name        : mkinitrd                     Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: mkinitrd-3.2.6.2-1.src.rpm
+Name        : netpbm                       Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: netpbm-9.24-9.AS21.3.src.rpm
+Name        : procps                       Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: procps-2.0.7-11.21AS.1.src.rpm
+Name        : XFree86-xfs                  Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: XFree86-4.1.0-56.EL.src.rpm
+Name        : XFree86-75dpi-fonts          Relocations: (not relocateable)
+Group       : User Interface/X              Source RPM: XFree86-4.1.0-56.EL.src.rpm
+Name        : XFree86-ISO8859-15-75dpi-fonts  Relocations: (not relocateable)
+Group       : User Interface/X              Source RPM: XFree86-4.1.0-56.EL.src.rpm
+Name        : ntp                          Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: ntp-4.1.2-1.AS21.1.src.rpm
+Name        : slocate                      Relocations: (not relocateable)
+Group       : Applications/File             Source RPM: slocate-2.7-1.src.rpm
+Name        : tcsh                         Relocations: (not relocateable)
+Group       : System Environment/Shells     Source RPM: tcsh-6.10-8.src.rpm
+Name        : wget                         Relocations: (not relocateable)
+Group       : Applications/Internet         Source RPM: wget-1.8.2-14.72.src.rpm
+Name        : ethtool                      Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: ethtool-1.8-0.2.src.rpm
+Name        : arpwatch                     Relocations: /usr 
+Group       : Applications/System           Source RPM: tcpdump-3.6.2-12.2.1AS.5.src.rpm
+Name        : kernel                       Relocations: (not relocateable)
+Group       : System Environment/Kernel     Source RPM: kernel-2.4.9-e.38.src.rpm
+Name        : libpcap                      Relocations: /usr 
+Group       : Development/Libraries         Source RPM: tcpdump-3.6.2-12.2.1AS.5.src.rpm
+Name        : openssh                      Relocations: (not relocateable)
+Group       : Applications/Internet         Source RPM: openssh-3.1p1-14.src.rpm
+Name        : openssh-clients              Relocations: (not relocateable)
+Group       : Applications/Internet         Source RPM: openssh-3.1p1-14.src.rpm
+Name        : quota                        Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: quota-3.09-1.21.src.rpm
+Name        : mm                           Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: mm-1.1.3-12.src.rpm
+Name        : perl-NDBM_File               Relocations: (not relocateable)
+Group       : Development/Languages         Source RPM: perl-5.6.1-36.1.99ent.src.rpm
+Name        : perl-CPAN                    Relocations: (not relocateable)
+Group       : Development/Languages         Source RPM: perl-5.6.1-36.1.99ent.src.rpm
+Name        : XFree86                      Relocations: (not relocateable)
+Group       : User Interface/X              Source RPM: XFree86-4.1.0-56.EL.src.rpm
+Name        : XFree86-twm                  Relocations: (not relocateable)
+Group       : User Interface/X              Source RPM: XFree86-4.1.0-56.EL.src.rpm
+Name        : Xconfigurator                Relocations: (not relocateable)
+Group       : User Interface/X Hardware Support   Source RPM: Xconfigurator-4.9.41-1.src.rpm
+Name        : ghostscript                  Relocations: (not relocateable)
+Group       : Applications/Publishing       Source RPM: ghostscript-6.51-16.3.src.rpm
+Name        : netpbm-progs                 Relocations: (not relocateable)
+Group       : Applications/Multimedia       Source RPM: netpbm-9.24-9.AS21.3.src.rpm
+Name        : ucd-snmp                     Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: ucd-snmp-4.2.5-8.AS21.2.src.rpm
+Name        : ucd-snmp-utils               Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: ucd-snmp-4.2.5-8.AS21.2.src.rpm
+Name        : unzip                        Relocations: (not relocateable)
+Group       : Applications/Archiving        Source RPM: unzip-5.50-2.src.rpm
+Name        : tcpdump                      Relocations: /usr 
+Group       : Applications/Internet         Source RPM: tcpdump-3.6.2-12.2.1AS.6.src.rpm
+Name        : mailcap                      Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: mailcap-2.1.6-1.src.rpm
+Name        : setup                        Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: setup-2.5.7-1.src.rpm
+Name        : basesystem                   Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: basesystem-7.0-2.src.rpm
+Name        : bdflush                      Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: bdflush-1.5-17.src.rpm
+Name        : chkconfig                    Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: chkconfig-1.3.5-3.src.rpm
+Name        : db1                          Relocations: /usr 
+Group       : System Environment/Libraries   Source RPM: db1-1.85-7.src.rpm
+Name        : db3                          Relocations: /usr 
+Group       : System Environment/Libraries   Source RPM: db3-3.3.11-5.src.rpm
+Name        : e2fsprogs                    Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: e2fsprogs-1.26-1.72.src.rpm
+Name        : gdbm                         Relocations: /usr 
+Group       : System Environment/Libraries   Source RPM: gdbm-1.8.0-11.src.rpm
+Name        : hdparm                       Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: hdparm-4.1-2.src.rpm
+Name        : ksymoops                     Relocations: (not relocateable)
+Group       : System Environment/Kernel     Source RPM: ksymoops-2.4.1-2.src.rpm
+Name        : mailx                        Relocations: (not relocateable)
+Group       : Applications/Internet         Source RPM: mailx-8.1.1-22.src.rpm
+Name        : mktemp                       Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: mktemp-1.5-11.src.rpm
+Name        : parted                       Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: parted-1.4.16-8.src.rpm
+Name        : pwdb                         Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: pwdb-0.62-1.src.rpm
+Name        : setserial                    Relocations: /usr 
+Group       : Applications/System           Source RPM: setserial-2.17-4.src.rpm
+Name        : slang                        Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: slang-1.4.4-4.src.rpm
+Name        : netconfig                    Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: pump-0.8.11-7.src.rpm
+Name        : setuptool                    Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: setuptool-1.8-2.src.rpm
+Name        : tcl                          Relocations: (not relocateable)
+Group       : Development/Languages         Source RPM: tcltk-8.3.3-65.src.rpm
+Name        : termcap                      Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: termcap-11.0.1-10.src.rpm
+Name        : bash                         Relocations: /usr 
+Group       : System Environment/Shells     Source RPM: bash-2.05-8.src.rpm
+Name        : crontabs                     Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: crontabs-1.10-1.src.rpm
+Name        : groff                        Relocations: (not relocateable)
+Group       : Applications/Publishing       Source RPM: groff-1.17.2-7.0.2.src.rpm
+Name        : MAKEDEV                      Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: MAKEDEV-3.3-1.src.rpm
+Name        : info                         Relocations: /usr 
+Group       : System Environment/Base       Source RPM: texinfo-4.0b-3.src.rpm
+Name        : diffutils                    Relocations: /usr 
+Group       : Applications/Text             Source RPM: diffutils-2.7.2-2.src.rpm
+Name        : findutils                    Relocations: (not relocateable)
+Group       : Applications/File             Source RPM: findutils-4.1.7-1.src.rpm
+Name        : grep                         Relocations: /usr 
+Group       : Applications/Text             Source RPM: grep-2.4.2-7.src.rpm
+Name        : grub                         Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: grub-0.90-11.src.rpm
+Name        : less                         Relocations: (not relocateable)
+Group       : Applications/Text             Source RPM: less-358-21.src.rpm
+Name        : raidtools                    Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: raidtools-1.00.2-1.2.src.rpm
+Name        : sed                          Relocations: /usr 
+Group       : Applications/Text             Source RPM: sed-3.02-10.src.rpm
+Name        : kbdconfig                    Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: kbdconfig-1.9.14-1.src.rpm
+Name        : sysklogd                     Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: sysklogd-1.4.1-4.src.rpm
+Name        : dev                          Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: MAKEDEV-3.3-1.src.rpm
+Name        : mouseconfig                  Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: mouseconfig-4.23-1.src.rpm
+Name        : tmpwatch                     Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: tmpwatch-2.8.1-1.src.rpm
+Name        : vim-common                   Relocations: (not relocateable)
+Group       : Applications/Editors          Source RPM: vim-6.0-7.15.src.rpm
+Name        : which                        Relocations: /usr 
+Group       : Applications/System           Source RPM: which-2.12-3.src.rpm
+Name        : cracklib-dicts               Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: cracklib-2.7-12.src.rpm
+Name        : authconfig                   Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: authconfig-4.1.19.2-1.src.rpm
+Name        : cyrus-sasl-md5               Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: cyrus-sasl-1.5.24-24.src.rpm
+Name        : gpm                          Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: gpm-1.19.3-20.src.rpm
+Name        : passwd                       Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: passwd-0.68-1.2.1.src.rpm
+Name        : krb5-libs                    Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: krb5-1.2.2-24.src.rpm
+Name        : lilo                         Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: lilo-21.4.4-14.src.rpm
+Name        : zlib                         Relocations: /usr 
+Group       : System Environment/Libraries   Source RPM: zlib-1.1.4-8.2.1AS.src.rpm
+Name        : dhcpcd                       Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: dhcpcd-1.3.18pl8-13.src.rpm
+Name        : kernel-smp                   Relocations: (not relocateable)
+Group       : System Environment/Kernel     Source RPM: kernel-2.4.9-e.24.src.rpm
+Name        : apmd                         Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: apmd-3.0final-34.src.rpm
+Name        : iptables                     Relocations: /usr 
+Group       : System Environment/Base       Source RPM: iptables-1.2.5-3.src.rpm
+Name        : libaio                       Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: libaio-0.3.13-3.src.rpm
+Name        : pciutils                     Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: pciutils-2.1.8-25.src.rpm
+Name        : timeconfig                   Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: timeconfig-3.2.2-1.src.rpm
+Name        : anacron                      Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: anacron-2.3-17.src.rpm
+Name        : freetype                     Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: freetype-2.0.3-7.src.rpm
+Name        : gmp                          Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: gmp-3.1.1-4.src.rpm
+Name        : libpng                       Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: libpng-1.0.14-0.7x.4.src.rpm
+Name        : libxslt                      Relocations: /usr 
+Group       : Development/Libraries         Source RPM: libxslt-1.0.15-2.src.rpm
+Name        : m4                           Relocations: /usr 
+Group       : Applications/Text             Source RPM: m4-1.4.1-5.src.rpm
+Name        : nkf                          Relocations: (not relocateable)
+Group       : Applications/Text             Source RPM: nkf-1.92-6.src.rpm
+Name        : perl-DateManip               Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: perl-DateManip-5.39-5.src.rpm
+Name        : perl-HTML-Tagset             Relocations: /usr 
+Group       : System Environment/Libraries   Source RPM: perl-HTML-Tagset-3.03-3.src.rpm
+Name        : perl-libnet                  Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: perl-libnet-1.0703-6.src.rpm
+Name        : perl-Parse-Yapp              Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: perl-Parse-Yapp-1.04-3.src.rpm
+Name        : perl-URI                     Relocations: /usr 
+Group       : System Environment/Libraries   Source RPM: perl-URI-1.12-5.src.rpm
+Name        : perl-XML-Encoding            Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: perl-XML-Encoding-1.01-2.src.rpm
+Name        : perl-XML-Parser              Relocations: /usr 
+Group       : System Environment/Libraries   Source RPM: perl-XML-Parser-2.30-7.src.rpm
+Name        : perl-libxml-enno             Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: perl-libxml-enno-1.02-5.src.rpm
+Name        : perl-XML-Twig                Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: perl-XML-Twig-2.02-2.src.rpm
+Name        : Omni-foomatic                Relocations: (not relocateable)
+Group       : System/Libraries              Source RPM: Omni-0.5.0-4.src.rpm
+Name        : psutils                      Relocations: (not relocateable)
+Group       : Applications/Publishing       Source RPM: psutils-1.17-13.src.rpm
+Name        : python                       Relocations: (not relocateable)
+Group       : Development/Languages         Source RPM: python-1.5.2-43.72.src.rpm
+Name        : PyXML                        Relocations: (not relocateable)
+Group       : Development/Libraries         Source RPM: PyXML-0.6.5-4.src.rpm
+Name        : watanabe-vf                  Relocations: (not relocateable)
+Group       : Applications/Publishing       Source RPM: watanabe-vf-1.0-5.src.rpm
+Name        : VFlib2                       Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: VFlib2-2.25.1-20.src.rpm
+Name        : chkfontpath                  Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: chkfontpath-1.9.5-2.src.rpm
+Name        : urw-fonts                    Relocations: (not relocateable)
+Group       : User Interface/X              Source RPM: urw-fonts-2.0-12.src.rpm
+Name        : printconf                    Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: printconf-0.3.61-4.1.src.rpm
+Name        : gtk+                         Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: gtk+-1.2.10-11.src.rpm
+Name        : libjpeg                      Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: libjpeg-6b-16.src.rpm
+Name        : ttfonts                      Relocations: (not relocateable)
+Group       : User Interface/X              Source RPM: ttfonts-1.0-4.src.rpm
+Name        : mkxauth                      Relocations: /usr/X11R6 
+Group       : Applications/System           Source RPM: mkxauth-1.7-16.src.rpm
+Name        : xinitrc                      Relocations: (not relocateable)
+Group       : User Interface/X              Source RPM: xinitrc-3.20-1.src.rpm
+Name        : xloadimage                   Relocations: (not relocateable)
+Group       : Amusements/Graphics           Source RPM: xloadimage-4.1-21.src.rpm
+Name        : gnome-audio                  Relocations: (not relocateable)
+Group       : Applications/Multimedia       Source RPM: gnome-audio-1.4.0-1.src.rpm
+Name        : libmng                       Relocations: /usr 
+Group       : System Environment/Libraries   Source RPM: libmng-1.0.2-1.src.rpm
+Name        : imlib                        Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: imlib-1.9.13-3.7.x.src.rpm
+Name        : libxml                       Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: libxml-1.8.14-2.src.rpm
+Name        : openmotif                    Relocations: /usr/X11R6 
+Group       : System Environment/Libraries   Source RPM: openmotif-2.1.30-11.src.rpm
+Name        : gnome-libs                   Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: gnome-libs-1.2.13-16.src.rpm
+Name        : pygtk                        Relocations: (not relocateable)
+Group       : Development/Languages         Source RPM: gnome-python-1.4.1-3.src.rpm
+Name        : pygtk-libglade               Relocations: (not relocateable)
+Group       : Development/Languages         Source RPM: gnome-python-1.4.1-3.src.rpm
+Name        : qt                           Relocations: /usr/lib/qt-2.3.1 
+Group       : System Environment/Libraries   Source RPM: qt-2.3.1-5.src.rpm
+Name        : tix                          Relocations: (not relocateable)
+Group       : Development/Languages         Source RPM: tcltk-8.3.3-65.src.rpm
+Name        : usermode                     Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: usermode-1.46-1.src.rpm
+Name        : hwbrowser                    Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: hwbrowser-0.3.5-2.src.rpm
+Name        : locale_config                Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: locale_config-0.3.2-1.src.rpm
+Name        : redhat-config-users          Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: redhat-config-users-0.9.2-6.src.rpm
+Name        : xsri                         Relocations: (not relocateable)
+Group       : Amusements/Graphics           Source RPM: xsri-2.0.3-1.src.rpm
+Name        : pspell                       Relocations: (not relocateable)
+Group       : Applications/Text             Source RPM: pspell-0.12.2-3.src.rpm
+Name        : portmap                      Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: portmap-4.0-38.src.rpm
+Name        : make                         Relocations: /usr 
+Group       : Development/Tools             Source RPM: make-3.79.1-8.src.rpm
+Name        : bind-utils                   Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: bind-9.2.1-1.7x.2.src.rpm
+Name System) name servers to find out information about Internet
+Name        : compat-libstdc++             Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: compat-egcs-6.2-1.1.2.16.src.rpm
+Name        : ftp                          Relocations: (not relocateable)
+Group       : Applications/Internet         Source RPM: ftp-0.17-12.1.1.src.rpm
+Name        : krbafs                       Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: krbafs-1.0.9-2.src.rpm
+Name        : micq                         Relocations: (not relocateable)
+Group       : Applications/Internet         Source RPM: micq-0.4.10.2-1.src.rpm
+Name        : nmap-frontend                Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: nmap-2.54BETA22-3.src.rpm
+Name        : nss_ldap                     Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: nss_ldap-189-4.src.rpm
+Name        : pidentd                      Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: pidentd-3.0.14-1.src.rpm
+Name        : python-xmlrpc                Relocations: (not relocateable)
+Group       : Development/Libraries         Source RPM: python-xmlrpc-1.5.1-7.x.3.src.rpm
+Name        : rdate                        Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: rdate-1.0-8.src.rpm
+Name        : rpm-python                   Relocations: (not relocateable)
+Group       : Development/Libraries         Source RPM: rpm-4.0.4-7x.20.src.rpm
+Name        : rusers                       Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: rusers-0.17-20.AS21.2.src.rpm
+Name        : talk                         Relocations: (not relocateable)
+Group       : Applications/Internet         Source RPM: talk-0.17-12.src.rpm
+Name        : telnet                       Relocations: (not relocateable)
+Group       : Applications/Internet         Source RPM: telnet-0.17-20.src.rpm
+Name        : lockdev                      Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: lockdev-1.0.0-14.src.rpm
+Name        : ppp                          Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: ppp-2.4.1-3.src.rpm
+Name        : finger-server                Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: finger-0.17-9.src.rpm
+Name        : vnc-server                   Relocations: (not relocateable)
+Group       : User Interface/X              Source RPM: vnc-3.3.3r2-18.6.src.rpm
+Name        : asp2php                      Relocations: (not relocateable)
+Group       : Development/Tools             Source RPM: asp2php-0.75.17-1.src.rpm
+Name        : tux                          Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: tux-2.2.4-1.src.rpm
+Name        : expect                       Relocations: (not relocateable)
+Group       : Development/Languages         Source RPM: tcltk-8.3.3-65.src.rpm
+Name        : rhnlib                       Relocations: /usr 
+Group       : Development/Libraries         Source RPM: rhnlib-1.3-11.152.src.rpm
+Name        : up2date                      Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: up2date-2.9.3-2.2.1AS.src.rpm
+Name        : redhat-release-as            Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: redhat-release-as-2.1AS-8.src.rpm
+Name        : fileutils                    Relocations: (not relocateable)
+Group       : Applications/File             Source RPM: fileutils-4.1-10.4.src.rpm
+Name        : XFree86-libs                 Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: XFree86-4.1.0-56.EL.src.rpm
+Name        : clumanager                   Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: clumanager-1.0.25-1.src.rpm
+Name        : iproute                      Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: iproute-2.4.7-7.AS21.1.src.rpm
+Name        : libstdc++                    Relocations: /usr 
+Group       : System Environment/Libraries   Source RPM: gcc-2.96-124.7.2.src.rpm
+Name        : libxml2                      Relocations: /usr 
+Group       : Development/Libraries         Source RPM: libxml2-2.4.19-5.ent.src.rpm
+Name        : net-tools                    Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: net-tools-1.60-19.AS21.1.src.rpm
+Name        : openssl                      Relocations: (not relocateable)
+Group       : System Environment/Libraries   Source RPM: openssl-0.9.6b-36.src.rpm
+Name        : shadow-utils                 Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: shadow-utils-20000902-13.7.src.rpm
+Name        : XFree86-100dpi-fonts         Relocations: (not relocateable)
+Group       : User Interface/X              Source RPM: XFree86-4.1.0-56.EL.src.rpm
+Name        : XFree86-ISO8859-15-100dpi-fonts  Relocations: (not relocateable)
+Group       : User Interface/X              Source RPM: XFree86-4.1.0-56.EL.src.rpm
+Name        : nscd                         Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: glibc-2.2.4-32.11.src.rpm
+Summary     : A Name Service Caching Daemon (nscd).
+Name        : sendmail                     Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: sendmail-8.11.6-28.72.src.rpm
+Name        : stunnel                      Relocations: (not relocateable)
+Group       : Applications/Internet         Source RPM: stunnel-3.26-1.7.3.src.rpm
+Name        : util-linux                   Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: util-linux-2.11f-20.4.src.rpm
+Name        : ypbind                       Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: ypbind-1.12-5.21.src.rpm
+Name        : initscripts                  Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: initscripts-6.47.6-1.src.rpm
+Name        : hwcrypto                     Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: hwcrypto-1.0-3.src.rpm
+Name        : kernel-smp                   Relocations: (not relocateable)
+Group       : System Environment/Kernel     Source RPM: kernel-2.4.9-e.38.src.rpm
+Name        : nfs-utils                    Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: nfs-utils-0.3.3-7.21AS.src.rpm
+Name        : openssh-askpass              Relocations: (not relocateable)
+Group       : Applications/Internet         Source RPM: openssh-3.1p1-14.src.rpm
+Name        : openssh-server               Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: openssh-3.1p1-14.src.rpm
+Name        : ypserv                       Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: ypserv-2.8-0.AS21E.src.rpm
+Name        : perl-suidperl                Relocations: (not relocateable)
+Group       : Development/Languages         Source RPM: perl-5.6.1-36.1.99ent.src.rpm
+Name        : perl-DB_File                 Relocations: (not relocateable)
+Group       : Development/Languages         Source RPM: perl-5.6.1-36.1.99ent.src.rpm
+Name        : perl                         Relocations: (not relocateable)
+Group       : Development/Languages         Source RPM: perl-5.6.1-36.1.99ent.src.rpm
+Name        : XFree86-tools                Relocations: (not relocateable)
+Group       : User Interface/X              Source RPM: XFree86-4.1.0-56.EL.src.rpm
+Name        : XFree86-xdm                  Relocations: (not relocateable)
+Group       : User Interface/X              Source RPM: XFree86-4.1.0-56.EL.src.rpm
+Name        : apache                       Relocations: (not relocateable)
+Group       : System Environment/Daemons    Source RPM: apache-1.3.27-6.ent.src.rpm
+Name        : gnupg                        Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: gnupg-1.0.7-13.src.rpm
+Name        : perl-CGI                     Relocations: (not relocateable)
+Group       : Development/Languages         Source RPM: perl-5.6.1-36.1.99ent.src.rpm
+Name        : kernel-utils                 Relocations: (not relocateable)
+Group       : System Environment/Base       Source RPM: kernel-utils-2.4-6.1.EL.src.rpm
+Name        : sudo                         Relocations: (not relocateable)
+Group       : Applications/System           Source RPM: sudo-1.6.5p2-1.7x.1.src.rpm
+Name        : tftp-primus                  Relocations: (not relocateable)
+Group       : System Environment/Tools      Source RPM: tftp-primus-0.5-3.src.rpm</PRE>
+<A NAME="Packages installed (Short List)"></A> <A HREF="#Inhalt-Packages installed (Short List)"><H2> Packages installed (Short List) </H2></A>
+<h6>rpm -qa </h6>
+<PRE>indexhtml-7.2-1
+redhat-logos-1.1.3-1
+filesystem-2.1.6-2
+bzip2-libs-1.0.1-4
+cracklib-2.7-12
+db2-2.4.14-9
+dosfstools-2.7-1
+eject-2.0.9-2
+glib-1.2.10-5
+iputils-20001110-6.AS21.2
+losetup-2.11g-6
+mingetty-0.9.4-18
+pcre-3.4-2
+popt-1.6.4-7x.20
+reiserfs-utils-3.x.0j-3
+newt-0.50.33-1
+ntsysv-1.3.5-3
+syslinux-2.00-1EL
+db3x-3.2.9-3
+libtermcap-2.0.8-28
+bzip2-1.0.1-4
+hotplug-2001_04_24-11
+logrotate-3.5.9-1
+ncurses-5.2-12
+cpio-2.4.2-23
+ed-0.2-21
+gawk-3.1.0-3
+ash-0.3.7-2
+gzip-1.3-15
+man-1.5i2-7.21as.0
+procmail-3.21-1
+psmisc-20.1-2
+readline-4.2-2
+rootfiles-7.2-1
+console-tools-19990829-36
+tar-1.13.25-4.AS21.0
+textutils-2.0.14-2
+mount-2.11g-6
+time-1.7-14
+utempter-0.5.2-6
+vim-minimal-6.0-7.15
+words-2-17
+pam-0.75-46.7.3
+cyrus-sasl-1.5.24-24
+cyrus-sasl-plain-1.5.24-24
+openldap-2.0.27-2.7.3
+sh-utils-2.0.11-5
+modutils-2.4.13-13
+mkbootdisk-1.4.2-3
+SysVinit-2.78-19
+file-3.39-8.7x
+rpm-4.0.4-7x.20
+kernel-pcmcia-cs-3.1.27-10
+ipchains-1.3.10-10
+kernel-2.4.9-e.24
+lokkit-0.50-6
+vixie-cron-3.0.1-63
+expat-1.95.1-7
+ghostscript-fonts-5.50-3
+groff-perl-1.17.2-7.0.2
+LPRng-3.7.4-28.2
+mpage-2.5.1-9
+Omni-0.5.0-4
+perl-Digest-MD5-2.13-1
+perl-HTML-Parser-3.25-2
+perl-MIME-Base64-2.12-6
+perl-Storable-0.6.11-6
+perl-libwww-perl-5.53-3
+perl-XML-Grove-0.46alpha-3
+perl-libxml-perl-0.07-5
+perl-XML-Dumper-0.4-5
+foomatic-1.1-0.20011218.3
+pnm2ppa-1.04-2
+a2ps-4.13b-15
+alchemist-1.0.18-1
+4Suite-0.11-2
+ttfonts-ja-1.0-8
+fortune-mod-1.0-16
+lesstif-0.93.15-3
+libtiff-3.5.5-13
+switchdesk-3.9.7-1
+Xaw3d-1.5-10
+Mesa-3.4.2-10
+audiofile-0.2.1-2
+esound-0.2.22-5
+libcap-1.10-6
+libungif-4.1.0-9.1
+libuser-0.32-1
+ORBit-0.5.8-4
+libglade-0.16-4
+pygnome-1.4.1-3
+pygnome-libglade-1.4.1-3
+tk-8.3.3-65
+tkinter-1.5.2-43.72
+dateconfig-0.7.4-7
+ksconfig-1.9.8-4
+printconf-gui-0.3.61-4.1
+serviceconf-0.6.6-1
+libtool-libs-1.4-8
+aspell-0.33.7-1
+xinetd-2.3.11-2.AS2.1
+autofs-3.1.7-21
+cipe-1.4.5-6
+finger-0.17-9
+logwatch-2.6-1
+ncftp-3.0.3-6
+nmap-2.54BETA22-3
+openldap-clients-2.0.27-2.7.3
+pam_krb5-1.47-1
+python-popt-0.8.8-7.x.2
+radvd-0.6.2pl4-1
+rmt-0.4b25-1.72.0
+rsh-0.17-5
+rwho-0.17-11
+tcp_wrappers-7.6-19
+traceroute-1.4a12-1
+whois-1.0.9-1
+yp-tools-2.5-1
+minicom-1.83.1-16
+statserial-1.1-23
+vnc-3.3.3r2-18.6
+asp2php-gtk-0.75.17-1
+curl-7.8-1
+apacheconf-0.8.1-1
+webalizer-2.01_09-1.72
+pyOpenSSL-0.5.1-7.152
+rhn_register-2.9.3-1.2.1AS
+glibc-common-2.2.4-32.11
+sendmail-cf-8.11.6-28.72
+glibc-2.2.4-32.11
+at-3.1.8-24.ent
+gdk-pixbuf-0.22.0-6.0.3
+kudzu-0.99.42.3-12
+arts-2.2.2-10
+mkinitrd-3.2.6.2-1
+netpbm-9.24-9.AS21.3
+procps-2.0.7-11.21AS.1
+XFree86-xfs-4.1.0-56.EL
+XFree86-75dpi-fonts-4.1.0-56.EL
+XFree86-ISO8859-15-75dpi-fonts-4.1.0-56.EL
+ntp-4.1.2-1.AS21.1
+slocate-2.7-1
+tcsh-6.10-8
+wget-1.8.2-14.72
+ethtool-1.8-0.2
+arpwatch-2.1a11-12.2.1AS.5
+kernel-2.4.9-e.38
+libpcap-0.6.2-12.2.1AS.5
+openssh-3.1p1-14
+openssh-clients-3.1p1-14
+quota-3.09-1.21
+mm-1.1.3-12
+perl-NDBM_File-1.75-36.1.99ent
+perl-CPAN-1.59_54-36.1.99ent
+XFree86-4.1.0-56.EL
+XFree86-twm-4.1.0-56.EL
+Xconfigurator-4.9.41-1
+ghostscript-6.51-16.3
+netpbm-progs-9.24-9.AS21.3
+ucd-snmp-4.2.5-8.AS21.2
+ucd-snmp-utils-4.2.5-8.AS21.2
+unzip-5.50-2
+tcpdump-3.6.2-12.2.1AS.6
+mailcap-2.1.6-1
+setup-2.5.7-1
+basesystem-7.0-2
+bdflush-1.5-17
+chkconfig-1.3.5-3
+db1-1.85-7
+db3-3.3.11-5
+e2fsprogs-1.26-1.72
+gdbm-1.8.0-11
+hdparm-4.1-2
+ksymoops-2.4.1-2
+mailx-8.1.1-22
+mktemp-1.5-11
+parted-1.4.16-8
+pwdb-0.62-1
+setserial-2.17-4
+slang-1.4.4-4
+netconfig-0.8.11-7
+setuptool-1.8-2
+tcl-8.3.3-65
+termcap-11.0.1-10
+bash-2.05-8
+crontabs-1.10-1
+groff-1.17.2-7.0.2
+MAKEDEV-3.3-1
+info-4.0b-3
+diffutils-2.7.2-2
+findutils-4.1.7-1
+grep-2.4.2-7
+grub-0.90-11
+less-358-21
+raidtools-1.00.2-1.2
+sed-3.02-10
+kbdconfig-1.9.14-1
+sysklogd-1.4.1-4
+dev-3.3-1
+mouseconfig-4.23-1
+tmpwatch-2.8.1-1
+vim-common-6.0-7.15
+which-2.12-3
+cracklib-dicts-2.7-12
+authconfig-4.1.19.2-1
+cyrus-sasl-md5-1.5.24-24
+gpm-1.19.3-20
+passwd-0.68-1.2.1
+krb5-libs-1.2.2-24
+lilo-21.4.4-14
+zlib-1.1.4-8.2.1AS
+dhcpcd-1.3.18pl8-13
+kernel-smp-2.4.9-e.24
+apmd-3.0final-34
+iptables-1.2.5-3
+libaio-0.3.13-3
+pciutils-2.1.8-25
+timeconfig-3.2.2-1
+anacron-2.3-17
+freetype-2.0.3-7
+gmp-3.1.1-4
+libpng-1.0.14-0.7x.4
+libxslt-1.0.15-2
+m4-1.4.1-5
+nkf-1.92-6
+perl-DateManip-5.39-5
+perl-HTML-Tagset-3.03-3
+perl-libnet-1.0703-6
+perl-Parse-Yapp-1.04-3
+perl-URI-1.12-5
+perl-XML-Encoding-1.01-2
+perl-XML-Parser-2.30-7
+perl-libxml-enno-1.02-5
+perl-XML-Twig-2.02-2
+Omni-foomatic-0.5.0-4
+psutils-1.17-13
+python-1.5.2-43.72
+PyXML-0.6.5-4
+watanabe-vf-1.0-5
+VFlib2-2.25.1-20
+chkfontpath-1.9.5-2
+urw-fonts-2.0-12
+printconf-0.3.61-4.1
+gtk+-1.2.10-11
+libjpeg-6b-16
+ttfonts-1.0-4
+mkxauth-1.7-16
+xinitrc-3.20-1
+xloadimage-4.1-21
+gnome-audio-1.4.0-1
+libmng-1.0.2-1
+imlib-1.9.13-3.7.x
+libxml-1.8.14-2
+openmotif-2.1.30-11
+gnome-libs-1.2.13-16
+pygtk-0.6.8-3
+pygtk-libglade-0.6.8-3
+qt-2.3.1-5
+tix-8.2.0b1-65
+usermode-1.46-1
+hwbrowser-0.3.5-2
+locale_config-0.3.2-1
+redhat-config-users-0.9.2-6
+xsri-2.0.3-1
+pspell-0.12.2-3
+portmap-4.0-38
+make-3.79.1-8
+bind-utils-9.2.1-1.7x.2
+compat-libstdc++-6.2-2.9.0.16
+ftp-0.17-12.1.1
+krbafs-1.0.9-2
+micq-0.4.10.2-1
+nmap-frontend-2.54BETA22-3
+nss_ldap-189-4
+pidentd-3.0.14-1
+python-xmlrpc-1.5.1-7.x.3
+rdate-1.0-8
+rpm-python-4.0.4-7x.20
+rusers-0.17-20.AS21.2
+talk-0.17-12
+telnet-0.17-20
+lockdev-1.0.0-14
+ppp-2.4.1-3
+finger-server-0.17-9
+vnc-server-3.3.3r2-18.6
+asp2php-0.75.17-1
+tux-2.2.4-1
+expect-5.32.2-65
+rhnlib-1.3-11.152
+up2date-2.9.3-2.2.1AS
+redhat-release-as-2.1AS-8
+fileutils-4.1-10.4
+XFree86-libs-4.1.0-56.EL
+clumanager-1.0.25-1
+iproute-2.4.7-7.AS21.1
+libstdc++-2.96-124.7.2
+libxml2-2.4.19-5.ent
+net-tools-1.60-19.AS21.1
+openssl-0.9.6b-36
+shadow-utils-20000902-13.7
+XFree86-100dpi-fonts-4.1.0-56.EL
+XFree86-ISO8859-15-100dpi-fonts-4.1.0-56.EL
+nscd-2.2.4-32.11
+sendmail-8.11.6-28.72
+stunnel-3.26-1.7.3
+util-linux-2.11f-20.4
+ypbind-1.12-5.21
+initscripts-6.47.6-1
+hwcrypto-1.0-3
+kernel-smp-2.4.9-e.38
+nfs-utils-0.3.3-7.21AS
+openssh-askpass-3.1p1-14
+openssh-server-3.1p1-14
+ypserv-2.8-0.AS21E
+perl-suidperl-5.6.1-36.1.99ent
+perl-DB_File-1.75-36.1.99ent
+perl-5.6.1-36.1.99ent
+XFree86-tools-4.1.0-56.EL
+XFree86-xdm-4.1.0-56.EL
+apache-1.3.27-6.ent
+gnupg-1.0.7-13
+perl-CGI-2.752-36.1.99ent
+kernel-utils-2.4-6.1.EL
+sudo-1.6.5p2-1.7x.1
+tftp-primus-0.5-3</PRE>
+<A NAME="Software Development: Programs and Versions"></A> <A HREF="#Inhalt-Software Development: Programs and Versions"><H2> Software Development: Programs and Versions </H2></A>
+<h6>ProgStuff</h6>
+<PRE>/usr/bin/make
+make: GNU Make version 3.79.1, by Richard Stallman and Roland McGrath.
+/bin/sed
+sed: GNU sed version 3.02</PRE>
+<HR>
+<A NAME="Filesystems, Dump- and Swapconfiguration">
+<A HREF="#Inhalt-Filesystems, Dump- and Swapconfiguration"><H1> Filesystems, Dump- and Swapconfiguration </H1></A><P>
+<A NAME="FileSystemTab"></A> <A HREF="#Inhalt-FileSystemTab"><H2> FileSystemTab </H2></A>
+<h6>grep -v '^#' /etc/fstab</h6>
+<PRE>LABEL=/                 /                       ext3    defaults        1 1
+LABEL=/boot             /boot                   ext3    defaults        1 2
+none                    /dev/pts                devpts  gid=5,mode=620  0 0
+LABEL=/home             /home                   ext3    defaults        1 2
+none                    /proc                   proc    defaults        0 0
+none                    /dev/shm                tmpfs   defaults        0 0
+LABEL=/tmp              /tmp                    ext3    defaults        1 2
+LABEL=/usr              /usr                    ext3    defaults        1 2
+LABEL=/var              /var                    ext3    defaults        1 2
+/dev/sda8               swap                    swap    defaults        0 0
+/dev/cdrom              /mnt/cdrom              iso9660 noauto,owner,kudzu,ro 0 0
+/dev/fd0                /mnt/floppy             auto    noauto,owner,kudzu 0 0
+/dev/sda9               /bea                    ext3    defaults        1 2
+10.100.1.93:/vol/vol3/qatftp    /tftp/encrypted nfs     defaults        1 2</PRE>
+<A NAME="Filesystems and Usage"></A> <A HREF="#Inhalt-Filesystems and Usage"><H2> Filesystems and Usage </H2></A>
+<h6>df -k</h6>
+<PRE>Filesystem           1k-blocks      Used Available Use% Mounted on
+/dev/sda7              2063504    378148   1580536  20% /
+/dev/sda1               147766     23697    116440  17% /boot
+/dev/sda2             15116868   8051640   6297324  57% /home
+none                   1931628         0   1931628   0% /dev/shm
+/dev/sda6              2063504    172536   1786148   9% /tmp
+/dev/sda3              4127108    516344   3401116  14% /usr
+/dev/sda5              4127076    186716   3730716   5% /var
+/dev/sda9              4134900   1895820   2029032  49% /bea</PRE>
+<A NAME="All Filesystems and Usage"></A> <A HREF="#Inhalt-All Filesystems and Usage"><H2> All Filesystems and Usage </H2></A>
+<h6>my_bdf</h6>
+<PRE>Allocated       Used            Available       Used (%)
+33712354        11224901        20872940                33.3</PRE>
+<A NAME="Local Mountpoints"></A> <A HREF="#Inhalt-Local Mountpoints"><H2> Local Mountpoints </H2></A>
+<h6>mount</h6>
+<PRE>/dev/sda7 on / type ext3 (rw)
+none on /proc type proc (rw)
+usbdevfs on /proc/bus/usb type usbdevfs (rw)
+/dev/sda1 on /boot type ext3 (rw)
+none on /dev/pts type devpts (rw,gid=5,mode=620)
+/dev/sda2 on /home type ext3 (rw)
+none on /dev/shm type tmpfs (rw)
+/dev/sda6 on /tmp type ext3 (rw)
+/dev/sda3 on /usr type ext3 (rw)
+/dev/sda5 on /var type ext3 (rw)
+/dev/sda9 on /bea type ext3 (rw)</PRE>
+<A NAME="Disk Partitions"></A> <A HREF="#Inhalt-Disk Partitions"><H2> Disk Partitions </H2></A>
+<h6>/sbin/fdisk -l</h6>
+<PRE>
+Disk /dev/sda: 255 heads, 63 sectors, 4425 cylinders
+Units = cylinders of 16065 * 512 bytes
+
+   Device Boot    Start       End    Blocks   Id  System
+/dev/sda1   *         1        19    152586   83  Linux
+/dev/sda2            20      1931  15358140   83  Linux
+/dev/sda3          1932      2453   4192965   83  Linux
+/dev/sda4          2454      4425  15840090    f  Win95 Ext'd (LBA)
+/dev/sda5          2454      2975   4192933+  83  Linux
+/dev/sda6          2976      3236   2096451   83  Linux
+/dev/sda7          3237      3497   2096451   83  Linux
+/dev/sda8          3498      3758   2096451   82  Linux swap
+/dev/sda9          3759      4281   4200966   83  Linux</PRE>
+<A NAME="Disk Partitions to restore from"></A> <A HREF="#Inhalt-Disk Partitions to restore from"><H2> Disk Partitions to restore from </H2></A>
+<h6>cat ./mclwlqa02.us.primus.partitions.save</h6>
+<PRE>n/a or not configured</PRE>
+<p>To restore your partitions use the saved file: mclwlqa02.us.primus.partitions.save, read the man page for sfdisk for usage. (Hint: sfdisk --force /dev/device < file.save)</p>
+<A NAME="Disk Partitions"></A> <A HREF="#Inhalt-Disk Partitions"><H2> Disk Partitions </H2></A>
+<h6>/sbin/fdisk -l|sed 's/8e \ Unknown/8e \ LVM/g'</h6>
+<PRE>
+Disk /dev/sda: 255 heads, 63 sectors, 4425 cylinders
+Units = cylinders of 16065 * 512 bytes
+
+   Device Boot    Start       End    Blocks   Id  System
+/dev/sda1   *         1        19    152586   83  Linux
+/dev/sda2            20      1931  15358140   83  Linux
+/dev/sda3          1932      2453   4192965   83  Linux
+/dev/sda4          2454      4425  15840090    f  Win95 Ext'd (LBA)
+/dev/sda5          2454      2975   4192933+  83  Linux
+/dev/sda6          2976      3236   2096451   83  Linux
+/dev/sda7          3237      3497   2096451   83  Linux
+/dev/sda8          3498      3758   2096451   82  Linux swap
+/dev/sda9          3759      4281   4200966   83  Linux</PRE>
+<A NAME="NFS Filesystems"></A> <A HREF="#Inhalt-NFS Filesystems"><H2> NFS Filesystems </H2></A>
+<h6>grep -vE '^#|^ *$' /etc/exports</h6>
+<PRE>n/a or not configured</PRE>
+<A NAME="used memory/swap"></A> <A HREF="#Inhalt-used memory/swap"><H2> used memory/swap </H2></A>
+<h6>free -l</h6>
+<PRE>n/a or not configured</PRE>
+<A NAME="Detailed memory usage"></A> <A HREF="#Inhalt-Detailed memory usage"><H2> Detailed memory usage </H2></A>
+<h6>cat /proc/meminfo</h6>
+<PRE>        total:    used:    free:  shared: buffers:  cached:
+Mem:  3955978240 2715918336 1240059904        0 239489024 2224599040
+Swap: 2146754560        0 2146754560
+MemTotal:      3863260 kB
+MemFree:       1210996 kB
+MemShared:           0 kB
+Buffers:        233876 kB
+Cached:        2172460 kB
+SwapCached:          0 kB
+Active:        2092948 kB
+Inact_dirty:    313356 kB
+Inact_clean:        32 kB
+Inact_target:   965740 kB
+HighTotal:     3014592 kB
+HighFree:      1163460 kB
+LowTotal:       848668 kB
+LowFree:         47536 kB
+SwapTotal:     2096440 kB
+SwapFree:      2096440 kB
+BigPagesFree:        0 kB</PRE>
+<HR>
+<A NAME="LVM">
+<A HREF="#Inhalt-LVM"><H1> LVM </H1></A><P>
+<p>LVM binaries found, but this system seems to be configured with whole disk layout (WDL)</p>
+<HR>
+<A NAME="Network Settings">
+<A HREF="#Inhalt-Network Settings"><H1> Network Settings </H1></A><P>
+<A NAME="LAN Interfaces"></A> <A HREF="#Inhalt-LAN Interfaces"><H2> LAN Interfaces </H2></A>
+<h6>/sbin/ifconfig</h6>
+<PRE>eth0      Link encap:Ethernet  HWaddr 00:0B:DB:E7:1C:48  
+          inet addr:10.100.1.211  Bcast:10.100.1.255  Mask:255.255.255.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:2927015 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:38860 errors:1 dropped:0 overruns:0 carrier:0
+          collisions:8 txqueuelen:1000 
+          RX bytes:260332078 (248.2 Mb)  TX bytes:3245459 (3.0 Mb)
+          Interrupt:28 
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:79 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:79 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:7162 (6.9 Kb)  TX bytes:7162 (6.9 Kb)</PRE>
+<A NAME="MII Status"></A> <A HREF="#Inhalt-MII Status"><H2> MII Status </H2></A>
+<h6>/sbin/mii-tool -v</h6>
+<PRE>eth0: no autonegotiation, 100baseTx-HD, link ok
+  product info: vendor 00:08:18, model 22 rev 2
+  basic mode:   autonegotiation enabled
+  basic status: autonegotiation complete, link ok
+  capabilities: 100baseTx-FD 100baseTx-HD 10baseT-FD 10baseT-HD
+  advertising:  100baseTx-FD 100baseTx-HD 10baseT-FD 10baseT-HD flow-control
+  link partner: 100baseTx-HD
+eth1: no link
+  product info: vendor 00:08:18, model 22 rev 2
+  basic mode:   autonegotiation enabled
+  basic status: no link
+  capabilities: 100baseTx-FD 100baseTx-HD 10baseT-FD 10baseT-HD
+  advertising:  100baseTx-FD 100baseTx-HD 10baseT-FD 10baseT-HD</PRE>
+<A NAME="Routing Tables"></A> <A HREF="#Inhalt-Routing Tables"><H2> Routing Tables </H2></A>
+<h6>netstat -r</h6>
+<PRE>Kernel IP routing table
+Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+10.100.1.0      *               255.255.255.0   U        40 0          0 eth0
+127.0.0.0       *               255.0.0.0       U        40 0          0 lo
+default         10.100.1.1      0.0.0.0         UG       40 0          0 eth0</PRE>
+<A NAME="Interfaces"></A> <A HREF="#Inhalt-Interfaces"><H2> Interfaces </H2></A>
+<h6>netstat -gi</h6>
+<PRE>Kernel Interface table
+Iface       MTU Met    RX-OK RX-ERR RX-DRP RX-OVR    TX-OK TX-ERR TX-DRP TX-OVR Flg
+eth0       1500   0  2927024      0      0      0    38873      1      0      0 BMRU
+lo        16436   0       79      0      0      0       79      0      0      0 LRU</PRE>
+<A NAME="TCP Daemons acceppting connection"></A> <A HREF="#Inhalt-TCP Daemons acceppting connection"><H2> TCP Daemons acceppting connection </H2></A>
+<h6>netstat -tlpn</h6>
+<PRE>Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name   
+tcp        0      0 0.0.0.0:32768           0.0.0.0:*               LISTEN      712/rpc.statd       
+tcp        0      0 0.0.0.0:111             0.0.0.0:*               LISTEN      684/portmap         
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      898/sshd            
+tcp        0      0 127.0.0.1:25            0.0.0.0:*               LISTEN      992/sendmail: accep 
+tcp        0      0 0.0.0.0:1055            0.0.0.0:*               LISTEN      1168/rma            </PRE>
+<A NAME="UDP Daemons acceppting connection"></A> <A HREF="#Inhalt-UDP Daemons acceppting connection"><H2> UDP Daemons acceppting connection </H2></A>
+<h6>netstat -ulpn</h6>
+<PRE>Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name   
+udp        0      0 0.0.0.0:32768           0.0.0.0:*                           712/rpc.statd       
+udp        0      0 0.0.0.0:111             0.0.0.0:*                           684/portmap         
+udp        0      0 10.100.1.211:123        0.0.0.0:*                           951/ntpd            
+udp        0      0 127.0.0.1:123           0.0.0.0:*                           951/ntpd            
+udp        0      0 0.0.0.0:123             0.0.0.0:*                           951/ntpd            </PRE>
+<A NAME="Summary statistics for each protocol"></A> <A HREF="#Inhalt-Summary statistics for each protocol"><H2> Summary statistics for each protocol </H2></A>
+<h6>netstat -s</h6>
+<PRE>Ip:
+    1414316 total packets received
+    0 forwarded
+    0 incoming packets discarded
+    1398180 incoming packets delivered
+    26520 requests sent out
+Icmp:
+    14674 ICMP messages received
+    1 input ICMP message failed.
+    ICMP input histogram:
+        destination unreachable: 74
+        echo requests: 14600
+    15202 ICMP messages sent
+    0 ICMP messages failed
+    ICMP output histogram:
+        destination unreachable: 602
+        echo replies: 14600
+Tcp:
+    340 active connections openings
+    0 passive connection openings
+    1 failed connection attempts
+    0 connection resets received
+    1 connections established
+    7905 segments received
+    8427 segments send out
+    19 segments retransmited
+    0 bad segments received.
+    1192 resets sent
+Udp:
+    893 packets received
+    531 packets to unknown port received.
+    0 packet receive errors
+    2891 packets sent
+TcpExt:
+    ArpFilter: 0
+    272 TCP sockets finished time wait in fast timer
+    314 delayed acks sent
+    Quick ack mode was activated 1 times
+    4894 packets directly queued to recvmsg prequeue.
+    151551 packets directly received from prequeue
+    532 packets header predicted
+    616 packets header predicted and directly queued to user
+    TCPPureAcks: 569
+    TCPHPAcks: 368
+    TCPRenoRecovery: 0
+    TCPSackRecovery: 0
+    TCPSACKReneging: 0
+    TCPFACKReorder: 0
+    TCPSACKReorder: 0
+    TCPRenoReorder: 0
+    TCPTSReorder: 0
+    TCPFullUndo: 0
+    TCPPartialUndo: 0
+    TCPDSACKUndo: 0
+    TCPLossUndo: 0
+    TCPLoss: 0
+    TCPLostRetransmit: 0
+    TCPRenoFailures: 0
+    TCPSackFailures: 0
+    TCPLossFailures: 0
+    TCPFastRetrans: 0
+    TCPForwardRetrans: 0
+    TCPSlowStartRetrans: 0
+    TCPTimeouts: 16
+    TCPRenoRecoveryFail: 0
+    TCPSackRecoveryFail: 0
+    TCPSchedulerFailed: 0
+    TCPRcvCollapsed: 0
+    TCPDSACKOldSent: 1
+    TCPDSACKOfoSent: 0
+    TCPDSACKRecv: 0
+    TCPDSACKOfoRecv: 0
+    TCPAbortOnSyn: 0
+    TCPAbortOnData: 0
+    TCPAbortOnClose: 64
+    TCPAbortOnMemory: 0
+    TCPAbortOnTimeout: 0
+    TCPAbortOnLinger: 0
+    TCPAbortFailed: 0
+    TCPMemoryPressures: 0</PRE>
+<A NAME="Kernel Interface table"></A> <A HREF="#Inhalt-Kernel Interface table"><H2> Kernel Interface table </H2></A>
+<h6>netstat -i</h6>
+<PRE>Kernel Interface table
+Iface       MTU Met    RX-OK RX-ERR RX-DRP RX-OVR    TX-OK TX-ERR TX-DRP TX-OVR Flg
+eth0       1500   0  2927024      0      0      0    38873      1      0      0 BMRU
+lo        16436   0       79      0      0      0       79      0      0      0 LRU</PRE>
+<A NAME="list of all sockets"></A> <A HREF="#Inhalt-list of all sockets"><H2> list of all sockets </H2></A>
+<h6>netstat -an</h6>
+<PRE>Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 0.0.0.0:32768           0.0.0.0:*               LISTEN      
+tcp        0      0 0.0.0.0:111             0.0.0.0:*               LISTEN      
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      
+tcp        0      0 127.0.0.1:25            0.0.0.0:*               LISTEN      
+tcp        0      0 0.0.0.0:1055            0.0.0.0:*               LISTEN      
+tcp        0    864 10.100.1.211:22         10.161.1.154:32795      ESTABLISHED 
+udp        0      0 0.0.0.0:32768           0.0.0.0:*                           
+udp        0      0 0.0.0.0:111             0.0.0.0:*                           
+udp        0      0 10.100.1.211:123        0.0.0.0:*                           
+udp        0      0 127.0.0.1:123           0.0.0.0:*                           
+udp        0      0 0.0.0.0:123             0.0.0.0:*                           
+Active UNIX domain sockets (servers and established)
+Proto RefCnt Flags       Type       State         I-Node Path
+unix  2      [ ACC ]     STREAM     LISTENING     1551   /tmp/.font-unix/fs7100
+unix  2      [ ACC ]     STREAM     LISTENING     1489   /dev/gpmctl
+unix  10     [ ]         DGRAM                    1064   /dev/log
+unix  2      [ ]         DGRAM                    1610   
+unix  2      [ ]         DGRAM                    1554   
+unix  2      [ ]         DGRAM                    1507   
+unix  2      [ ]         DGRAM                    1473   
+unix  2      [ ]         DGRAM                    1409   
+unix  2      [ ]         DGRAM                    1386   
+unix  2      [ ]         DGRAM                    1136   
+unix  2      [ ]         DGRAM                    1073   </PRE>
+<A NAME="dig hostname"></A> <A HREF="#Inhalt-dig hostname"><H2> dig hostname </H2></A>
+<h6>dig mclwlqa02.us.primus</h6>
+<PRE>
+; <<>> DiG 9.2.1 <<>> mclwlqa02.us.primus
+;; global options:  printcmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 4374
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
+
+;; QUESTION SECTION:
+;mclwlqa02.us.primus.           IN      A
+
+;; ANSWER SECTION:
+mclwlqa02.us.primus.    1200    IN      A       10.100.1.211
+
+;; Query time: 1 msec
+;; SERVER: 10.100.1.25#53(10.100.1.25)
+;; WHEN: Fri Jul 11 06:53:36 2008
+;; MSG SIZE  rcvd: 53</PRE>
+<A NAME="/etc/hosts"></A> <A HREF="#Inhalt-/etc/hosts"><H2> /etc/hosts </H2></A>
+<h6>grep -vE '#|^ *$' /etc/hosts</h6>
+<PRE>127.0.0.1               localhost.localdomain localhost
+10.100.1.211            mclwlqa02.us.primus mclwlqa02</PRE>
+<A NAME="IP forward"></A> <A HREF="#Inhalt-IP forward"><H2> IP forward </H2></A>
+<h6>echo "IP forward disabled"</h6>
+<PRE>IP forward disabled</PRE>
+<A NAME="hosts.allow"></A> <A HREF="#Inhalt-hosts.allow"><H2> hosts.allow </H2></A>
+<h6>grep  -vE '#|^ *$' /etc/hosts.allow</h6>
+<PRE>n/a or not configured</PRE>
+<A NAME="hosts.deny"></A> <A HREF="#Inhalt-hosts.deny"><H2> hosts.deny </H2></A>
+<h6>grep  -vE '#|^ *$' /etc/hosts.deny</h6>
+<PRE>n/a or not configured</PRE>
+<A NAME="/etc/xinetd.d/ section"></A> <A HREF="#Inhalt-/etc/xinetd.d/ section"><H2> /etc/xinetd.d/ section </H2></A>
+<h6>cat /etc/xinetd.d/*|grep -vE '#|^ *$'</h6>
+<PRE>service chargen
+{
+        type            = INTERNAL
+        id              = chargen-stream
+        socket_type     = stream
+        protocol        = tcp
+        user            = root
+        wait            = no
+        disable         = yes
+}                                                                               
+service chargen
+{
+        disable = yes
+        type            = INTERNAL UNLISTED
+        id              = chargen-dgram
+        socket_type     = dgram
+        protocol        = udp
+        user            = root
+        wait            = yes
+        port            = 19
+}                                                                               
+service daytime
+{
+        type            = INTERNAL
+        id              = daytime-stream
+        socket_type     = stream
+        protocol        = tcp
+        user            = root
+        wait            = no
+        disable         = yes
+}                                                                               
+service daytime
+{
+        disable         = yes
+        type            = INTERNAL UNLISTED
+        id              = daytime-dgram
+        socket_type     = dgram
+        protocol        = udp
+        user            = root
+        wait            = yes
+        port            = 13
+}                                                                               
+service echo
+{
+        type            = INTERNAL
+        id              = echo-stream
+        socket_type     = stream
+        protocol        = tcp
+        user            = root
+        wait            = no
+        disable         = yes
+}                                                                               
+service echo
+{
+        type            = INTERNAL UNLISTED
+        id              = echo-dgram
+        socket_type     = dgram
+        protocol        = udp
+        user            = root
+        wait            = yes
+        disable         = yes
+        port            = 7
+}                                                                               
+service finger
+{
+        socket_type     = stream
+        wait            = no
+        user            = nobody
+        server          = /usr/sbin/in.fingerd
+        disable         = yes
+}
+service servers
+{
+        type            = INTERNAL UNLISTED
+        port            = 9099
+        socket_type     = stream
+        protocol        = tcp
+        wait            = no
+        disable         = yes
+        only_from       = 127.0.0.1
+}                                                                               
+service services
+{
+        type            = INTERNAL UNLISTED
+        port            = 9098
+        socket_type     = stream
+        protocol        = tcp
+        wait            = no
+        disable         = yes
+        only_from       = 127.0.0.1
+}                                                                               
+service time
+{
+        type            = INTERNAL
+        id              = time-stream
+        socket_type     = stream
+        protocol        = tcp
+        user            = root
+        wait            = no
+        disable         = yes
+}                                                                               
+service time
+{
+        type            = INTERNAL UNLISTED
+        id              = time-dgram
+        socket_type     = dgram
+        protocol        = udp
+        user            = root
+        wait            = yes
+        disable         = yes
+        port            = 37
+}                                                                               </PRE>
+<A NAME="DNS & Names"></A> <A HREF="#Inhalt-DNS & Names"><H2> DNS & Names </H2></A>
+<h6>grep -vE '#|^ *$' /etc/resolv.conf;echo; ( [ -f /etc/nsswitch.conf ] &&  grep -vE '#|^ *$' /etc/nsswitch.conf)</h6>
+<PRE>search us.primus
+nameserver 10.100.1.25
+nameserver 10.100.1.26
+
+passwd:     files nisplus
+shadow:     files nisplus
+group:      files nisplus
+hosts:      files nisplus dns
+bootparams: nisplus [NOTFOUND=return] files
+ethers:     files
+netmasks:   files
+networks:   files
+protocols:  files nisplus
+rpc:        files
+services:   files nisplus
+netgroup:   files nisplus
+publickey:  nisplus
+automount:  files nisplus
+aliases:    files nisplus</PRE>
+<A NAME="Sendmail Version"></A> <A HREF="#Inhalt-Sendmail Version"><H2> Sendmail Version </H2></A>
+<h6>/usr/sbin/sendmail -bv -d0.1 testuser@test.host</h6>
+<PRE>Version 8.11.6
+ Compiled with: LDAPMAP MAP_REGEX LOG MATCHGECOS MIME7TO8 MIME8TO7
+                NAMED_BIND NETINET NETINET6 NETUNIX NEWDB NIS QUEUE SASL SCANF
+                SMTP TCPWRAPPERS USERDB
+
+============ SYSTEM IDENTITY (after readcf) ============
+      (short domain name) $w = mclwlqa02
+  (canonical domain name) $j = mclwlqa02.us.primus
+         (subdomain name) $m = us.primus
+              (node name) $k = mclwlqa02.us.primus
+========================================================
+
+testuser@test.host... deliverable: mailer esmtp, host test.host, user testuser@test.host</PRE>
+<A NAME="Email Aliases"></A> <A HREF="#Inhalt-Email Aliases"><H2> Email Aliases </H2></A>
+<h6>grep -vE '#|^ *$' /etc/aliases</h6>
+<PRE>mailer-daemon:  postmaster
+postmaster:     root
+bin:            root
+daemon:         root
+adm:            root
+lp:             root
+sync:           root
+shutdown:       root
+halt:           root
+mail:           root
+news:           root
+uucp:           root
+operator:       root
+games:          root
+gopher:         root
+ftp:            root
+nobody:         root
+apache:         root
+named:          root
+xfs:            root
+gdm:            root
+mailnull:       root
+postgres:       root
+squid:          root
+rpcuser:        root
+rpc:            root
+ingres:         root
+system:         root
+toor:           root
+manager:        root
+dumper:         root
+abuse:          root
+newsadm:        news
+newsadmin:      news
+usenet:         news
+ftpadm:         ftp
+ftpadmin:       ftp
+ftp-adm:        ftp
+ftp-admin:      ftp
+decode:         root
+root:           ahadji@primustel.com,jjernigan@primustel.com</PRE>
+<A NAME="NFSD and BIOD utilization"></A> <A HREF="#Inhalt-NFSD and BIOD utilization"><H2> NFSD and BIOD utilization </H2></A>
+<h6>ps -ef|grep -E '[Nn]fsd|[Bb]iod'</h6>
+<PRE>n/a or not configured</PRE>
+<A NAME="RPC (Portmapper)"></A> <A HREF="#Inhalt-RPC (Portmapper)"><H2> RPC (Portmapper) </H2></A>
+<h6>rpcinfo -p </h6>
+<PRE>n/a or not configured</PRE>
+<A NAME="ntp.conf"></A> <A HREF="#Inhalt-ntp.conf"><H2> ntp.conf </H2></A>
+<h6>grep  -vE '#|^ *$' /etc/ntp.conf</h6>
+<PRE>restrict default ignore
+restrict 127.0.0.1 
+restrict 10.190.4.141 mask 255.255.255.255 nomodify notrap noquery
+server 10.190.4.141
+restrict 10.190.4.142 mask 255.255.255.255 nomodify notrap noquery
+server 10.190.4.142
+driftfile /etc/ntp/drift
+broadcastdelay  0.008
+authenticate yes
+keys            /etc/ntp/keys</PRE>
+<A NAME="FTP Login Shells"></A> <A HREF="#Inhalt-FTP Login Shells"><H2> FTP Login Shells </H2></A>
+<h6>grep  -vE '#|^ *$'  /etc/shells</h6>
+<PRE>/bin/sh
+/bin/bash
+/bin/bash2
+/bin/ash
+/bin/bsh
+/bin/tcsh
+/bin/csh</PRE>
+<A NAME="syslog.conf"></A> <A HREF="#Inhalt-syslog.conf"><H2> syslog.conf </H2></A>
+<h6>grep  -vE '#|^ *$' /etc/syslog.conf</h6>
+<PRE>*.info;mail.none;authpriv.none;cron.none                /var/log/messages
+authpriv.*                                              /var/log/secure
+mail.*                                                  /var/log/maillog
+cron.*                                                  /var/log/cron
+*.emerg                                                 *
+uucp,news.crit                                          /var/log/spooler
+local7.*                                                /var/log/boot.log</PRE>
+<A NAME="host.conf"></A> <A HREF="#Inhalt-host.conf"><H2> host.conf </H2></A>
+<h6>grep  -vE '#|^ *$' /etc/host.conf</h6>
+<PRE>order hosts,bind</PRE>
+<A NAME="Simple Network Management Protocol (SNMP)"></A> <A HREF="#Inhalt-Simple Network Management Protocol (SNMP)"><H2> Simple Network Management Protocol (SNMP) </H2></A>
+<h6>grep -vE '#|^ *$' /etc/snmp/snmpd.conf</h6>
+<PRE>com2sec notConfigUser  default       public
+group   notConfigGroup v1           notConfigUser
+group   notConfigGroup v2c           notConfigUser
+view    systemview     included      system
+access  notConfigGroup ""      any       noauth    exact  systemview none none
+syslocation Unknown (edit /etc/snmp/snmpd.conf)
+syscontact Root <root@localhost> (configure /etc/snmp/snmp.local.conf)
+pass .1.3.6.1.4.1.4413.4.1 /usr/bin/ucd5820stat</PRE>
+<A NAME="sshd config"></A> <A HREF="#Inhalt-sshd config"><H2> sshd config </H2></A>
+<h6>grep -vE '#|^ *$' /etc/ssh/sshd_config</h6>
+<PRE>SyslogFacility AUTHPRIV
+X11Forwarding yes
+Subsystem       sftp    /usr/libexec/openssh/sftp-server</PRE>
+<A NAME="ssh config"></A> <A HREF="#Inhalt-ssh config"><H2> ssh config </H2></A>
+<h6>grep -vE '#|^ *$' /etc/ssh/ssh_config</h6>
+<PRE>Host *
+        ForwardX11 yes</PRE>
+<HR>
+<A NAME="Kernel, Modules and Libraries">
+<A HREF="#Inhalt-Kernel, Modules and Libraries"><H1> Kernel, Modules and Libraries </H1></A><P>
+<A NAME="GRUB Boot Manager"></A> <A HREF="#Inhalt-GRUB Boot Manager"><H2> GRUB Boot Manager </H2></A>
+<h6>grep -vE '#|^ *$' /boot/grub/menu.lst</h6>
+<PRE>default=0
+timeout=10
+splashimage=(hd0,0)/grub/splash.xpm.gz
+title Red Hat Linux (2.4.9-e.38smp)
+        root (hd0,0)
+        kernel /vmlinuz-2.4.9-e.38smp ro root=/dev/sda7
+        initrd /initrd-2.4.9-e.38smp.img
+title Red Hat Linux (2.4.9-e.38)
+        root (hd0,0)
+        kernel /vmlinuz-2.4.9-e.38 ro root=/dev/sda7
+        initrd /initrd-2.4.9-e.38.img
+title Red Hat Linux Advanced Server (2.4.9-e.24smp)
+        root (hd0,0)
+        kernel /vmlinuz-2.4.9-e.24smp ro root=/dev/sda7
+        initrd /initrd-2.4.9-e.24smp.img
+title Red Hat Linux Advanced Server-up (2.4.9-e.24)
+        root (hd0,0)
+        kernel /vmlinuz-2.4.9-e.24 ro root=/dev/sda7
+        initrd /initrd-2.4.9-e.24.img</PRE>
+<A NAME="Files in /boot"></A> <A HREF="#Inhalt-Files in /boot"><H2> Files in /boot </H2></A>
+<h6>ls -l /boot</h6>
+<PRE>total 19343
+lrwxrwxrwx    1 root     root           24 Apr  8  2004 System.map -> System.map-2.4.9-e.38smp
+-rw-r--r--    1 root     root       447604 May 27  2003 System.map-2.4.9-e.24
+-rw-r--r--    1 root     root       469015 May 27  2003 System.map-2.4.9-e.24smp
+-rw-r--r--    1 root     root       448948 Feb 11  2004 System.map-2.4.9-e.38
+-rw-r--r--    1 root     root       470397 Feb 11  2004 System.map-2.4.9-e.38smp
+-rw-r--r--    1 root     root         5824 Jun 24  2001 boot.b
+-rw-r--r--    1 root     root          612 Jun 24  2001 chain.b
+drwxr-xr-x    2 root     root         1024 Apr  1  2004 grub
+-rw-r--r--    1 root     root       426430 Mar  8  2004 initrd-2.4.9-e.24.img
+-rw-r--r--    1 root     root       431759 Mar  8  2004 initrd-2.4.9-e.24smp.img
+-rw-r--r--    1 root     root       426984 Apr  1  2004 initrd-2.4.9-e.38.img
+-rw-r--r--    1 root     root       431621 Apr  1  2004 initrd-2.4.9-e.38smp.img
+-rw-r--r--    1 root     root          409 Mar  8  2004 kernel.h
+drwx------    2 root     root        12288 Mar  8  2004 lost+found
+-rw-r--r--    1 root     root        23108 Jun 24  2001 message
+lrwxrwxrwx    1 root     root           22 Apr  1  2004 module-info -> module-info-2.4.9-e.38
+-rw-r--r--    1 root     root        13599 May 27  2003 module-info-2.4.9-e.24
+-rw-r--r--    1 root     root        13599 May 27  2003 module-info-2.4.9-e.24smp
+-rw-r--r--    1 root     root        13599 Feb 11  2004 module-info-2.4.9-e.38
+-rw-r--r--    1 root     root        13599 Feb 11  2004 module-info-2.4.9-e.38smp
+-rw-r--r--    1 root     root          640 Jun 24  2001 os2_d.b
+-rwxr-xr-x    1 root     root      2792320 May 27  2003 vmlinux-2.4.9-e.24
+-rwxr-xr-x    1 root     root      3129808 May 27  2003 vmlinux-2.4.9-e.24smp
+-rwxr-xr-x    1 root     root      2797975 Feb 11  2004 vmlinux-2.4.9-e.38
+-rwxr-xr-x    1 root     root      3135506 Feb 11  2004 vmlinux-2.4.9-e.38smp
+lrwxrwxrwx    1 root     root           18 Apr  1  2004 vmlinuz -> vmlinuz-2.4.9-e.38
+-rw-r--r--    1 root     root      1006409 May 27  2003 vmlinuz-2.4.9-e.24
+-rw-r--r--    1 root     root      1083963 May 27  2003 vmlinuz-2.4.9-e.24smp
+-rw-r--r--    1 root     root      1007896 Feb 11  2004 vmlinuz-2.4.9-e.38
+-rw-r--r--    1 root     root      1084996 Feb 11  2004 vmlinuz-2.4.9-e.38smp</PRE>
+<A NAME="Loaded Kernel Modules"></A> <A HREF="#Inhalt-Loaded Kernel Modules"><H2> Loaded Kernel Modules </H2></A>
+<h6>/sbin/lsmod</h6>
+<PRE>Module                  Size  Used by    Not tainted
+ide-cd                 35296   0  (autoclean)
+cdrom                  35520   0  (autoclean) [ide-cd]
+pcmcia_core            57440   0 
+autofs                 13796   0  (autoclean) (unused)
+tg3                    50528   1 
+usb-ohci               23456   0  (unused)
+usbcore                68864   1  [usb-ohci]
+ext3                   70944   7 
+jbd                    55444   7  [ext3]
+aacraid                34516   8 
+sd_mod                 13920   8 
+scsi_mod              126812   2  [aacraid sd_mod]</PRE>
+<A NAME="Available Modules Trees"></A> <A HREF="#Inhalt-Available Modules Trees"><H2> Available Modules Trees </H2></A>
+<h6>ls -l /lib/modules</h6>
+<PRE>total 16
+drwxr-xr-x    4 root     root         4096 Mar  8  2004 2.4.9-e.24
+drwxr-xr-x    4 root     root         4096 Mar  8  2004 2.4.9-e.24smp
+drwxr-xr-x    4 root     root         4096 Apr  1  2004 2.4.9-e.38
+drwxr-xr-x    4 root     root         4096 Apr  1  2004 2.4.9-e.38smp</PRE>
+<A NAME="modules.conf"></A> <A HREF="#Inhalt-modules.conf"><H2> modules.conf </H2></A>
+<h6>grep -vE '#|^ *$' /etc/modules.conf</h6>
+<PRE>alias parport_lowlevel parport_pc
+alias eth0 tg3
+alias eth1 tg3
+alias scsi_hostadapter aacraid
+alias usb-controller usb-ohci</PRE>
+<A NAME="Kernel commandline"></A> <A HREF="#Inhalt-Kernel commandline"><H2> Kernel commandline </H2></A>
+<h6>cat /proc/cmdline</h6>
+<PRE>ro root=/dev/sda7</PRE>
+<A NAME="libc6 Version"></A> <A HREF="#Inhalt-libc6 Version"><H2> libc6 Version </H2></A>
+<h6>/lib/libc.so.6</h6>
+<PRE>GNU C Library stable release version 2.3.4, by Roland McGrath et al.
+Copyright (C) 2005 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.
+There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.
+Compiled by GNU CC version 3.4.3 20050227 (Red Hat 3.4.3-22).
+Compiled on a Linux 2.4.20 system on 2005-05-12.
+Available extensions:
+        GNU libio by Per Bothner
+        crypt add-on version 2.1 by Michael Glad and others
+        linuxthreads-0.10 by Xavier Leroy
+        The C stubs add-on version 2.1.2.
+        BIND-8.2.3-T5B
+        NIS(YP)/NIS+ NSS modules 0.19 by Thorsten Kukuk
+        Glibc-2.0 compatibility add-on by Cristian Gafton 
+        GNU Libidn by Simon Josefsson
+        libthread_db work sponsored by Alpha Processor Inc
+Thread-local storage support included.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/libc/bugs.html>.</PRE>
+<A NAME="libc6 Version (RPM)"></A> <A HREF="#Inhalt-libc6 Version (RPM)"><H2> libc6 Version (RPM) </H2></A>
+<h6>rpm -qi glibc</h6>
+<PRE>Name        : glibc                        Relocations: (not relocateable)
+Version     : 2.2.4                             Vendor: Red Hat, Inc.
+Release     : 32.11                         Build Date: Fri Oct 31 03:39:10 2003
+Install date: Thu Apr  1 09:31:07 2004      Build Host: porky.devel.redhat.com
+Group       : System Environment/Libraries   Source RPM: glibc-2.2.4-32.11.src.rpm
+Size        : 18111221                         License: LGPL
+Packager    : Red Hat, Inc. <http://bugzilla.redhat.com/bugzilla>
+Summary     : The GNU libc libraries.
+Description :
+The glibc package contains standard libraries which are used by
+multiple programs on the system. In order to save disk space and
+memory, as well as to make upgrading easier, common system code is
+kept in one place and shared between programs. This particular package
+contains the most important sets of shared libraries: the standard C
+library and the standard math library. Without these two libraries, a
+Linux system will not function.</PRE>
+<A NAME="Run-time link bindings"></A> <A HREF="#Inhalt-Run-time link bindings"><H2> Run-time link bindings </H2></A>
+<h6>/sbin/ldconfig -vN</h6>
+<PRE>/lib:
+        libssl.so.4 -> libssl.so.0.9.7a
+        libsepol.so.1 -> libsepol.so.1
+        libselinux.so.1 -> libselinux.so.1
+        libproc-3.2.3.so -> libproc-3.2.3.so
+        libnss_wins.so -> libnss_wins.so.2
+        libnss_winbind.so -> libnss_winbind.so.2
+        libnss_db.so.2 -> libnss_db.so.2.0.0
+        libnss_db.so.1 -> libnss_db.so.1.0.0
+        libiw.so.27 -> libiw.so.27
+        libgcc_s.so.1 -> libgcc_s-3.4.3-20050228.so.1
+        libdevmapper.so.1.01 -> libdevmapper.so.1.01
+        libdevmapper.so.1.00 -> libdevmapper.so.1.00
+        libdb.so.3 -> libdb2.so.3
+        libdb-4.2.so -> libdb-4.2.so
+        libdb-4.1.so -> libdb-4.1.so
+        libcrypto.so.4 -> libcrypto.so.0.9.7a
+        libcidn.so.1 -> libcidn-2.3.4.so
+        libblkid.so.1 -> libblkid.so.1.0
+        libattr.so.1 -> libattr.so.1.1.0
+        libasound.so.2 -> libasound.so.2.0.0
+        libacl.so.1 -> libacl.so.1.1.0
+        libnss_ldap.so.2 -> libnss_ldap-2.3.4.so
+        libcap.so.1 -> libcap.so.1.10
+        libredhat-kernel.so.1 -> libredhat-kernel.so.1.0.1
+        libpam_misc.so.0 -> libpam_misc.so.0.77
+        libpam.so.0 -> libpam.so.0.77
+        libproc.so.2.0.7 -> libproc.so.2.0.7
+        libpamc.so.0 -> libpamc.so.0.77
+        libcrypto.so.2 -> libcrypto.so.0.9.6b
+        libssl.so.2 -> libssl.so.0.9.6b
+        libdb-3.2.so -> libdb-3.2.so
+        libtermcap.so.2 -> libtermcap.so.2.0.8
+        libpcre.so.0 -> libpcre.so.0.0.1
+        libuuid.so.1 -> libuuid.so.1.2
+        libss.so.2 -> libss.so.2.0
+        libext2fs.so.2 -> libext2fs.so.2.4
+        libe2p.so.2 -> libe2p.so.2.3
+        libcom_err.so.2 -> libcom_err.so.2.1
+        libdb-3.3.so -> libdb-3.3.so
+        libutil.so.1 -> libutil-2.3.4.so
+        libthread_db.so.1 -> libthread_db-1.0.so
+        librt.so.1 -> librt-2.3.4.so
+        libresolv.so.2 -> libresolv-2.3.4.so
+        libpthread.so.0 -> libpthread-0.10.so
+        libpcprofile.so -> libpcprofile.so
+        libnss_nisplus.so.2 -> libnss_nisplus-2.3.4.so
+        libnss_nis.so.2 -> libnss_nis-2.3.4.so
+        libnss_hesiod.so.2 -> libnss_hesiod-2.3.4.so
+        libnss_files.so.2 -> libnss_files-2.3.4.so
+        libnss_dns.so.2 -> libnss_dns-2.3.4.so
+        libnss_compat.so.2 -> libnss_compat-2.3.4.so
+        libnss_nis.so.1 -> libnss1_nis-2.3.4.so
+        libnss_files.so.1 -> libnss1_files-2.3.4.so
+        libnss_dns.so.1 -> libnss1_dns-2.3.4.so
+        libnss_compat.so.1 -> libnss1_compat-2.3.4.so
+        libnsl.so.1 -> libnsl-2.3.4.so
+        libmemusage.so -> libmemusage.so
+        libm.so.6 -> libm-2.3.4.so
+        libdl.so.2 -> libdl-2.3.4.so
+        libcrypt.so.1 -> libcrypt-2.3.4.so
+        libc.so.6 -> libc-2.3.4.so
+        libanl.so.1 -> libanl-2.3.4.so
+        libSegFault.so -> libSegFault.so
+        libNoVersion.so.1 -> libNoVersion-2.3.4.so
+        libBrokenLocale.so.1 -> libBrokenLocale-2.3.4.so
+        libdb-3.1.so -> libdb-3.1.so
+        libpwdb.so.0 -> libpwdb.so.0.62
+        ld-linux.so.2 -> ld-2.3.4.so
+/usr/lib:
+        libstdc++.so.5 -> libstdc++.so.5
+        libgcc_s.so.1 -> libgcc_s-3.4.3-20050228.so.1
+        libc.so.6 -> libc-2.3.4.so
+        libaep.so.1 -> libaep.so.1
+        libexpect.so.0 -> libexpect.so.0
+        libmm.so.11 -> libmm.so.11.0.23
+        libubsec.so -> libubsec.so
+        libcurl.so.1 -> libcurl.so.1.1.0
+        liblockdev.so.1 -> liblockdev.1.0.0.so
+        libucdmibs.so.0 -> libucdmibs.so.0.4.2
+        libucdagent.so.0 -> libucdagent.so.0.4.2
+        libsnmp.so.0 -> libsnmp.so.0.4.2
+        libpcap.so.0.6.2 -> libpcap.so.0.6.2
+        libstdc++-libc6.1-1.so.2 -> libstdc++-2-libc6.1-1-2.9.0.so
+        libstdc++.so.2.8 -> libstdc++.so.2.8.0
+        libstdc++.so.2.9 -> libstdc++.so.2.9.dummy
+        libg++.so.2.7.2 -> libg++.so.2.7.2.8
+        libstdc++.so.2.7.2 -> libstdc++.so.2.7.2.8
+        libisc.so.4 -> libisc.so.4.1.0
+        libdns.so.5 -> libdns.so.5.3.0
+        libpspell_aspell.so.2 -> libpspell_aspell.so.2.0.1
+        libaspell.so.10 -> libaspell.so.10.1.1
+        libpspell.so.4 -> libpspell.so.4.0.3
+        libpspell-modules.so.1 -> libpspell-modules.so.1.0.1
+        libpspell-impl.so.6 -> libpspell-impl.so.6.0.0
+        libltdl.so.3 -> libltdl.so.3.0.0
+        libtix.so.0 -> libtix.so.0
+        libtk.so.0 -> libtk.so.0
+        libglade.so.0 -> libglade.so.0.4.2
+        libglade-gnome.so.0 -> libglade-gnome.so.0.4.2
+        libzvt.so.2 -> libzvt.so.2.2.10
+        libgtkxmhtml.so.1 -> libgtkxmhtml.so.1.0.1
+        libgnorbagtk.so.0 -> libgnorbagtk.so.0.0.0
+        libgnorba.so.27 -> libgnorba.so.27.1.8
+        libgnomeui.so.32 -> libgnomeui.so.32.14.1
+        libgnomesupport.so.0 -> libgnomesupport.so.0.0.0
+        libgnome.so.32 -> libgnome.so.32.4.3
+        libart_lgpl.so.2 -> libart_lgpl.so.2.2.0
+        libORBitutil.so.0 -> libORBitutil.so.0.5.8
+        libORBitCosNaming.so.0 -> libORBitCosNaming.so.0.5.8
+        libORBit.so.0 -> libORBit.so.0.5.8
+        libIIOP.so.0 -> libIIOP.so.0.5.8
+        libIDL-0.6.so.0 -> libIDL-0.6.so.0.4.4
+        libppm.so.9 -> libppm.so.9.16
+        libpnm.so.9 -> libpnm.so.9.23
+        libpgm.so.9 -> libpgm.so.9.19
+        libpbm.so.9 -> libpbm.so.9.23
+        libxml.so.1 -> libxml.so.1.8.14
+        libuser.so.0 -> libuser.so.0.0.0
+        libuser_quota.so.0 -> libuser_quota.so.0.0.0
+        libimlib-xpm.so -> libimlib-xpm.so
+        libimlib-ps.so -> libimlib-ps.so
+        libimlib-ppm.so -> libimlib-ppm.so
+        libimlib-png.so -> libimlib-png.so
+        libimlib-tiff.so -> libimlib-tiff.so
+        libimlib-gif.so -> libimlib-gif.so
+        libimlib-bmp.so -> libimlib-bmp.so
+        libimlib-jpeg.so -> libimlib-jpeg.so
+        libgdk_imlib.so.1 -> libgdk_imlib.so.1.9.13
+        libImlib.so.1 -> libImlib.so.1.9.13
+        libungif.so.4 -> libungif.so.4.1.0
+        libungif.so.3 -> libungif.so.3.1.0
+        libmng.so.1 -> libmng.so.1.0.0
+        libesddsp.so.0 -> libesddsp.so.0.2.22
+        libesd.so.0 -> libesd.so.0.2.22
+        libsoundserver_idl.so.0 -> libsoundserver_idl.so.0.0.0
+        libmcop_mt.so.0 -> libmcop_mt.so.0.0.0
+        libmcop.so.0 -> libmcop.so.0.0.0
+        libkmedia2_idl.so.0 -> libkmedia2_idl.so.0.0.0
+        libkmedia2.so.0 -> libkmedia2.so.0.0.0
+        libartsflow_idl.so.0 -> libartsflow_idl.so.0.0.0
+        libartsflow.so.0 -> libartsflow.so.0.0.0
+        libartsdsp_st.so.0 -> libartsdsp_st.so.0.0.0
+        libartsdsp.so.0 -> libartsdsp.so.0.0.0
+        libartswavplayobject.so.0 -> libartswavplayobject.so.0.0.0
+        libartscbackend.so.0 -> libartscbackend.so.0.0.0
+        libartsc.so.0 -> libartsc.so.0.0.0
+        libaudiofile.so.0 -> libaudiofile.so.0.0.1
+        libglut.so.3 -> libglut.so.3.7.0
+        libGLU.so.1 -> libGLU.so.1.1.030402
+        libGL.so.1 -> libGL.so.1.2.030402
+        libgdk_pixbuf_xlib.so.2 -> libgdk_pixbuf_xlib.so.2.0.0
+        libgdk_pixbuf.so.2 -> libgdk_pixbuf.so.2.0.0
+        libtiff.so.3 -> libtiff.so.3.5
+        libjpeg.so.62 -> libjpeg.so.62.0.0
+        libgtk-1.2.so.0 -> libgtk-1.2.so.0.9.1
+        libgdk-1.2.so.0 -> libgdk-1.2.so.0.9.1
+        libVFlib2.so.24 -> libVFlib2.so.24.0.3
+        libalchemist.so.0 -> libalchemist.so.0.0.0
+        libxsltbreakpoint.so.1 -> libxsltbreakpoint.so.1.0.8
+        libxslt.so.1 -> libxslt.so.1.0.15
+        libexslt.so.0 -> libexslt.so.0.7.6
+        libxml2.so.2 -> libxml2.so.2.4.19
+        libpng.so.2 -> libpng.so.2.1.0.14
+        libmp.so.3 -> libmp.so.3.1.1
+        libgmp.so.3 -> libgmp.so.3.1.1
+        libttf.so.2 -> libttf.so.2.3.0
+        libfreetype.so.6 -> libfreetype.so.6.0.1
+        libaio.so.1 -> libaio.so.1
+        libexpat.so.0 -> libexpat.so.0.0.1
+        librpmio-4.0.4.so -> librpmio-4.0.4.so
+        librpmdb-4.0.4.so -> librpmdb-4.0.4.so
+        librpm-4.0.4.so -> librpm-4.0.4.so
+        libz.so.1 -> libz.so.1.1.4
+        libldap_r.so.2 -> libldap_r.so.2.0.17
+        libldap.so.2 -> libldap.so.2.0.17
+        liblber.so.2 -> liblber.so.2.0.17
+        libgpm.so.1 -> libgpm.so.1.18.0
+        libsasl.so.7 -> libsasl.so.7.1.8
+        librpmbuild-4.0.4.so -> librpmbuild-4.0.4.so
+        libutempter.so.0 -> libutempter.so.0.5.2
+        libctutils.so.0 -> libctutils.so.0.0.0
+        libconsole.so.0 -> libconsole.so.0.0.0
+        libctgeneric.so.0 -> libctgeneric.so.0.0.0
+        libreadline.so.4 -> libreadline.so.4.2
+        libhistory.so.4 -> libhistory.so.4.2
+        libpanel.so.5 -> libpanel.so.5.2
+        libncurses.so.5 -> libncurses.so.5.2
+        libmenu.so.5 -> libmenu.so.5.2
+        libform.so.5 -> libform.so.5.2
+        libcfont.so.0 -> libcfont.so.0.0.0
+        libdb_tcl-3.2.so -> libdb_tcl-3.2.so
+        libdb_tcl-3.1.so -> libdb_tcl-3.1.so
+        libdb_cxx-3.2.so -> libdb_cxx-3.2.so
+        libstdc++-libc6.2-2.so.3 -> libstdc++-3-libc6.2-2-2.10.0.so
+        libdb_cxx-3.1.so -> libdb_cxx-3.1.so
+        libtcl.so.0 -> libtcl.so.0
+        libslang.so.1 -> libslang.so.1.4.4
+        libnewt.so.0.50 -> libnewt.so.0.50.33
+        libpopt.so.0 -> libpopt.so.0.0.0
+        libpcreposix.so.0 -> libpcreposix.so.0.0.0
+        libparted-1.4.so.14 -> libparted-1.4.so.14.1.1
+        libgthread-1.2.so.0 -> libgthread-1.2.so.0.0.10
+        libgmodule-1.2.so.0 -> libgmodule-1.2.so.0.0.10
+        libgdbm.so.2 -> libgdbm.so.2.0.0
+        libdb_cxx-3.3.so -> libdb_cxx-3.3.so
+        libglib-1.2.so.0 -> libglib-1.2.so.0.0.10
+        libdb.so.2 -> libdb1.so.2
+        libdb.so.3 -> libdb2.so.3
+        libcrack.so.2 -> libcrack.so.2.7
+        libbz2.so.1 -> libbz2.so.1.0.0
+/usr/kerberos/lib:
+        libkrbafs.so.1 -> libkrbafs.so.1.0.9
+        libkrb5.so.3 -> libkrb5.so.3.0
+        libkrb4.so.2 -> libkrb4.so.2.0
+        libkdb5.so.3 -> libkdb5.so.3.0
+        libkadm5srv.so.4 -> libkadm5srv.so.4.0
+        libkadm5clnt.so.4 -> libkadm5clnt.so.4.0
+        libk5crypto.so.3 -> libk5crypto.so.3.0
+        libgssrpc.so.3 -> libgssrpc.so.3.0
+        libpty.so.1 -> libpty.so.1.1
+        libdyn.so.1 -> libdyn.so.1.0
+        libdes425.so.3 -> libdes425.so.3.0
+        libcom_err.so.3 -> libcom_err.so.3.0
+        libgssapi_krb5.so.2 -> libgssapi_krb5.so.2.2
+/usr/X11R6/lib:
+        libXm.so.2 -> libXm.so.2.1
+        libUil.so.2 -> libUil.so.2.1
+        libMrm.so.2 -> libMrm.so.2.1
+        libXaw3d.so.7 -> libXaw3d.so.7.0
+        libXaw3d.so.6 -> libXaw3d.so.6.1
+        libxrx.so.6 -> libxrx.so.6.3
+        libpsres.so.1 -> libpsres.so.1.0
+        libdpstk.so.1 -> libdpstk.so.1.0
+        libdps.so.1 -> libdps.so.1.0
+        libXtst.so.6 -> libXtst.so.6.1
+        libXt.so.6 -> libXt.so.6.0
+        libXpm.so.4 -> libXpm.so.4.11
+        libXp.so.6 -> libXp.so.6.2
+        libXmuu.so.1 -> libXmuu.so.1.0
+        libXmu.so.6 -> libXmu.so.6.2
+        libXi.so.6 -> libXi.so.6.0
+        libXft.so.1 -> libXft.so.1.0
+        libXfont.so.1 -> libXfont.so.1.3
+        libXext.so.6 -> libXext.so.6.4
+        libXaw.so.7 -> libXaw.so.7.0
+        libXaw.so.6 -> libXaw.so.6.1
+        libXIE.so.6 -> libXIE.so.6.0
+        libX11.so.6 -> libX11.so.6.2
+        libSM.so.6 -> libSM.so.6.0
+        libPEX5.so.6 -> libPEX5.so.6.0
+        libXrender.so.1 -> libXrender.so.1.0
+        libICE.so.6 -> libICE.so.6.3
+/usr/lib/qt-2.3.1/lib:
+        libqutil.so.1 -> libqutil.so.1.0.0
+        libqt.so.2 -> libqt.so.2.3.1
+        libqt-mt.so.2 -> libqt-mt.so.2.3.1
+/lib/i686: (hwcap: 0x8000000000000)
+        librt.so.1 -> librt-2.3.4.so
+        libm.so.6 -> libm-2.3.4.so
+        libc.so.6 -> libc-2.3.4.so
+        libpthread.so.0 -> libpthread-0.10.so
+/lib/i686/i686: (hwcap: 0x10000000000000)</PRE>
+<A NAME="configured kernel parameters at runtime"></A> <A HREF="#Inhalt-configured kernel parameters at runtime"><H2> configured kernel parameters at runtime </H2></A>
+<h6>/sbin/sysctl -a</h6>
+<PRE>abi.fake_utsname = 0
+abi.trace = 0
+abi.defhandler_libcso = 68157441
+abi.defhandler_lcall7 = 68157441
+abi.defhandler_elf = 0
+abi.defhandler_coff = 117440515
+dev.cdrom.check_media = 0
+dev.cdrom.lock = 1
+dev.cdrom.debug = 0
+dev.cdrom.autoeject = 0
+dev.cdrom.autoclose = 1
+dev.cdrom.info = CD-ROM information, Id: cdrom.c 3.12 2000/10/18
+dev.cdrom.info = 
+dev.cdrom.info = drive name:            hda
+dev.cdrom.info = drive speed:           24
+dev.cdrom.info = drive # of slots:      1
+dev.cdrom.info = Can close tray:                1
+dev.cdrom.info = Can open tray:         1
+dev.cdrom.info = Can lock tray:         1
+dev.cdrom.info = Can change speed:      1
+dev.cdrom.info = Can select disk:       0
+dev.cdrom.info = Can read multisession: 1
+dev.cdrom.info = Can read MCN:          1
+dev.cdrom.info = Reports media changed: 1
+dev.cdrom.info = Can play audio:                1
+dev.cdrom.info = Can write CD-R:                0
+dev.cdrom.info = Can write CD-RW:       0
+dev.cdrom.info = Can read DVD:          0
+dev.cdrom.info = Can write DVD-R:       0
+dev.cdrom.info = Can write DVD-RAM:     0
+dev.cdrom.info = 
+dev.cdrom.info = 
+dev.raid.speed_limit_max = 100000
+dev.raid.speed_limit_min = 100
+net.unix.max_dgram_qlen = 10
+net.token-ring.rif_timeout = 60000
+net.ipv4.conf.eth0.arp_filter = 0
+net.ipv4.conf.eth0.tag = 0
+net.ipv4.conf.eth0.log_martians = 0
+net.ipv4.conf.eth0.bootp_relay = 0
+net.ipv4.conf.eth0.proxy_arp = 0
+net.ipv4.conf.eth0.accept_source_route = 1
+net.ipv4.conf.eth0.send_redirects = 1
+net.ipv4.conf.eth0.rp_filter = 1
+net.ipv4.conf.eth0.shared_media = 1
+net.ipv4.conf.eth0.secure_redirects = 1
+net.ipv4.conf.eth0.accept_redirects = 1
+net.ipv4.conf.eth0.mc_forwarding = 0
+net.ipv4.conf.eth0.forwarding = 0
+net.ipv4.conf.lo.arp_filter = 0
+net.ipv4.conf.lo.tag = 0
+net.ipv4.conf.lo.log_martians = 0
+net.ipv4.conf.lo.bootp_relay = 0
+net.ipv4.conf.lo.proxy_arp = 0
+net.ipv4.conf.lo.accept_source_route = 1
+net.ipv4.conf.lo.send_redirects = 1
+net.ipv4.conf.lo.rp_filter = 1
+net.ipv4.conf.lo.shared_media = 1
+net.ipv4.conf.lo.secure_redirects = 1
+net.ipv4.conf.lo.accept_redirects = 1
+net.ipv4.conf.lo.mc_forwarding = 0
+net.ipv4.conf.lo.forwarding = 0
+net.ipv4.conf.default.arp_filter = 0
+net.ipv4.conf.default.tag = 0
+net.ipv4.conf.default.log_martians = 0
+net.ipv4.conf.default.bootp_relay = 0
+net.ipv4.conf.default.proxy_arp = 0
+net.ipv4.conf.default.accept_source_route = 1
+net.ipv4.conf.default.send_redirects = 1
+net.ipv4.conf.default.rp_filter = 1
+net.ipv4.conf.default.shared_media = 1
+net.ipv4.conf.default.secure_redirects = 1
+net.ipv4.conf.default.accept_redirects = 1
+net.ipv4.conf.default.mc_forwarding = 0
+net.ipv4.conf.default.forwarding = 0
+net.ipv4.conf.all.arp_filter = 0
+net.ipv4.conf.all.tag = 0
+net.ipv4.conf.all.log_martians = 0
+net.ipv4.conf.all.bootp_relay = 0
+net.ipv4.conf.all.proxy_arp = 0
+net.ipv4.conf.all.accept_source_route = 0
+net.ipv4.conf.all.send_redirects = 1
+net.ipv4.conf.all.rp_filter = 0
+net.ipv4.conf.all.shared_media = 1
+net.ipv4.conf.all.secure_redirects = 1
+net.ipv4.conf.all.accept_redirects = 1
+net.ipv4.conf.all.mc_forwarding = 0
+net.ipv4.conf.all.forwarding = 0
+net.ipv4.neigh.eth0.locktime = 100
+net.ipv4.neigh.eth0.proxy_delay = 80
+net.ipv4.neigh.eth0.anycast_delay = 100
+net.ipv4.neigh.eth0.proxy_qlen = 64
+net.ipv4.neigh.eth0.unres_qlen = 3
+net.ipv4.neigh.eth0.gc_stale_time = 60
+net.ipv4.neigh.eth0.delay_first_probe_time = 5
+net.ipv4.neigh.eth0.base_reachable_time = 30
+net.ipv4.neigh.eth0.retrans_time = 100
+net.ipv4.neigh.eth0.app_solicit = 0
+net.ipv4.neigh.eth0.ucast_solicit = 3
+net.ipv4.neigh.eth0.mcast_solicit = 3
+net.ipv4.neigh.lo.locktime = 100
+net.ipv4.neigh.lo.proxy_delay = 80
+net.ipv4.neigh.lo.anycast_delay = 100
+net.ipv4.neigh.lo.proxy_qlen = 64
+net.ipv4.neigh.lo.unres_qlen = 3
+net.ipv4.neigh.lo.gc_stale_time = 60
+net.ipv4.neigh.lo.delay_first_probe_time = 5
+net.ipv4.neigh.lo.base_reachable_time = 30
+net.ipv4.neigh.lo.retrans_time = 100
+net.ipv4.neigh.lo.app_solicit = 0
+net.ipv4.neigh.lo.ucast_solicit = 3
+net.ipv4.neigh.lo.mcast_solicit = 3
+net.ipv4.neigh.default.gc_thresh3 = 1024
+net.ipv4.neigh.default.gc_thresh2 = 512
+net.ipv4.neigh.default.gc_thresh1 = 128
+net.ipv4.neigh.default.gc_interval = 30
+net.ipv4.neigh.default.locktime = 100
+net.ipv4.neigh.default.proxy_delay = 80
+net.ipv4.neigh.default.anycast_delay = 100
+net.ipv4.neigh.default.proxy_qlen = 64
+net.ipv4.neigh.default.unres_qlen = 3
+net.ipv4.neigh.default.gc_stale_time = 60
+net.ipv4.neigh.default.delay_first_probe_time = 5
+net.ipv4.neigh.default.base_reachable_time = 30
+net.ipv4.neigh.default.retrans_time = 100
+net.ipv4.neigh.default.app_solicit = 0
+net.ipv4.neigh.default.ucast_solicit = 3
+net.ipv4.neigh.default.mcast_solicit = 3
+net.ipv4.ipfrag_secret_interval = 600
+net.ipv4.icmp_ratemask = 6168
+net.ipv4.icmp_ratelimit = 100
+net.ipv4.tcp_adv_win_scale = 2
+net.ipv4.tcp_app_win = 31
+net.ipv4.tcp_rmem = 4096        87380   174760
+net.ipv4.tcp_wmem = 4096        16384   131072
+net.ipv4.tcp_mem = 195584       196096  196608
+net.ipv4.tcp_dsack = 1
+net.ipv4.tcp_ecn = 0
+net.ipv4.tcp_reordering = 3
+net.ipv4.tcp_fack = 1
+net.ipv4.tcp_orphan_retries = 0
+net.ipv4.inet_peer_gc_maxtime = 120
+net.ipv4.inet_peer_gc_mintime = 10
+net.ipv4.inet_peer_maxttl = 600
+net.ipv4.inet_peer_minttl = 120
+net.ipv4.inet_peer_threshold = 65664
+net.ipv4.igmp_max_memberships = 20
+net.ipv4.route.secret_interval = 600
+net.ipv4.route.min_adv_mss = 256
+net.ipv4.route.min_pmtu = 552
+net.ipv4.route.mtu_expires = 600
+net.ipv4.route.gc_elasticity = 8
+net.ipv4.route.error_burst = 500
+net.ipv4.route.error_cost = 100
+net.ipv4.route.redirect_silence = 2048
+net.ipv4.route.redirect_number = 9
+net.ipv4.route.redirect_load = 2
+net.ipv4.route.gc_interval = 60
+net.ipv4.route.gc_timeout = 300
+net.ipv4.route.gc_min_interval = 5
+net.ipv4.route.max_size = 524288
+net.ipv4.route.gc_thresh = 32768
+net.ipv4.route.max_delay = 10
+net.ipv4.route.min_delay = 2
+net.ipv4.icmp_ignore_bogus_error_responses = 0
+net.ipv4.icmp_echo_ignore_broadcasts = 0
+net.ipv4.icmp_echo_ignore_all = 0
+net.ipv4.ip_local_port_range = 32768    61000
+net.ipv4.tcp_max_syn_backlog = 1024
+net.ipv4.tcp_rfc1337 = 0
+net.ipv4.tcp_stdurg = 0
+net.ipv4.tcp_abort_on_overflow = 0
+net.ipv4.tcp_tw_recycle = 0
+net.ipv4.tcp_syncookies = 0
+net.ipv4.tcp_fin_timeout = 60
+net.ipv4.tcp_retries2 = 15
+net.ipv4.tcp_retries1 = 3
+net.ipv4.tcp_keepalive_intvl = 75
+net.ipv4.tcp_keepalive_probes = 9
+net.ipv4.tcp_keepalive_time = 7200
+net.ipv4.ipfrag_time = 30
+net.ipv4.ip_dynaddr = 0
+net.ipv4.ipfrag_low_thresh = 196608
+net.ipv4.ipfrag_high_thresh = 262144
+net.ipv4.tcp_max_tw_buckets = 180000
+net.ipv4.tcp_max_orphans = 32768
+net.ipv4.tcp_synack_retries = 5
+net.ipv4.tcp_syn_retries = 5
+net.ipv4.ip_nonlocal_bind = 0
+net.ipv4.ip_no_pmtu_disc = 0
+net.ipv4.ip_autoconfig = 0
+net.ipv4.ip_default_ttl = 64
+net.ipv4.ip_forward = 0
+net.ipv4.tcp_retrans_collapse = 1
+net.ipv4.tcp_sack = 1
+net.ipv4.tcp_window_scaling = 1
+net.ipv4.tcp_timestamps = 1
+net.core.hot_list_length = 128
+net.core.optmem_max = 10240
+net.core.message_burst = 50
+net.core.message_cost = 5
+net.core.mod_cong = 290
+net.core.lo_cong = 100
+net.core.no_cong = 20
+net.core.no_cong_thresh = 20
+net.core.netdev_max_backlog = 300
+net.core.rmem_default = 65535
+net.core.wmem_default = 65535
+net.core.rmem_max = 131071
+net.core.wmem_max = 131071
+vm.high_io_sectors = 5121524
+vm.low_io_sectors = 4859380
+vm.page_aging = 5       3       1       64
+vm.static_inactive_target = 0
+vm.max-readahead = 31
+vm.min-readahead = 3
+vm.max_map_count = 65536
+vm.page-cluster = 4
+vm.kswapd = 512 32      8
+vm.pagecache = 2        50      90
+vm.buffermem = 2        10      60
+vm.overcommit_memory = 0
+vm.bdflush = 30 64      64      256     500     3000    60      0       0
+vm.freepages = 638      1276    1914
+kernel.prof_pid = -1
+kernel.overflowgid = 65534
+kernel.overflowuid = 65534
+kernel.random.uuid = ad6fed6e-6693-473b-9a3a-7ecce3c97c91
+kernel.random.boot_id = 67138f7e-5682-47be-a15f-8d01e0609930
+kernel.random.write_wakeup_threshold = 128
+kernel.random.read_wakeup_threshold = 8
+kernel.random.entropy_avail = 32
+kernel.random.poolsize = 512
+kernel.threads-max = 30719
+kernel.cad_pid = 1
+kernel.sysrq-timer = 10
+kernel.sysrq-sticky = 0
+kernel.sysrq-key = 84
+kernel.sysrq = 0
+kernel.sem = 250        32000   32      128
+kernel.msgmnb = 16384
+kernel.msgmni = 16
+kernel.msgmax = 8192
+kernel.shmmni = 4096
+kernel.shmall = 2097152
+kernel.shmmax = 33554432
+kernel.shm-use-bigpages = 0
+kernel.rtsig-max = 1024
+kernel.rtsig-nr = 0
+kernel.acct = 4 2       30
+kernel.hotplug = /sbin/hotplug
+kernel.modprobe = /sbin/modprobe
+kernel.printk = 3       4       1       7
+kernel.ctrl-alt-del = 0
+kernel.real-root-dev = 256
+kernel.cap-bound = -257
+kernel.tainted = 0
+kernel.core_name_format = core
+kernel.core_uses_pid = 0
+kernel.child-runs-first = 1
+kernel.panic = 0
+kernel.domainname = (none)
+kernel.hostname = mclwlqa02.us.primus
+kernel.version = #1 SMP Wed Feb 11 00:09:01 EST 2004
+kernel.osrelease = 2.4.9-e.38smp
+kernel.ostype = Linux
+fs.aio-max-pinned = 245756
+fs.aio-max-size = 131072
+fs.aio-max-nr = 65536
+fs.aio-nr = 0
+fs.jbd-oom-retry = 1
+fs.lease-break-time = 45
+fs.dir-notify-enable = 1
+fs.leases-enable = 1
+fs.overflowgid = 65534
+fs.overflowuid = 65534
+fs.dentry-state = 2001  1727    45      0       0       0
+fs.dquot-nr = 0 0
+fs.file-max = 8192
+fs.file-nr = 299        50      8192
+fs.inode-state = 160951 159389  0       0       0       0       0
+fs.inode-nr = 160951    159389</PRE>
+<HR>
+<A NAME="System Enhancements">
+<A HREF="#Inhalt-System Enhancements"><H1> System Enhancements </H1></A><P>
+<A NAME="XF86Config"></A> <A HREF="#Inhalt-XF86Config"><H2> XF86Config </H2></A>
+<h6>grep -vE '#|^ *$' /etc/X11/XF86Config</h6>
+<PRE>Section "Files"
+    RgbPath     "/usr/X11R6/lib/X11/rgb"
+    FontPath   "unix/:7100"
+EndSection
+Section "ServerFlags"
+EndSection
+Section "Pointer"
+    Protocol    "PS/2"
+    Device      "/dev/psaux"
+    Emulate3Timeout    50
+EndSection
+Section "Keyboard"
+    Protocol    "Standard"
+    AutoRepeat  500 5
+    LeftAlt         Meta
+    RightAlt        Meta
+    ScrollLock      Compose
+    RightCtl        Control
+     XkbRules    "xfree86"
+     XkbModel    "pc105"
+     XkbLayout   "us"     
+EndSection
+Section "Monitor"
+    Identifier  "Generic Monitor"
+    VendorName  "Unknown"
+    ModelName   "Unknown"
+    HorizSync   35.15
+    VertRefresh 55-65
+    ModeLine "800x600"     36     800  824  896 1024
+                                  600  601  603  625
+EndSection
+Section "Monitor"
+    Identifier  "Probed Monitor"
+    VendorName  "Unknown"
+    ModelName   "Unknown"
+    HorizSync   46.876
+    VertRefresh 75.121
+    ModeLine    "800x600" 48.002 800 832 928 1024 600 604 608 624 -HSync -VSync
+EndSection
+Section "Monitor"
+    Identifier  "Compaq TFT5000 Flat Panel Monitor"
+    VendorName  "Unknown"
+    ModelName   "Unknown"
+    HorizSync   32.0-60.0
+    VertRefresh 57.0-85.0
+    Modeline "320x200"     12.588 320  336  384  400
+                                  200  204  205  225 Doublescan
+    Modeline "320x240"     12.588 320  336  384  400
+                                  240  245  246  262 Doublescan
+    Modeline "320x240"     15.750 320  336  384  400
+                                  240  244  246  262 Doublescan
+    ModeLine "400x300"     18     400  416  448  512
+                                  300  301  302  312 Doublescan
+    Modeline "400x300"     20     400  416  480  528
+                                  300  301  303  314 Doublescan
+    Modeline "400x300"     25     400  424  488  520
+                                  300  319  322  333 Doublescan
+    ModeLine "480x300"     21.656 480  496  536  616
+                                  300  301  302  312 Doublescan
+    Modeline "480x300"     23.890 480  496  576  632
+                                  300  301  303  314 Doublescan
+    Modeline "480x300"     25     480  496  576  632
+                                  300  301  303  314 Doublescan
+    Modeline "480x300"     29.952 480  504  584  624
+                                  300  319  322  333 Doublescan
+    Modeline "512x384"    20.160 512  528  592  640
+                                 384  385  388  404 -HSync -VSync
+    Modeline "512x384"    22     512  528  592  640
+                                 384  385  388  404 -HSync -VSync
+    Modeline "640x400"     25.175 640  664  760  800
+                                  400  409  411  450
+    Modeline "640x400"     31.5   640  672 736   832
+                                  400  401  404  445 -HSync +VSync
+    Modeline "640x480"     25.175 640  664  760  800
+                                  480  491  493  525
+    Modeline "640x480"     31.5   640  680  720  864
+                                  480  488  491  521
+    ModeLine  "640x480"    31.5   640  656  720  840
+                                  480  481  484  500 -HSync -VSync
+    Modeline "640x480"     36     640  696  752  832
+                                  480  481  484  509 -HSync -VSync
+    Modeline "640x480"     45.8   640  672  768  864
+                                  480  488  494  530 -HSync -VSync
+    ModeLine "800x600"     36     800  824  896 1024
+                                  600  601  603  625
+    Modeline "800x600"     40     800  840  968 1056
+                                  600  601  605  628 +hsync +vsync
+    Modeline "800x600"     50     800  856  976 1040
+                                  600  637  643  666 +hsync +vsync
+    Modeline  "800x600"    60.75  800  864  928 1088
+                                  600  616  621  657 -HSync -VSync
+    Modeline  "800x600"    69.65  800  864  928 1088
+                                  600  604  610  640 -HSync -VSync
+    Modeline "1024x768"    65    1024 1032 1176 1344
+                                 768  771  777  806 -hsync -vsync
+    Modeline "1024x768"    75    1024 1048 1184 1328
+                                 768  771  777  806 -hsync -vsync
+    Modeline "1024x768"    85    1024 1032 1152 1360
+                                 768  784  787  823
+    Modeline "1024x768"   98.9  1024 1056 1216 1408
+                                768 782 788 822 -HSync -VSync
+    Modeline "1024x768"   115.5  1024 1056 1248 1440
+                                 768  771  781  802 -HSync -VSync
+    Modeline  "1152x864"   89.9  1152 1216 1472 1680
+                                 864  868  876  892 -HSync -VSync
+    Modeline  "1152x864"   92    1152 1208 1368 1474
+                                 864  865  875  895
+    Modeline "1152x864"   110   1152 1240 1324 1552
+                                864  864  876  908
+    Modeline "1152x864"   135    1152 1464 1592 1776
+                                 864  864  876  908
+    Modeline "1152x864"   137.65 1152 1184 1312 1536
+                                 864  866  885  902 -HSync -VSync
+    Modeline "1280x1024"  110    1280 1328 1512 1712
+                                 1024 1025 1028 1054
+    Modeline "1280x1024"  126.5 1280 1312 1472 1696
+                                1024 1032 1040 1068 -HSync -VSync
+    Modeline "1280x1024"  135    1280 1312 1456 1712
+                                 1024 1027 1030 1064
+    Modeline "1280x1024"  135    1280 1312 1416 1664
+                                 1024 1027 1030 1064
+    Modeline "1280x1024"  157.5  1280 1344 1504 1728
+                                 1024 1025 1028 1072 +HSync +VSync
+    Modeline "1280x1024"  181.75 1280 1312 1440 1696
+                                 1024 1031 1046 1072 -HSync -VSync
+    Modeline "1400x1050"  129   1400 1464 1656 1960
+                              1050 1051 1054 1100 +HSync +VSync
+    Modeline "1400x1050"  151   1400 1464 1656 1960
+                              1050 1051 1054 1100 +HSync +VSync
+    Modeline "1400x1050"  162   1400 1464 1656 1960
+                              1050 1051 1054 1100 +HSync +VSync
+    Modeline "1400x1050"  184   1400 1464 1656 1960
+                              1050 1051 1054 1100 +HSync +VSync
+    Modeline "1600x1200"  162   1600 1664 1856 2160
+                                1200 1201 1204 1250 +HSync +VSync
+    Modeline "1600x1200"  189    1600 1664 1856 2160
+                                 1200 1201 1204 1250 -HSync -VSync
+    Modeline "1600x1200"  202.5  1600 1664 1856 2160
+                                 1200 1201 1204 1250 +HSync +VSync
+    Modeline "1600x1200"  220    1600 1616 1808 2080
+                                 1200 1204 1207 1244 +HSync +VSync
+    ModeLine "1800X1440"  230    1800 1896 2088 2392
+                                 1440 1441 1444 1490 +HSync +VSync
+    ModeLine "1800X1440"  250    1800 1896 2088 2392
+                                 1440 1441 1444 1490 +HSync +VSync
+    Modeline "1920x1200"  230    1920 1936 2096 2528
+                                 1200 1201 1204 1250 +HSync +VSync
+EndSection
+Section "Device"
+    Identifier        "Generic VGA Card"
+    VendorName        "Unknown"
+    BoardName         "Unknown"
+    Chipset           "generic"
+EndSection
+Section "Device"
+    Identifier         "ATI Mach64"
+    VendorName         "ATI MACH64"
+    VideoRam           8192
+EndSection
+Section "Screen"
+    Driver      "fbdev"
+    Device      "Generic VGA Card"
+    Monitor     "Probed Monitor"
+    Subsection  "Display"
+        Depth      16
+        Modes       "default"
+    EndSubsection
+EndSection
+Section "Screen"
+    Driver      "vga16"
+    Device      "Generic VGA Card"
+    Monitor     "Compaq TFT5000 Flat Panel Monitor"
+    Subsection "Display"
+        Modes       "640x480" "800x600"
+        ViewPort    0 0
+    EndSubsection
+EndSection
+Section "Screen"
+    Driver      "vga2"
+    Device      "Generic VGA Card"
+    Monitor     "Compaq TFT5000 Flat Panel Monitor"
+    Subsection "Display"
+        Modes       "640x480" "800x600"
+        ViewPort    0 0
+    EndSubsection
+EndSection
+Section "Screen"
+    Driver      "svga"
+    Device      "ATI Mach64"
+    Monitor     "Compaq TFT5000 Flat Panel Monitor"
+    DefaultColorDepth 16
+    Subsection "Display"
+        Depth       16
+        Modes       "800x600" 
+        ViewPort    0 0
+    EndSubsection
+EndSection
+Section "Screen"
+    Driver      "accel"
+    Device      "ATI Mach64"
+    Monitor     "Compaq TFT5000 Flat Panel Monitor"
+    DefaultColorDepth 16
+    Subsection "Display"
+        Depth       16
+        Modes       "800x600" 
+        ViewPort    0 0
+    EndSubsection
+EndSection</PRE>
+<A NAME="XF86Config-4"></A> <A HREF="#Inhalt-XF86Config-4"><H2> XF86Config-4 </H2></A>
+<h6>grep -vE '#|^ *$' /etc/X11/XF86Config-4</h6>
+<PRE>Section "ServerLayout"
+        Identifier     "Anaconda Configured"
+        Screen      0  "Screen0" 0 0
+        InputDevice    "Mouse0" "CorePointer"
+        InputDevice    "Keyboard0" "CoreKeyboard"
+EndSection
+Section "Files"
+    RgbPath     "/usr/X11R6/lib/X11/rgb"
+    FontPath   "unix/:7100"
+EndSection
+Section "Module"
+        Load  "GLcore"
+        Load  "dbe"
+        Load  "extmod"
+        Load "fbdevhw"
+        Load "pex5"
+        Load "dri"
+        Load  "glx"
+        Load  "pex5"
+        Load  "record"
+        Load  "xie"
+EndSection
+Section "InputDevice"
+        Identifier  "Keyboard0"
+        Driver      "keyboard"
+        Option  "XkbRules"      "xfree86"
+        Option  "XkbModel"      "pc105"
+        Option  "XkbLayout"     "us"
+EndSection
+Section "InputDevice"
+        Identifier  "Mouse0"
+        Driver      "mouse"
+        Option      "Protocol" "PS/2"
+        Option      "Device" "/dev/psaux"
+        Option      "ZAxisMapping" "4 5"
+        Option      "Emulate3Buttons" "no"
+EndSection
+Section "Monitor"
+        Identifier   "Monitor0"
+        VendorName   "Monitor Vendor"
+        ModelName    "Monitor Model"
+        HorizSync   32.0-60.0
+        VertRefresh 57.0-85.0
+        Option "dpms"
+        Modeline "1400x1050"  129   1400 1464 1656 1960
+                              1050 1051 1054 1100 +HSync +VSync
+        Modeline "1400x1050"  151   1400 1464 1656 1960
+                              1050 1051 1054 1100 +HSync +VSync
+        Modeline "1400x1050"  162   1400 1464 1656 1960
+                              1050 1051 1054 1100 +HSync +VSync
+        Modeline "1400x1050"  184   1400 1464 1656 1960
+                              1050 1051 1054 1100 +HSync +VSync
+EndSection
+Section "Device"
+        Identifier   "ATI Mach64"
+        Driver       "ati"
+        VendorName   "ATI Mach64"
+        BoardName     "ATI Mach64"
+EndSection
+Section "Screen"
+        Identifier   "Screen0"
+        Device       "ATI Mach64"
+        Monitor      "Monitor0"
+        DefaultDepth    16
+        Subsection "Display"
+                Depth       16
+                Modes       "800x600" 
+        EndSubsection
+EndSection
+Section "DRI"
+        Mode 0666
+EndSection</PRE>
+<HR>
+<A NAME="Applications and Subsystems">
+<A HREF="#Inhalt-Applications and Subsystems"><H1> Applications and Subsystems </H1></A><P>
+<A NAME="Files in /usr/local/bin"></A> <A HREF="#Inhalt-Files in /usr/local/bin"><H2> Files in /usr/local/bin </H2></A>
+<h6>ls -lisa /usr/local/bin</h6>
+<PRE>total 80
+  49217    4 drwxr-xr-x    2 apache   root         4096 Oct 31  2006 .
+ 475198    4 drwxr-xr-x   14 root     root         4096 Oct 31  2006 ..
+  49167   20 -r-xr-xr-x    1 apache   root        18143 Jun 10  2004 cfgfmt-linux
+  50291    4 -rwxr--r--    1 root     root          937 Mar 26  2004 checkheapsize
+  50283    4 -rwxr-xr-x    1 root     root          573 Mar 23  2004 checkmem
+  50278    4 -rwxr-xr-x    1 root     root          632 Mar 22  2004 dfcheck
+  49168   20 -r-xr-xr-x    1 apache   root        16776 Jun 10  2004 encryptazatel
+  50279    4 -rwxr-xr-x    1 root     root         2524 Mar 22  2004 mailif
+  50290    4 -rwxr-xr-x    1 root     root          455 Mar 23  2004 slabstats
+  50023    0 lrwxrwxrwx    1 root     root           24 Oct 31  2006 uvscan -> /usr/local/uvscan/uvscan
+  50298    0 lrwxrwxrwx    1 root     root           31 Oct 31  2006 uvscan_secure -> /usr/local/uvscan/uvscan_secure
+  50289    4 -rwxr-xr-x    1 root     root          219 Mar 22  2004 weblogic.check.exp
+  50288    4 -rwxr-xr-x    1 root     root          260 Mar 22  2004 weblogic.check.pl
+  50282    4 -rwxr-xr-x    1 root     root         1681 Mar 23  2004 wluptime</PRE>
+<A NAME="Files in /usr/local/sbin"></A> <A HREF="#Inhalt-Files in /usr/local/sbin"><H2> Files in /usr/local/sbin </H2></A>
+<h6>ls -lisa /usr/local/sbin</h6>
+<PRE>total 8
+ 475202    4 drwxr-xr-x    2 root     root         4096 Feb  6  1996 .
+ 475198    4 drwxr-xr-x   14 root     root         4096 Oct 31  2006 ..</PRE>
+<A NAME="Files in /opt"></A> <A HREF="#Inhalt-Files in /opt"><H2> Files in /opt </H2></A>
+<h6>ls -lisa /opt</h6>
+<PRE>total 8
+ 147457    4 drwxr-xr-x    2 root     root         4096 Aug 23  1999 .
+      2    4 drwxr-xr-x   22 root     root         4096 Jun 30 11:15 ..</PRE>
+<A NAME="Samba: SWAT-Port"></A> <A HREF="#Inhalt-Samba: SWAT-Port"><H2> Samba: SWAT-Port </H2></A>
+<h6>echo /etc/services:swat		901/tcp				# Samba Web Administration Tool</h6>
+<PRE>/etc/services:swat 901/tcp</PRE>
+<A NAME="Printer Spooler and Printers"></A> <A HREF="#Inhalt-Printer Spooler and Printers"><H2> Printer Spooler and Printers </H2></A>
+<h6>/usr/sbin/lpc status</h6>
+<PRE>Printer 'missingprinter@localhost' - cannot open connection - Connection refused
+Make sure LPD server is running on the server</PRE>
+<A NAME="Printcap"></A> <A HREF="#Inhalt-Printcap"><H2> Printcap </H2></A>
+<h6>grep -vE '#|^ *$' /etc/printcap</h6>
+<PRE>n/a or not configured</PRE>
+</P><P>
+<hr><FONT COLOR=blue>Created 2008-07-11 06:53:26 with  cfg2html-linux version 1.45-2008/03/12 </font>
+</P><P>
+<FONT COLOR=blue>Copyright and maintained by <A HREF=mailto:cfg2html&#64;&#104;&#111;&#116;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;?subject=cfg2html-linux_version_1.45-2008/03/12_/mclwlqa02.us.primus>Ralph Roth, ROSE SWE, </A></P></font>
+<hr><center> <A HREF=http://come.to/cfg2html>[ Download cfg2html from external home page ]</b></A></center></P><hr></BODY></HTML>
+
