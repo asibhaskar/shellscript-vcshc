@@ -1,8 +1,8 @@
 #!/bin/bash
-
 # ==============================================================================
 # Script Name: health_check.sh
 # Description: Remote health checks for Linux & VCS nodes using sshpass.
+# Author: Bhaskar Reddy Asi
 # Requirements: 'export SSHPASS=your_password' must be run before execution.
 # Usage:       ./health_check.sh <hostfile>
 # ==============================================================================
