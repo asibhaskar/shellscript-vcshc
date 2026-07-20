@@ -1,0 +1,271 @@
+#!/bin/bash
+
+# ==============================================================================
+# Script Name: health_check.sh
+# Description: Remote health checks for Linux & VCS nodes using sshpass.
+# Requirements: 'export SSHPASS=your_password' must be run before execution.
+# Usage:       ./health_check.sh <hostfile>
+# ==============================================================================
+# --- 1. Validations ---
+if [ $# -ne 1 ]; then
+    echo -e "Error: Hostfile argument is missing."
+    echo "Usage: $0 <hostfile>"
+    exit 1
+fi
+
+HOSTFILE=$1
+
+if [ ! -f "$HOSTFILE" ]; then
+    echo -e "Error: Hostfile '$HOSTFILE' not found."
+    exit 1
+fi
+
+# Ensure SSHPASS environment variable is exported/set
+if [ -z "$SSHPASS" ]; then
+    echo -e "Error: 'SSHPASS' environment variable is not set."
+    echo -e "Please export your password first, then run the script:"
+    echo -e "  export SSHPASS='your_actual_password'"
+    echo -e "  $0 $HOSTFILE"
+    exit 1
+fi
+
+# Ensure sshpass is installed locally
+if ! command -v sshpass &> /dev/null; then
+    echo -e "Error: 'sshpass' utility is not installed on this control machine."
+    echo "Install it using: sudo apt install sshpass (Ubuntu/Debian) or sudo yum install sshpass (RHEL/CentOS)"
+    exit 1
+fi
+
+echo -e "================================================================="
+echo -e "STARTING MULTI-HOST HEALTH CHECKS (User: basi)"
+echo -e "================================================================="
+
+# --- 2. Host Processing Loop ---
+while IFS= read -r HOST || [ -n "$HOST" ]; do
+    # Trim carriage returns and whitespace
+    HOST=$(echo "$HOST" | tr -d '\r' | xargs)
+
+    # Skip comments and empty lines
+    [[ -z "$HOST" || "$HOST" =~ ^# ]] && continue
+
+    echo -e "Connecting to Host: $HOST..."
+
+# Execute remote commands over SSH using the exported SSHPASS env variable (-e flag)
+sshpass -e ssh -o StrictHostKeyChecking=no -o ConnectTimeout=8 "basi@$HOST" "bash -s" << 'EOF'
+# Add common binary paths including Veritas Cluster Server directories
+set -o pipefail
+export PATH=$PATH:/usr/sbin:/sbin:/usr/local/sbin:/opt/VRTS/bin:/opt/VRTSvcs/bin
+
+# Basic info
+HOSTNAME="$(hostname 2>/dev/null || echo unknown)"
+RHEL_VER="$( [ -r /etc/redhat-release ] && cat /etc/redhat-release 2>/dev/null || echo unknown )"
+UPTIME_PRETTY="$(uptime -p 2>/dev/null || echo unknown)"
+LOAD_1MIN="$(uptime 2>/dev/null | awk -F'load average:' '{print $2}' | awk -F, '{print $1}' | tr -d ' ' || echo '')"
+
+# Last reboots
+LAST_REBOOTS="$(last reboot | head -n 5 2>/dev/null || echo 'no data')"
+
+# Server type
+if command -v systemd-detect-virt >/dev/null 2>&1; then
+  VIRT_TYPE="$(systemd-detect-virt || echo none)"
+  SERVER_TYPE="[${VIRT_TYPE:-none}]"
+else
+  if sudo -n dmidecode -s system-manufacturer >/dev/null 2>&1; then
+    manu="$(sudo -n dmidecode -s system-manufacturer 2>/dev/null || true)"
+    SERVER_TYPE="[${manu:-unknown}]"
+  else
+    SERVER_TYPE="[unknown]"
+  fi
+fi
+
+# Load health
+LOAD_WARN=2.0
+load_health="healthy"
+if [ -n "$LOAD_1MIN" ]; then
+  awk -v l="$LOAD_1MIN" -v t="$LOAD_WARN" 'BEGIN{ if (l+0 > t+0) exit 1; else exit 0 }'
+  if [ $? -ne 0 ]; then load_health="unhealthy"; fi
+else
+  load_health="unknown"
+fi
+
+# CPU / Memory / Swap summaries
+CPU_SUMMARY="$(mpstat 1 1 2>/dev/null || top -b -n1 | head -n5 2>/dev/null || echo 'no cpu summary')"
+TOP_CPU_PROCS="$(ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%cpu | head -n 11 2>/dev/null || true)"
+MEM_SUMMARY="$(free -m 2>/dev/null || echo 'no free output')"
+TOP_MEM_PROCS="$(ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%mem | head -n 11 2>/dev/null || true)"
+SWAP_SUMMARY="$(swapon --show --bytes 2>/dev/null || echo 'no swap info')"
+SWAPPINESS="$(cat /proc/sys/vm/swappiness 2>/dev/null || echo 'unknown')"
+HUGEPAGES="$(grep -i HugePages /proc/meminfo 2>/dev/null || echo 'no hugepages info')"
+
+# SAR comparison (best-effort)
+sar_cpu_recent="$(sar -u 1 1 2>/dev/null | tail -n 5 2>/dev/null || echo 'no sar cpu')"
+sar_mem_recent="$(sar -r 1 1 2>/dev/null | tail -n 5 2>/dev/null || echo 'no sar mem')"
+current_idle="$(mpstat 1 1 2>/dev/null | awk '/all/ {print 100 - $NF}' | tail -1 || echo 0)"
+sar_avg_cpu="$(echo "$sar_cpu_recent" | awk '/Average/ {print 100 - $NF; exit}' || echo 0)"
+cpu_trend="stable"
+awk -v cur="$current_idle" -v sar="$sar_avg_cpu" 'BEGIN{ if (cur - sar > 10) print "higher_now"; else if (sar - cur > 10) print "lower_now"; else print "stable" }' >/tmp/cpu_trend 2>/dev/null || true
+cpu_trend="$(cat /tmp/cpu_trend 2>/dev/null || echo stable)"
+
+# Recent system errors (sudo so journalctl can read)
+#recent_errors="$(sudo -n journalctl -p err --since '24 hours ago' -n 50 2>/dev/null || echo '')"
+recent_errors="$(sudo -n cat /var/log/messages |grep -i kernel|grep -i err|tail -10)"
+
+# Disk usage warnings
+DISK_WARN_PCT=95
+disk_warnings="$(df -hP 2>/dev/null | awk -v t=$DISK_WARN_PCT 'NR>1 {gsub(/%/,"",$5); if ($5+0 >= t+0) print $0}' || true)"
+
+# Recent RPMs
+recent_rpms="$(rpm -qa --last 2>/dev/null | head -n 5 || echo 'no rpm data')"
+
+# Network and bonding
+net_ifaces="$(ip -br link show 2>/dev/null || echo 'no ip command')"
+bonding_info="$(cat /proc/net/bonding/* 2>/dev/null || echo 'no bonding')"
+link_flaps="$(sudo -n journalctl -k --since '24 hours ago' | egrep -i 'link is (down|up)|carrier' | tail -n 20 2>/dev/null || true)"
+
+# Critical logs
+#crit_issues="$(sudo -n journalctl -p crit --since '24 hours ago' -n 50 2>/dev/null || true)"
+crit_issues="$(sudo -n cat /var/log/messages |grep -i error|tail -10)"
+
+# HBA / FC info
+hba_info="$(lspci 2>/dev/null | egrep -i 'Fibre Channel|Fibre|FCoE|HBA' || true)"
+if command -v systool >/dev/null 2>&1; then
+  fc_ports="$(systool -c fc_host -v 2>/dev/null | egrep 'port_name|port_state' || true)"
+else
+  fc_ports="$(ls /sys/class/fc_host 2>/dev/null | xargs -I{} sh -c 'echo Host:{}; cat /sys/class/fc_host/{}/port_name 2>/dev/null; cat /sys/class/fc_host/{}/port_state 2>/dev/null' 2>/dev/null || true)"
+fi
+
+# Multipath / vxdmp
+multipath_status="$(sudo -n multipath -ll 2>/dev/null || true)"
+if [ -z "$multipath_status" ]; then
+  vxdmp_out="$(sudo -n /opt/VRTS/bin/vxdmpadm getdmpnode 2>/dev/null || true)"
+  if [ -n "$vxdmp_out" ]; then multipath_status="vxdmp:$vxdmp_out"; else multipath_status="none"; fi
+fi
+
+# VCS status
+vcs_status="$(sudo -n /opt/VRTSvcs/bin/hastatus -sum 2>/dev/null || echo 'vcs_not_installed')"
+
+# VxDisk
+vxdisk_list="$(sudo -n /usr/sbin/vxdisk list 2>/dev/null || true)"
+srdf_info="$(echo "$vxdisk_list" | egrep -i 'r1|r2' || true)"
+
+fetch() {
+    echo "===== CONNECTIVITY CHECK ====="
+    ping -c 2 google.com 2>/dev/null | head -2
+
+    if [ $? -eq 0 ]; then
+        echo "Status : SUCCESS"
+    else
+        echo "Status : FAILED"
+    fi
+}
+
+diskusage() {
+    echo "===== TOP /var/log USAGE ====="
+
+    sudo du -sh /var/log/* 2>/dev/null | \
+    sort -hr | \
+    head -5
+}
+# One-line summary
+summary_parts=()
+summary_parts+=("HOST:$HOSTNAME")
+summary_parts+=("TYPE:$SERVER_TYPE")
+summary_parts+=("LOAD:$load_health")
+[ -n "$disk_warnings" ] && summary_parts+=("DISK:WARN") || summary_parts+=("DISK:OK")
+[[ " ${recent_errors:-} " != "" || " ${crit_issues:-} " != "" ]] && summary_parts+=("LOGS:ISSUES") || summary_parts+=("LOGS:OK")
+[ "$vcs_status" = "vcs_not_installed" ] && summary_parts+=("VCS:N/A") || summary_parts+=("VCS:CHECKED")
+ONE_LINE_SUMMARY="$(IFS=';'; echo "${summary_parts[*]}")"
+
+# Print report
+echo "SUMMARY: $ONE_LINE_SUMMARY"
+#echo
+echo "1) Hostname: $HOSTNAME"
+echo "2) RHEL Version: $RHEL_VER"
+echo "3) Server Type: $SERVER_TYPE"
+echo "4) Uptime: $UPTIME_PRETTY"
+echo "   Load (1min): $LOAD_1MIN  => $load_health"
+echo "5) CPU summary:"
+echo "$CPU_SUMMARY"
+echo "Top CPU processes:"
+echo "$TOP_CPU_PROCS"
+echo
+echo "6) Memory summary:"
+echo "$MEM_SUMMARY"
+echo "Top memory processes:"
+echo "$TOP_MEM_PROCS"
+echo
+echo "7) Swap summary:"
+echo "$SWAP_SUMMARY"
+echo "Swappiness: $SWAPPINESS"
+echo "HugePages info:"
+echo "$HUGEPAGES"
+echo
+echo "8a) SAR comparison:"
+echo "$sar_cpu_recent"
+echo "$sar_mem_recent"
+echo "CPU trend: $cpu_trend"
+echo
+echo "9a) Last 5 reboots:"
+echo "$LAST_REBOOTS"
+echo
+echo "9b) Recent system errors (last 10 errors):"
+echo "$recent_errors"
+echo
+echo "10) Filesystems (>= ${DISK_WARN_PCT}% shown):"
+df -hP 2>/dev/null || true
+[ -n "$disk_warnings" ] && { echo "FILESYSTEMS exceeding ${DISK_WARN_PCT}%:"; echo "$disk_warnings"; }
+echo
+echo "11) Recent RPM installs:"
+echo "$recent_rpms"
+echo
+echo "12) Network interfaces:"
+echo "$net_ifaces"
+echo "Bonding info:"
+echo "$bonding_info"
+echo "Recent link up/down messages:"
+echo "$link_flaps"
+echo
+echo "13) Critical OS log entries (last 10 issues):"
+echo "$crit_issues"
+echo
+echo "14) HBA / FC info:"
+echo "$hba_info"
+echo "$fc_ports"
+echo
+echo "15) Multipath / vxdmp status:"
+echo "$multipath_status"
+echo "vxdmpadm output:"
+echo "$vxdmp_out"
+echo
+echo "16) VCS status (/opt/VRTSvcs/bin/hastatus -sum):"
+echo "$vcs_status"
+echo "Recent VCS log analysis (deduped summary):"
+echo "$vcs_recent_errors"
+echo
+echo "17) VxDisk list (/usr/sbin/vxdisk list):"
+echo "$vxdisk_list"
+echo "$srdf_info"
+echo
+echo "18) fetching DNS:"
+echo "$fetch"
+echo
+echo "19) Disk Usage on /var/log FS:"
+echo "$diskusage"
+echo
+if [ -n "${vcs_recent_errors:-}" ]; then
+  echo "FINAL_VERDICT: VCS log summary provided"
+else
+  echo "FINAL_VERDICT: No immediate issues detected"
+fi
+
+exit 0
+
+EOF
+
+    # Check if the SSH session closed successfully or failed to connect
+    if [ $? -ne 0 ]; then
+        echo -e ">> CONNECTION FAILED: Unable to reach $HOST or password was incorrect."
+    fi
+    echo -e "=================================================================\n"
+
+done < "$HOSTFILE"
