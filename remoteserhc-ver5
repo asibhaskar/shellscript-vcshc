@@ -1,0 +1,318 @@
+#!/bin/bash
+
+# ==============================================================================
+# Script Name: health_check.sh
+# Description: Remote health checks for Linux & VCS nodes using sshpass.
+# Requirements: 'export SSHPASS=your_password' must be run before execution.
+# Usage:       ./health_check.sh <hostfile>
+# ==============================================================================
+# --- 1. Validations ---
+if [ $# -ne 1 ]; then
+    echo -e "Error: Hostfile argument is missing."
+    echo "Usage: $0 <hostfile>"
+    exit 1
+fi
+
+HOSTFILE=$1
+
+if [ ! -f "$HOSTFILE" ]; then
+    echo -e "Error: Hostfile '$HOSTFILE' not found."
+    exit 1
+fi
+
+# Ensure SSHPASS environment variable is exported/set
+if [ -z "$SSHPASS" ]; then
+    echo -e "Error: 'SSHPASS' environment variable is not set."
+    echo -e "Please export your password first, then run the script:"
+    echo -e "  export SSHPASS='your_actual_password'"
+    echo -e "  $0 $HOSTFILE"
+    exit 1
+fi
+
+# Ensure sshpass is installed locally
+if ! command -v sshpass &> /dev/null; then
+    echo -e "Error: 'sshpass' utility is not installed on this control machine."
+    echo "Install it using: sudo apt install sshpass (Ubuntu/Debian) or sudo yum install sshpass (RHEL/CentOS)"
+    exit 1
+fi
+
+echo -e "================================================================="
+echo -e "STARTING MULTI-HOST HEALTH CHECKS (User: basi)"
+echo -e "================================================================="
+
+# --- 2. Host Processing Loop ---
+while IFS= read -r HOST || [ -n "$HOST" ]; do
+    # Trim carriage returns and whitespace
+    HOST=$(echo "$HOST" | tr -d '\r' | xargs)
+
+    # Skip comments and empty lines
+    [[ -z "$HOST" || "$HOST" =~ ^# ]] && continue
+
+    echo -e "Connecting to Host: $HOST..."
+
+# Execute remote commands over SSH using the exported SSHPASS env variable (-e flag)
+sshpass -e ssh -o StrictHostKeyChecking=no -o ConnectTimeout=8 "basi@$HOST" "bash -s" << 'EOF'
+# Add common binary paths including Veritas Cluster Server directories
+set -o pipefail
+export PATH=$PATH:/usr/sbin:/sbin:/usr/local/sbin:/opt/VRTS/bin:/opt/VRTSvcs/bin
+echo "HOSTNAME: $(hostname)"
+#################################################################################
+
+#------variables used------#
+S="************************************"
+D="-------------------------------------"
+COLOR="y"
+
+MOUNT=$(mount|egrep -iw "ext4|ext3|xfs|gfs|gfs2|btrfs"|grep -v "loop"|sort -u -t' ' -k1,2)
+FS_USAGE=$(df -PThl -x tmpfs -x iso9660 -x devtmpfs -x squashfs|awk '!seen[$1]++'|sort -k6n|tail -n +2)
+IUSAGE=$(df -iPThl -x tmpfs -x iso9660 -x devtmpfs -x squashfs|awk '!seen[$1]++'|sort -k6n|tail -n +2)
+
+if [ $COLOR == y ]; then
+{
+ GCOLOR="\e[47;32m ------ OK/HEALTHY \e[0m"
+ WCOLOR="\e[43;31m ------ WARNING \e[0m"
+ CCOLOR="\e[47;31m ------ CRITICAL \e[0m"
+}
+else
+{
+ GCOLOR=" ------ OK/HEALTHY "
+ WCOLOR=" ------ WARNING "
+ CCOLOR=" ------ CRITICAL "
+}
+fi
+
+echo -e "$S"
+echo -e "\tSystem Health Status"
+echo -e "$S"
+
+#--------Print Operating System Details--------#
+hostname -f &> /dev/null && printf "Hostname : $(hostname -f)" || printf "Hostname : $(hostname -s)"
+
+echo -en "\nOperating System : "
+[ -f /etc/os-release ] && echo $(egrep -w "NAME|VERSION" /etc/os-release|awk -F= '{ print $2 }'|sed 's/"//g') || cat /etc/system-release
+
+echo -e "Kernel Version :" $(uname -r)
+printf "OS Architecture :"$(arch | grep x86_64 &> /dev/null) && printf " 64 Bit OS\n"  || printf " 32 Bit OS\n"
+
+#--------Print system uptime & Current date/time-------#
+echo -en "System Uptime : " $(uptime -p)
+echo -e "\nCurrent System Date & Time : "$(date +%c)
+
+#--------Check for any read-only file systems--------#
+echo -e "\nChecking For Read-only File System[s]"
+echo -e "$D"
+echo "$MOUNT"|grep -w ro && echo -e "\n.....Read Only file system[s] found"|| echo -e ".....No read-only file system[s] found. "
+
+#--------Check for currently mounted file systems--------#
+echo -e "\n\nChecking For Currently Mounted File System[s]"
+echo -e "$D$D"
+echo "$MOUNT"|column -t
+
+#--------Check disk usage on all mounted file systems--------#
+echo -e "\n\nChecking For Disk Usage On Mounted File System[s]"
+echo -e "$D$D"
+echo -e "( 0-85% = OK/HEALTHY,  85-95% = WARNING,  95-100% = CRITICAL )"
+echo -e "$D$D"
+echo -e "Mounted File System[s] Utilization (Percentage Used):\n"
+
+COL1=$(echo "$FS_USAGE"|awk '{print $1 " "$7}')
+COL2=$(echo "$FS_USAGE"|awk '{print $6}'|sed -e 's/%//g')
+
+for i in $(echo "$COL2"); do
+{
+  if [ $i -ge 95 ]; then
+    COL3="$(echo -e $i"% $CCOLOR\n$COL3")"
+  elif [[ $i -ge 85 && $i -lt 95 ]]; then
+    COL3="$(echo -e $i"% $WCOLOR\n$COL3")"
+  else
+    COL3="$(echo -e $i"% $GCOLOR\n$COL3")"
+  fi
+}
+done
+COL3=$(echo "$COL3"|sort -k1n)
+paste  <(echo "$COL1") <(echo "$COL3") -d' '|column -t
+
+#--------Check for any zombie processes--------#
+echo -e "\n\nChecking For Zombie Processes"
+echo -e "$D"
+ps -eo stat|grep -w Z 1>&2 > /dev/null
+if [ $? == 0 ]; then
+  echo -e "Number of zombie process on the system are :" $(ps -eo stat|grep -w Z|wc -l)
+  echo -e "\n  Details of each zombie processes found   "
+  echo -e "  $D"
+  ZPROC=$(ps -eo stat,pid|grep -w Z|awk '{print $2}')
+  for i in $(echo "$ZPROC"); do
+      ps -o pid,ppid,user,stat,args -p $i
+  done
+else
+ echo -e "No zombie processes found on the system."
+fi
+
+#--------Check Inode usage--------#
+echo -e "\n\nChecking For INode Usage"
+echo -e "$D$D"
+echo -e "( 0-85% = OK/HEALTHY,  85-95% = WARNING,  95-100% = CRITICAL )"
+echo -e "$D$D"
+echo -e "INode Utilization (Percentage Used):\n"
+
+COL11=$(echo "$IUSAGE"|awk '{print $1" "$7}')
+COL22=$(echo "$IUSAGE"|awk '{print $6}'|sed -e 's/%//g')
+
+for i in $(echo "$COL22"); do
+{
+  if [[ $i = *[[:digit:]]* ]]; then
+  {
+  if [ $i -ge 95 ]; then
+    COL33="$(echo -e $i"% $CCOLOR\n$COL33")"
+  elif [[ $i -ge 85 && $i -lt 95 ]]; then
+    COL33="$(echo -e $i"% $WCOLOR\n$COL33")"
+  else
+    COL33="$(echo -e $i"% $GCOLOR\n$COL33")"
+  fi
+  }
+  else
+    COL33="$(echo -e $i"% (Inode Percentage details not available)\n$COL33")"
+  fi
+}
+done
+
+COL33=$(echo "$COL33"|sort -k1n)
+paste  <(echo "$COL11") <(echo "$COL33") -d' '|column -t
+
+#--------Check for SWAP Utilization--------#
+echo -e "\n\nChecking SWAP Details"
+echo -e "$D"
+echo -e "Total Swap Memory in MiB : "$(grep -w SwapTotal /proc/meminfo|awk '{print $2/1024}')", in GiB : "\
+$(grep -w SwapTotal /proc/meminfo|awk '{print $2/1024/1024}')
+echo -e "Swap Free Memory in MiB : "$(grep -w SwapFree /proc/meminfo|awk '{print $2/1024}')", in GiB : "\
+$(grep -w SwapFree /proc/meminfo|awk '{print $2/1024/1024}')
+
+#--------Check for Processor Utilization (current data)--------#
+echo -e "\n\nChecking For Processor Utilization"
+echo -e "$D"
+echo -e "\nCurrent Processor Utilization Summary :\n"
+mpstat|tail -2
+
+#--------Check for load average (current data)--------#
+echo -e "\n\nChecking For Load Average"
+echo -e "$D"
+echo -e "Current Load Average : $(uptime|grep -o "load average.*"|awk '{print $3" " $4" " $5}')"
+
+#------Print most recent 5 reboot events if available----#
+echo -e "\n\nMost Recent 5 Reboot Events"
+echo -e "$D$D"
+last -x 2> /dev/null|grep -i boot 1> /dev/null && /usr/bin/last -x 2> /dev/null|grep -i boot|head -5 || \
+echo -e "No reboots events are recorded."
+
+#--------Print top 5 Memory & CPU consumed process threads---------#
+#--------excludes current running program which is hwlist----------#
+echo -e "\n\nTop 5 Memory Resource Hog Processes"
+echo -e "$D$D"
+ps -eo pmem,pid,ppid,user,stat,args --sort=-pmem|grep -v $$|head -6|sed 's/$/\n/'
+
+echo -e "\nTop 5 CPU Resource Hog Processes"
+echo -e "$D$D"
+ps -eo pcpu,pid,ppid,user,stat,args --sort=-pcpu|grep -v $$|head -6|sed 's/$/\n/'
+###########################################################################
+# Recent RPMs
+recent_rpms="$(rpm -qa --last 2>/dev/null | head -n 5 || echo 'no rpm data')"
+
+# Network and bonding
+net_ifaces="$(ip -br link show 2>/dev/null || echo 'no ip command')"
+bonding_info="$(cat /proc/net/bonding/* 2>/dev/null || echo 'no bonding')"
+link_flaps="$(sudo -n journalctl -k --since '24 hours ago' | egrep -i 'link is (down|up)|carrier' | tail -n 20 2>/dev/null || true)"
+
+# Critical logs
+#crit_issues="$(sudo -n journalctl -p crit --since '24 hours ago' -n 50 2>/dev/null || true)"
+crit_issues="$(sudo -n cat /var/log/messages |grep -i error|tail -10)"
+
+# HBA / FC info
+hba_info="$(lspci 2>/dev/null | egrep -i 'Fibre Channel|Fibre|FCoE|HBA' || true)"
+if command -v systool >/dev/null 2>&1; then
+  fc_ports="$(systool -c fc_host -v 2>/dev/null | egrep 'port_name|port_state' || true)"
+else
+  fc_ports="$(ls /sys/class/fc_host 2>/dev/null | xargs -I{} sh -c 'echo Host:{}; cat /sys/class/fc_host/{}/port_name 2>/dev/null; cat /sys/class/fc_host/{}/port_state 2>/dev/null' 2>/dev/null || true)"
+fi
+
+# Multipath / vxdmp
+multipath_status="$(sudo -n multipath -ll 2>/dev/null || true)"
+if [ -z "$multipath_status" ]; then
+  vxdmp_out="$(sudo -n /opt/VRTS/bin/vxdmpadm getdmpnode 2>/dev/null || true)"
+  if [ -n "$vxdmp_out" ]; then multipath_status="vxdmp:$vxdmp_out"; else multipath_status="none"; fi
+fi
+
+# VCS status
+vcs_status="$(sudo -n /opt/VRTSvcs/bin/hastatus -sum 2>/dev/null || echo 'vcs_not_installed')"
+
+# GAB Status
+gab_status="$(sudo -n gabconfig -a 2>/dev/null |grep -v "=="||true)"
+
+# LLT Status
+llt_status="$(sudo -n lltstat -n 2>/dev/null|grep -A3 Node ||true)"
+
+# VCS LOGS
+vcs_logs="$(sudo cat /var/VRTSvcs/log/engine_A.log 2>/dev/null|tail -10||true)"
+
+# VxDisk
+vxdisk_list="$(sudo -n /usr/sbin/vxdisk list 2>/dev/null || true)"
+srdf_info="$(echo "$vxdisk_list" | egrep -i 'r1|r2' || true)"
+
+#Checking DMPEVENT LOGS
+dmplogs_status="$(sudo cat /var/adm/vx/dmpevents.log 2>/dev/null |tail -7 || true)"
+if [ -z "$dmplogs_status" ]; then
+  etcvxlog_out="$(sudo cat /etc/vx/dmpevents.log 2>/dev/null |tail -10|| true)"
+  if [ -n "$etcvxlog_out" ]; then multipath_status="etcvx:$etcvxlog_out"; else dmplogs_status="none"; fi
+fi
+
+function_fetch="$(ping -c 2 google.com 2>/dev/null | head -2||true)"
+diskusage="$(sudo du -sh /var/log/* 2>/dev/null |sort -hr | head -5||true)"
+echo -e "Recent Installations\n-----------------------------------------"
+echo "$recent_rpms"
+echo -e "Network Devices state\n-----------------------------------------"
+echo "$net_ifaces"
+echo -e "Bonding Information\n-----------------------------------------"
+echo "$bonding_info"
+echo -e "Network Links flaps\n-----------------------------------------"
+echo "$link_flaps"
+echo -e "HBA Information\n-----------------------------------------"
+echo "$hba_info"
+echo -e "Multipath Information\n-----------------------------------------"
+echo "$multipath_status"
+echo -e "vxdisk status\n-----------------------------------------"
+echo "$vxdisk_list"
+echo -e "SRDF State\n-----------------------------------------"
+echo "$srdf_info"
+echo -e "VCS Status\n-----------------------------------------"
+echo "$vcs_status"
+echo -e "GAB Status\n-----------------------------------------"
+echo "$gab_status"
+echo -e "LLT Status\n-----------------------------------------"
+echo "$llt_status"
+echo -e "DMP Logs\n-----------------------------------------"
+echo "$dmplogs_status"
+echo -e "VCS Logs\n-----------------------------------------"
+echo "$vcs_logs"
+echo -e "Critical issues\n-----------------------------------------"
+echo "$crit_issues"
+echo -e "DNS Check\n-----------------------------------------"
+echo "$function_fetch"
+echo -e "/var/log FScheck\n-----------------------------------------"
+echo "$diskusage"
+echo "--------------------------"
+echo -e "\n\t %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+echo -e "\t  <>--------<> BHASKAR REDDY ASI <>--------<>"
+echo -e "\t %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+
+
+##################################################################################
+exit 0
+
+EOF
+
+    # Check if the SSH session closed successfully or failed to connect
+    if [ $? -ne 0 ]; then
+        echo -e ">> CONNECTION FAILED: Unable to reach $HOST or password was incorrect."
+    fi
+    echo -e "=================================================================\n"
+
+done < "$HOSTFILE" |tee -a logs/$RANDOM_$SECONDS.log
