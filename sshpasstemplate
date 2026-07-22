@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+
+# Check if server list argument is provided
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <server_list_file>"
+    echo "Example: $0 servers.txt"
+    exit 1
+fi
+
+SERVER_FILE="$1"
+
+# Check if the server list file exists
+if [ ! -f "$SERVER_FILE" ]; then
+    echo "Error: File '$SERVER_FILE' not found!"
+    exit 1
+fi
+
+# Prompt for credentials interactively
+read -p "Enter Username: " USERNAME
+read -sp "Enter Password: " PASSWORD
+echo ""
+
+# Validate input
+if [ -z "$USERNAME" ] || [ -z "$PASSWORD" ]; then
+    echo "Error: Username and Password cannot be empty."
+    exit 1
+fi
+
+# Common SSH options
+SSH_OPTS="-o StrictHostKeyChecking=no -o ConnectTimeout=5"
+
+echo "=========================================="
+echo "Starting remote execution..."
+echo "=========================================="
+
+# Use File Descriptor 3 (3<) so SSH doesn't interfere with the loop input
+while IFS= read -u 3 -r SERVER || [ -n "$SERVER" ]; do
+    # Clean up line endings (removes Windows carriage returns)
+    SERVER=$(echo "$SERVER" | tr -d '\r')
+
+    # Skip blank lines or lines starting with '#'
+    [[ -z "$SERVER" || "$SERVER" =~ ^# ]] && continue
+
+    echo ">>> Connecting to: $SERVER"
+    
+    # Execute multiple commands using Here-Doc (<< 'EOF')
+    # Note: Quotes around 'EOF' prevent local variable expansion inside the block
+    sshpass -p "$PASSWORD" ssh $SSH_OPTS "${USERNAME}@${SERVER}" bash << 'EOF'
+        echo "Hostname: $(hostname)"
+        echo "Uptime: $(uptime)"
+        echo "Disk Usage:"
+        df -h /
+EOF
+    
+    if [ $? -eq 0 ]; then
+        echo "[SUCCESS] Completed on $SERVER"
+    else
+        echo "[ERROR] Failed on $SERVER"
+    fi
+    echo "------------------------------------------"
+
+done 3< "$SERVER_FILE"
