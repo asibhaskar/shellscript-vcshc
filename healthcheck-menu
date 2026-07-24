@@ -1,0 +1,235 @@
+#!/usr/bin/env bash
+set -o errexit
+set -o pipefail
+set -o nounset
+
+# --- Logging setup ---
+LOGDIR="$HOME/scriptlogs"
+mkdir -p "$LOGDIR"
+
+LOGFILE="$LOGDIR/basi$(date +%Y%m%d_%H%M%S).log"
+
+# Redirect stdout and stderr to both console and logfile
+exec > >(tee -a "$LOGFILE") 2>&1
+
+echo "Logging to $LOGFILE"
+# --- End logging setup ---
+
+# Validate hostfile argument
+if [[ $# -lt 1 ]]; then
+  echo "Usage: $0 <hostfile>"
+  exit 1
+fi
+SERVERS_FILE="$1"
+
+# Prompt for credentials
+read -rp "Enter Username: " SSH_USER
+read -sp "Enter Password: " PASSWORD
+echo ""
+
+TIMEOUT=10
+
+run_remote() {
+    local host="$1"
+    shift
+
+    sshpass -p "$PASSWORD" ssh \
+        -o StrictHostKeyChecking=no \
+        -o UserKnownHostsFile=/dev/null \
+        -o LogLevel=ERROR \
+        -o ConnectTimeout="$TIMEOUT" \
+        -o ServerAliveInterval=15 \
+	-o ServerAliveCountMax=2 \
+        "${SSH_USER}@${host}" \
+        "sudo bash -s" <<EOF
+$*
+EOF
+}
+
+
+safe_cmd() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+run_on_servers() {
+  local func="$1"; shift
+  while IFS= read -r host; do
+    [[ -z "$host" || "$host" =~ ^# ]] && continue
+    echo -e "\n===== $host ====="
+    "$func" "$host"
+  done < "$SERVERS_FILE"
+}
+
+# 1) General health check
+general_health_check() {
+
+local host="$1"
+
+run_remote "$host" '
+
+echo "Hostname          : $(hostname)"
+echo "RHEL Version      : $(cat /etc/redhat-release 2>/dev/null)"
+echo "Uptime            : $(uptime -p)"
+echo "Server Type       : $(dmidecode -s system-manufacturer 2>/dev/null || echo VM/Unknown)"
+
+echo
+echo "Load Average"
+cut -d" " -f1-3 /proc/loadavg
+
+echo
+echo "Last 5 Logins"
+last -n 5
+
+echo
+echo "Last 5 Reboots"
+last reboot -n 5
+
+echo
+echo "CPU Utilization"
+if command -v mpstat >/dev/null; then
+        mpstat | tail -2
+else
+        top -bn1 | grep Cpu
+fi
+
+echo
+echo "Top CPU Processes"
+ps -eo pcpu,pid,user,args --sort=-pcpu | head -11
+
+echo
+echo "Memory Utilization"
+free -m
+
+echo
+echo "Top Memory Processes"
+ps -eo pmem,pid,user,args --sort=-pmem | head -11
+
+echo
+echo "Swap Utilization"
+free -m | grep Swap
+
+echo
+echo "Top Swap Consumers"
+grep VmSwap /proc/[0-9]*/status 2>/dev/null | head -10
+
+echo
+echo "Swappiness"
+sysctl vm.swappiness 2>/dev/null
+
+echo
+echo "Hugepages"
+grep Huge /proc/meminfo
+
+'
+}
+
+# 2) Performance health check
+performance_health_check() {
+  local host="$1"
+  run_remote "$host" '
+    echo "Hostname: $(hostname)"
+    echo "RHEL Version: $(cat /etc/redhat-release 2>/dev/null || echo unknown)"
+    echo "Uptime: $(uptime -p)"
+    echo "Server Type: $(dmidecode -s system-manufacturer 2>/dev/null || echo VM/Unknown)"
+    echo "Last 5 logins:"; last -n 5
+    echo "Last 5 reboots:"; last reboot -n 5
+    echo
+    echo "Load Average"
+    cut -d' ' -f1-3 /proc/loadavg
+    echo "CPU Utilization:"; mpstat | tail -2
+    echo "Top 10 CPU processes:"; ps -eo pcpu,pid,user,args --sort=-pcpu | head -11
+    echo "Memory Utilization:"; free -m
+    echo "Top 10 Memory processes:"; ps -eo pmem,pid,user,args --sort=-pmem | head -11
+    echo "Swap Utilization:"; free -m | grep Swap
+    echo "Top 10 Swap processes:"; grep VmSwap /proc/[0-9]*/status 2>/dev/null | head -10
+    echo "cgroup swappiness:"; sysctl vm.swappiness
+    echo "Hugepages:"; grep Huge /proc/meminfo
+    echo "CPU I/O:"; sar -u 1 3
+    echo "Disk I/O:"; iostat -xz 1 3
+    echo "Network I/O:"; sar -n DEV 1 3
+    echo "Recent sar comparison:"; timeout 10s sar -u -f /var/log/sa/sa$(date +%d) | tail -5
+    echo "System logs recent errors:"; sudo cat /var/log/messages | grep -i error | tail -20
+    echo "Mounted FS usage:"; df -h | awk '\''$5+0 > 95 {print $0}'\''
+    echo "Recent RPM installs:"; rpm -qa --last | head -5
+    echo "Network interfaces:"; ip -br link show
+    echo "Bonding status:"; sudo cat /proc/net/bonding/* 2>/dev/null || echo none
+  '
+}
+
+# 3) Server hardware health check
+hardware_health_check() {
+  local host="$1"
+  run_remote "$host" '
+    echo "Network interfaces:"; ip -br link show
+    echo "Bonding status:"; sudo cat /proc/net/bonding/* 2>/dev/null || echo none
+    echo "Local disks:"; lsblk
+    echo "HBA/FC info:"; lspci | grep -i fibre || true
+    echo "Multipath:"; timeout 10s sudo multipath -ll 2>/dev/null || echo none
+    echo "vxdmpadm:"; timeout 10s sudo /opt/VRTS/bin/vxdmpadm getdmpnode 2>/dev/null || echo none
+  '
+}
+
+# 4) VCS health check
+vcs_health_check() {
+  local host="$1"
+  run_remote "$host" '
+    echo "hastatus:"; sudo /opt/VRTSvcs/bin/hastatus -sum 2>/dev/null || echo not installed
+    echo "vxdisk list:"; timeout 10s sudo vxdisk list -eo alldgs 2>/dev/null || echo not installed
+    echo "VCS logs:"; sudo cat /var/VRTSvcs/log/engine_A.log 2>/dev/null | egrep -i "evacuated|failed|not initiated|concurrency" | tail -20 || echo none
+  '
+}
+
+# 5) Alerts check
+alerts_check() {
+  local host="$1"
+  run_remote "$host" '
+    echo "Disk usage /var/log /opt /tmp:"; df -h /var/log /opt /tmp
+    echo "Disk usage files:"; for DHT in /opt /var/log /tmp;do echo Disk usage checking on $DHT; sudo du -max $DHT|sort -nr|head -n10;done
+    echo "CPU Usage:"; ps -eo pcpu,pid,user,args --sort=-pcpu | head -11
+    echo "Memory Usage:"; ps -eo pmem,pid,user,args --sort=-pmem | head -11
+    echo "Swap Usage:"; cat /proc/[0-9]*/status|grep VmSwap  2>/dev/null | head -10
+    echo "NTP/Chrony status:"; sudo systemctl status chronyd ntpd 2>/dev/null || echo none
+    echo "FSCK/I/O errors:"; sudo cat /var/log/messages | egrep -i "fsck|I/O error" | tail -20
+  '
+}
+
+# 6) Server logs check
+logs_check() {
+  local host="$1"
+  run_remote "$host" '
+    echo "VCS logs concurrency/errors:"; sudo cat /var/VRTSvcs/log/engine_A.log 2>/dev/null | egrep -i "concurrency|failed|error|oom|crash" | tail -50 || echo none
+    echo "Bonding flipups:"; sudo cat /var/log/messages | egrep -i "link is (up|down)" | tail -20
+    echo "I/O errors:"; sudo cat /var/log/messages | egrep -i "error|fail|timeout" | tail -20
+    echo "Critical errors:"; sudo cat /var/log/messages | egrep -i "crit|panic" | tail -20
+  '
+}
+
+# Menu
+print_menu() {
+  cat <<MENU
+Select an option:
+ 1) General Health Check
+ 2) Performance Health Check
+ 3) Server Hardware Health Check
+ 4) VCS Health Check
+ 5) Alerts Check
+ 6) Server Logs/VCS Logs Check
+ 7) Exit
+MENU
+}
+
+# Interactive loop
+while true; do
+  print_menu
+  read -rp "Choice: " choice
+  case "$choice" in
+    1) run_on_servers general_health_check;;
+    2) run_on_servers performance_health_check;;
+    3) run_on_servers hardware_health_check;;
+    4) run_on_servers vcs_health_check;;
+    5) run_on_servers alerts_check;;
+    6) run_on_servers logs_check;;
+    7) echo "Exiting."; exit 0;;
+    *) echo "Invalid choice";;
+  esac
+done
